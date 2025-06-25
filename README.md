@@ -2,7 +2,7 @@
   <img alt="Graphwise Logo" src=".github/Graphwise_Logo.jpg">
 </p>
 
-# Talk to Your Graph (TTYG) Evaluation
+# QA Evaluation
 
 This is a Python module for assessing the quality of question-answering systems such as ones based on LLM agents, based on a set of questions and reference answers for them. This includes evaluating the final answer and the steps used
 to reach the answer (such as orchestrated and invoked tools), compared to the given reference steps.
