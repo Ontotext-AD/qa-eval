@@ -4,10 +4,10 @@ import jsonlines
 import yaml
 
 from qa_eval import (
-    stats_for_series,
-    run_evaluation,
     compute_aggregations,
     evaluate_steps,
+    run_evaluation,
+    stats_for_series,
 )
 
 

@@ -1,7 +1,7 @@
 import json
 from _collections import defaultdict
 
-from .sparql_results_comparison import compare_sparql_results
+from .sparql import compare_sparql_results
 
 
 def compare_tools_outputs(
