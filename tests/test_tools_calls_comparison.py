@@ -136,6 +136,48 @@ def test_compare_outputs_strings():
     assert compare_tools_outputs(expected_tool, actual_tool) == False
 
 
+def test_retrieval_evaluation():
+    expected_step = {
+        "name": "retrieval",
+        "args": {
+            "question": "Why is the sky blue?",
+            "k": 10
+        },
+        "output": [1, 3, 5, 7, 9],
+    }
+    actual_step = {
+        "name": "retrieval",
+        "args": {
+            "question": "Why is the sky blue?",
+            "k": 10
+        },
+        "id": "call_4",
+        "status": "success",
+        "output": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    }
+    assert compare_tools_outputs(expected_step, actual_step) == 0.6
+
+
+def test_retrieval_evaluation():
+    expected_tool = {
+        "name": "concatenate",
+        "args": {
+            "x": "5", "y": "10"
+        },
+        "output": "510",
+    }
+    actual_tool = {
+        "name": "concatenate",
+        "args": {
+            "x": "5", "y": "10"
+        },
+        "id": "call_4",
+        "status": "success",
+        "output": "510",
+    }
+    assert compare_tools_outputs(expected_tool, actual_tool) == True
+
+
 def test_match_group_by_output():
     expected_calls = [
         [
