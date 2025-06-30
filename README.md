@@ -14,13 +14,13 @@ Apache-2.0 License. See [LICENSE](LICENSE) file for details.
 ## Installation
 
 ```bash
-pip install ttyg-evaluation
+pip install qa-eval
 ```
 
 ## Maintainers
 
 Developed and maintained by [Graphwise](https://graphwise.ai/).
-For issues or feature requests, please open [a GitHub issue](https://github.com/Ontotext-AD/ttyg-evaluation/issues).
+For issues or feature requests, please open [a GitHub issue](https://github.com/Ontotext-AD/qa-eval/issues).
 
 ## Usage
 
@@ -252,7 +252,7 @@ If an error occurs, the expected response format is:
 Sample code:
 
 ```python
-from ttyg_evaluation import run_evaluation, compute_aggregations
+from qa_eval import run_evaluation, compute_aggregations
 
 sample_gold_standard: list[dict] = [] # read your corpus
 chat_responses: dict = {} # call your implementation to get the response

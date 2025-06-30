@@ -1,4 +1,4 @@
-from ttyg_evaluation import (
+from qa_eval import (
     compare_tools_outputs,
     match_group_by_output,
     collect_possible_matches_by_name_and_status,

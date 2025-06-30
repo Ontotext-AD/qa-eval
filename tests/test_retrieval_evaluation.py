@@ -1,6 +1,6 @@
 import math
 
-from ttyg_evaluation.retrieval_evaluation import recall_at_k, average_precision
+from qa_eval.retrieval_evaluation import recall_at_k, average_precision
 
 
 def test_recall_at_k() -> None:

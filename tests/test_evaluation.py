@@ -3,7 +3,7 @@ from pathlib import Path
 import jsonlines
 import yaml
 
-from ttyg_evaluation import (
+from qa_eval import (
     stats_for_series,
     run_evaluation,
     compute_aggregations,
