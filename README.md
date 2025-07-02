@@ -24,7 +24,7 @@ For issues or feature requests, please open [a GitHub issue](https://github.com/
 
 ## Usage
 
-To use this module you must provide a gold standard corpus that defines questions and expected tool calls for each question.
+To use this module you must provide a gold standard corpus that defines questions and (optionally) the expected tool calls for each question.
 
 ### Gold Standard Format
 
@@ -645,9 +645,11 @@ macro:
     mean: 25.911653497483996
 ```
 
-## Retrieval Evaluation Metrics
+## Tool call evaluation
 
-### Recall@k
+### Retrieval
+
+#### Recall@k
 
 The fraction of relevant items among the top 'k' recommendations. It answers the question: "Of all items the user cares about, how many did we inclide in the first k spots?"
 * **Formula**:
@@ -665,7 +667,7 @@ recall_at_k(
 )  # => 0.75
 ```
 
-### Average Precision (AP)
+#### Average Precision (AP)
 
 Evaluates a ranked list of recommendations by looking at the precision at the position of each correctly retrieved item. It rewards systems for placing relevant items higher up in the list. It's more sophisticated than just looking at precision at a single cutoff because it considers the entire ranking.
 * **Formula**:
