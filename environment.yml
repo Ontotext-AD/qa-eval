@@ -1,5 +1,5 @@
-# See this https://stackoverflow.com/a/71110028
-name: ttyg-evaluation
+# See https://stackoverflow.com/a/71110028
+name: qa-eval
 channels:
   - conda-forge
   # We want to have a reproducible setup, so we don't want default channels,

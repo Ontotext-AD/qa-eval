@@ -15,11 +15,11 @@ To create conda environment and install dependencies:
 
 ```bash
 conda env create -f environment.yml
-conda activate ttyg-evaluation
+conda activate qa-eval
 conda-lock -k explicit --conda mamba
 poetry lock
 conda deactivate
-conda remove --name ttyg-evaluation --all
+conda remove --name qa-eval --all
 git add environment.yml conda-*.lock
 git add pyproject.toml poetry.lock
 git commit
@@ -28,15 +28,15 @@ git commit
 ### Create the environment
 
 ```bash
-conda create --name ttyg-evaluation --file conda-linux-64.lock
-conda activate ttyg-evaluation
+conda create --name qa-eval --file conda-linux-64.lock
+conda activate qa-eval
 poetry install
 ```
 
 ## Run tests
 
 ```sh
-conda activate ttyg-evaluation
+conda activate qa-eval
 poetry install --with test
-poetry run pytest --cov=ttyg_evaluation --cov-report=term-missing tests/
+poetry run pytest --cov=qa_eval --cov-report=term-missing tests/
 ```
