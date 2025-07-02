@@ -158,26 +158,6 @@ def test_retrieval_evaluation():
     assert compare_tools_outputs(expected_step, actual_step) == 0.6
 
 
-def test_retrieval_evaluation():
-    expected_tool = {
-        "name": "concatenate",
-        "args": {
-            "x": "5", "y": "10"
-        },
-        "output": "510",
-    }
-    actual_tool = {
-        "name": "concatenate",
-        "args": {
-            "x": "5", "y": "10"
-        },
-        "id": "call_4",
-        "status": "success",
-        "output": "510",
-    }
-    assert compare_tools_outputs(expected_tool, actual_tool) == True
-
-
 def test_match_group_by_output():
     expected_calls = [
         [
