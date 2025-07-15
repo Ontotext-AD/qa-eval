@@ -10,17 +10,17 @@ def compare_tools_outputs(
 ) -> bool:
     if "output_media_type" in reference:
         if reference["output_media_type"] in {"application/sparql-results+json", "application/json"}:
-            reference_output_str = json.loads(reference["output"])
-            actual_output_str = json.loads(actual["output"])
+            reference_output = json.loads(reference["output"])
+            actual_output = json.loads(actual["output"])
             if reference["output_media_type"] == "application/sparql-results+json":
                 return compare_sparql_results(
-                    reference_output_str,
-                    actual_output_str,
+                    reference_output,
+                    actual_output,
                     reference["required_columns"],
                     reference.get("ordered", False),
                 )
             else:
-                return reference_output_str == actual_output_str
+                return reference_output == actual_output
     return reference["output"] == actual["output"]
 
 
