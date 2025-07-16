@@ -17,10 +17,13 @@ repository = "https://github.com/Ontotext-AD/qa-eval"
 pytest = "<9,>=8"
 pytest-cov = "<7,>=6"
 jsonlines = "4.0.0"
+pyyaml = "^6.0.2"
 
 [tool.poetry.group.test]
 optional = true
 
+
+[tool.poetry.dependencies]
 [build-system]
 requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
