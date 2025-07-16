@@ -4,7 +4,6 @@ from statistics import mean, median
 from typing import Any
 
 from .steps import get_tools_calls_matches
-from .steps.retrieval import recall_at_k
 
 
 def evaluate_steps(
@@ -19,12 +18,6 @@ def evaluate_steps(
         reference_tools_calls[reference_group_idx][reference_match_idx]["matches"] = actual_tools_calls[actual_idx]["id"]
     # for now care only for the last group of tools; iterate over the other groups, when we have more tools
     group_ix = -1
-    if reference_tools_calls[group_ix]:
-        if reference_tools_calls[group_ix][0]["name"] == "retrieval":
-            expected_output = reference_tools_calls[group_ix][0]["output"]
-            actual_output = actual_tools_calls[0]["output"]
-            k = reference_tools_calls[group_ix][0]["args"]["k"]
-            return recall_at_k(expected_output, actual_output, k)
     return len(matches_by_group[group_ix]) / len(reference_tools_calls[group_ix])
 
 

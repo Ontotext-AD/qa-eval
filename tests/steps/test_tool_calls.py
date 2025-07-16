@@ -27,7 +27,7 @@ def test_compare_outputs_sparql_results():
         "output": "{\n  \"head\": {\n    \"vars\": [\n      \"transformer\",\n      \"transformerName\"\n    ]\n  },\n  \"results\": {\n    \"bindings\": [\n      {\n        \"transformer\": {\n          \"type\": \"uri\",\n          \"value\": \"urn:uuid:f1769de8-9aeb-11e5-91da-b8763fd99c5f\"\n        },\n        \"transformerName\": {\n          \"type\": \"literal\",\n          \"value\": \"OSLO    T2\"\n        }\n      },\n      {\n        \"transformer\": {\n          \"type\": \"uri\",\n          \"value\": \"urn:uuid:f1769dd6-9aeb-11e5-91da-b8763fd99c5f\"\n        },\n        \"transformerName\": {\n          \"type\": \"literal\",\n          \"value\": \"OSLO    T1\"\n        }\n      }\n    ]\n  }\n}"
     }
 
-    assert compare_tools_outputs(expected_tool, actual_tool) == True
+    assert compare_tools_outputs(expected_tool, actual_tool) == 1.0
 
 
 def test_compare_outputs_json():
@@ -57,7 +57,7 @@ def test_compare_outputs_json():
         "output": "{\"results\": [{\"series\": [{\"name\": \"temperature_data\", \"tags\": {\"sensor\": \"sensor1\", \"location\": \"warehouse\"}, \"values\": [[\"2025-05-22T12:00:00Z\", 22.5, \"temperature\", \"temperature_data\"], [\"2025-05-22T12:05:00Z\", 22.7, \"temperature\", \"temperature_data\"], [\"2025-05-22T12:10:00Z\", 22.9, \"temperature\", \"temperature_data\"]], \"columns\": [\"time\", \"_value\", \"_field\", \"_measurement\"]}]}]}"
     }
 
-    assert compare_tools_outputs(expected_tool, actual_tool) == True
+    assert compare_tools_outputs(expected_tool, actual_tool) == 1.0
 
 
 def test_compare_outputs_numbers():
@@ -77,7 +77,7 @@ def test_compare_outputs_numbers():
         "status": "success",
         "output": 15
     }
-    assert compare_tools_outputs(expected_tool, actual_tool) == True
+    assert compare_tools_outputs(expected_tool, actual_tool) == 1.0
 
     expected_tool = {
         "name": "calculator",
@@ -95,7 +95,7 @@ def test_compare_outputs_numbers():
         "status": "success",
         "output": 16
     }
-    assert compare_tools_outputs(expected_tool, actual_tool) == False
+    assert compare_tools_outputs(expected_tool, actual_tool) == 0.0
 
 
 def test_compare_outputs_strings():
@@ -115,7 +115,7 @@ def test_compare_outputs_strings():
         "status": "success",
         "output": "510",
     }
-    assert compare_tools_outputs(expected_tool, actual_tool) == True
+    assert compare_tools_outputs(expected_tool, actual_tool) == 1.0
 
     expected_tool = {
         "name": "concatenate",
@@ -133,7 +133,7 @@ def test_compare_outputs_strings():
         "status": "success",
         "output": "105",
     }
-    assert compare_tools_outputs(expected_tool, actual_tool) == False
+    assert compare_tools_outputs(expected_tool, actual_tool) == 0.0
 
 
 def test_retrieval_evaluation():
@@ -141,7 +141,7 @@ def test_retrieval_evaluation():
         "name": "retrieval",
         "args": {
             "question": "Why is the sky blue?",
-            "k": 10
+            "k": 5
         },
         "output": [1, 3, 5, 7, 9],
     }
@@ -149,7 +149,7 @@ def test_retrieval_evaluation():
         "name": "retrieval",
         "args": {
             "question": "Why is the sky blue?",
-            "k": 10
+            "k": 5
         },
         "id": "call_4",
         "status": "success",
