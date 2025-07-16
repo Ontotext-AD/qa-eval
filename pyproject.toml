@@ -1,6 +1,6 @@
 [project]
 name = "qa-eval"
-version = "3.0.0"
+version = "3.0.1"
 description = "For assessing question answering systems' final answers and intermediate steps, against a given set of questions, reference answers and steps."
 authors = [
     {name = "Neli Hateva", email = "neli.hateva@graphwise.ai"},

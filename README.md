@@ -24,11 +24,11 @@ For issues or feature requests, please open [a GitHub issue](https://github.com/
 
 ## Usage
 
-To use this module you must provide a gold standard corpus that defines questions and (optionally) the expected tool calls for each question.
+To use this module you must provide a reference corpus that defines questions and (optionally) the expected tool calls for each question.
 
-### Gold Standard Format
+### Reference Standard Format
 
-A gold standard corpus is a list of templates. Each template contains:
+A reference corpus is a list of templates, each of which contains:
 
 - `template_id` – Unique template identifier
 - `questions` – A list of questions derived from this template, where each includes:
@@ -50,7 +50,7 @@ Each tool call includes:
 
 #### Example Corpus
 
-The example corpus below illustrates a minimal but realistic gold standard, showing two templates with associated questions and tool calls.
+The example corpus below illustrates a minimal but realistic reference standard, showing two templates with associated questions and tool calls.
 
 ```yaml
 - template_id: list_all_transformers_within_Substation_SUBSTATION
@@ -254,13 +254,13 @@ Sample code:
 ```python
 from qa_eval import run_evaluation, compute_aggregations
 
-sample_gold_standard: list[dict] = [] # read your corpus
+sample_reference_standard: list[dict] = [] # read your corpus
 chat_responses: dict = {} # call your implementation to get the response
-evaluation_results = run_evaluation(sample_gold_standard, chat_responses)
+evaluation_results = run_evaluation(sample_reference_standard, chat_responses)
 aggregates = compute_aggregations(evaluation_results)
 ```
 
-`evaluation_results` is a list in which for each question from the gold standard corpus we have for example
+`evaluation_results` is a list in which for each question from the reference standard corpus we have for example
 
 ```yaml
 - template_id: list_all_transformers_within_Substation_SUBSTATION
