@@ -208,7 +208,7 @@ def test_collect_possible_matches_by_name():
     ]
     actual_calls = [
         {"name": "tool_b", "output": "result_b_2", "status": "success"},
-        {"name": "tool_b", "output": "error", "status": "error"},
+        {"name": "tool_b", "error": "error", "status": "error"},
         {"name": "tool_a", "output": "result_a", "status": "success"},
         {"name": "tool_b", "output": "result_b_1", "status": "success"},
     ]
@@ -232,7 +232,7 @@ def test_get_tools_calls_matches():
     ]
     actual_calls = [
         {"name": "tool_b", "output": "result_b_2", "status": "success"},
-        {"name": "tool_b", "output": "error", "status": "error"},
+        {"name": "tool_b", "error": "error", "status": "error"},
         {"name": "tool_a", "output": "result_a", "status": "success"},
         {"name": "tool_b", "output": "result_b_1", "status": "success"},
     ]

@@ -83,10 +83,10 @@ def test_get_tools_calls_matches():
     ]
     actual_calls = [
         {"name": "tool_a", "output": "result_a_1", "status": "success", "id": "1"},
-        {"name": "tool_b", "output": "error", "status": "error", "id": "2"},
-        {"name": "tool_b", "output": "error", "status": "error", "id": "3"},
+        {"name": "tool_b", "error": "error", "status": "error", "id": "2"},
+        {"name": "tool_b", "error": "error", "status": "error", "id": "3"},
         {"name": "tool_a", "output": "result_a", "status": "success", "id": "4"},
-        {"name": "tool_b", "output": "error", "status": "error", "id": "5"},
+        {"name": "tool_b", "error": "error", "status": "error", "id": "5"},
     ]
     assert compute_answer_score(expected_calls, actual_calls) == 0
     assert "matches" not in expected_calls[-1][0]
@@ -103,7 +103,7 @@ def test_get_tools_calls_matches():
     actual_calls = [
         {"name": "tool_a", "output": "result_a_1", "status": "success", "id": "1"},
         {"name": "tool_b", "output": "result_b_2", "status": "success", "id": "2"},
-        {"name": "tool_b", "output": "error", "status": "error", "id": "3"},
+        {"name": "tool_b", "error": "error", "status": "error", "id": "3"},
         {"name": "tool_a", "output": "result_a", "status": "success", "id": "4"},
         {"name": "tool_b", "output": "result_b_1", "status": "success", "id": "5"},
     ]
@@ -122,7 +122,7 @@ def test_get_tools_calls_matches():
     ]
     actual_calls = [
         {"name": "tool_b", "output": "result_b_2", "status": "success", "id": "1"},
-        {"name": "tool_b", "output": "error", "status": "error", "id": "2"},
+        {"name": "tool_b", "error": "error", "status": "error", "id": "2"},
         {"name": "tool_a", "output": "result_a", "status": "success", "id": "3"},
         {"name": "tool_b", "output": "result_b_1", "status": "success", "id": "4"},
     ]
@@ -142,7 +142,7 @@ def test_get_tools_calls_matches():
     ]
     actual_calls = [
         {"name": "tool_b", "output": "result_b_24", "status": "success", "id": "1"},
-        {"name": "tool_b", "output": "error", "status": "error", "id": "2"},
+        {"name": "tool_b", "error": "error", "status": "error", "id": "2"},
         {"name": "tool_a", "output": "result_a", "status": "success", "id": "3"},
         {"name": "tool_b", "output": "result_b_1", "status": "success", "id": "4"},
     ]

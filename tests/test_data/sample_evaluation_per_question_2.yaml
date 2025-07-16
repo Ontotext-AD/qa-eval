@@ -1,7 +1,7 @@
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: c10bbc8dce98a4b8832d125134a16153
-  nl_question: List all transformers within Substation OSLO
-  expected_steps:
+  question_text: List all transformers within Substation OSLO
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -27,11 +27,12 @@
       required_columns:
         - transformer
         - transformerName
+  status: error
   error: Some error
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 8bbea9a10876a04ad77a82fd2aedee40
-  nl_question: List all transformers within Substation STAVANGER
-  expected_steps:
+  question_text: List all transformers within Substation STAVANGER
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -55,11 +56,12 @@
       required_columns:
         - transformer
         - transformerName
+  status: error
   error: Some error
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 8033a2e09b55ae4d793f58cf305592db
-  nl_question: List all transformers within Substation HALDEN
-  expected_steps:
+  question_text: List all transformers within Substation HALDEN
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -83,11 +85,12 @@
       required_columns:
         - transformer
         - transformerName
+  status: error
   error: Some error
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: efcfb8fac22f5a937de3c1371a4c82ea
-  nl_question: List all transformers within Substation ASKER
-  expected_steps:
+  question_text: List all transformers within Substation ASKER
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -111,11 +114,12 @@
       required_columns:
         - transformer
         - transformerName
+  status: error
   error: Some error
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: f0dc4a429b5c054d5d300ae04c29cf10
-  nl_question: List all transformers within Substation MO
-  expected_steps:
+  question_text: List all transformers within Substation MO
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -139,11 +143,12 @@
       required_columns:
         - transformer
         - transformerName
+  status: error
   error: Some error
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: c93c45fe6505ad05d9cfa643f40d51ee
-  nl_question: List all transformers within Substation ARENDAL
-  expected_steps:
+  question_text: List all transformers within Substation ARENDAL
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -167,11 +172,12 @@
       required_columns:
         - transformer
         - transformerName
+  status: error
   error: Some error
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 7a57bdadce5b1d7e9daef7b31794ef02
-  nl_question: List all transformers within Substation KVILLDAL
-  expected_steps:
+  question_text: List all transformers within Substation KVILLDAL
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -196,11 +202,12 @@
         - transformer
         - transformerName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 26d8cc0c39667b65e50c43979668467a
-  nl_question: List all transformers within Substation SIMA
-  expected_steps:
+  question_text: List all transformers within Substation SIMA
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -225,11 +232,12 @@
         - transformer
         - transformerName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 686c2ac2cab10f7cb9a33620e43ffd9b
-  nl_question: List all transformers within Substation AJAURE
-  expected_steps:
+  question_text: List all transformers within Substation AJAURE
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -254,11 +262,12 @@
         - transformer
         - transformerName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 64d73cb977f038b905e24ba5052607cb
-  nl_question: List all transformers within Substation HOGASEN
-  expected_steps:
+  question_text: List all transformers within Substation HOGASEN
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -283,11 +292,12 @@
         - transformer
         - transformerName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: d566b1e9da418ac83e520a66cc7af4d7
-  nl_question: List all substations within bidding zone NO2 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone NO2 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -326,11 +336,12 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 03d4283773b4387114342518176b128b
-  nl_question: List all substations within bidding zone NO1 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone NO1 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -368,11 +379,12 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 16844c85e263a85aea5f853b5bfa2809
-  nl_question: List all substations within bidding zone NO5 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone NO5 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -406,11 +418,12 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: ba2a44c6180ee107a384737e24c619a9
-  nl_question: List all substations within bidding zone SE3 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone SE3 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -445,11 +458,12 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: d0bb513c8b0a4634e985c7edc852ad22
-  nl_question: List all substations within bidding zone SE2 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone SE2 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -482,11 +496,12 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 55b89c3ebb2608a35c05c3a1bdc536c0
-  nl_question: List all substations within bidding zone FI1 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone FI1 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -517,11 +532,12 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 6edbddac497a580250b9a1a51910d497
-  nl_question: List all substations within bidding zone SE4 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone SE4 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -550,11 +566,12 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 3dfffe0b2bb649d81e7562ca50036920
-  nl_question: List all substations within bidding zone NO4 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone NO4 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -581,11 +598,12 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 96a289df6ebc9e7806c25e8977dae0ee
-  nl_question: List all substations within bidding zone NO3 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone NO3 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -610,11 +628,12 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 8a97ff8f7b96471f5f99f5fe6de5ff53
-  nl_question: List all substations within bidding zone SE1 SGR
-  expected_steps:
+  question_text: List all substations within bidding zone SE1 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -639,12 +658,13 @@
         - substation
         - substationName
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: f435a0def240f68c9cbcebcbe4722a83
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named KVILLDAL
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -740,12 +760,13 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: f91fc938d606e5f6089912bebfaf114b
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named STAVANGER
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -834,12 +855,13 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: aed48417664f990772c809e264c4b1a2
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named OSLO
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -924,12 +946,13 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: b6957ed683edad25c8534378df3d2626
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named HAGAFOSS
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -1014,12 +1037,13 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: e752fe96517d4eae8523cc5abe77bd12
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named HALDEN
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -1085,12 +1109,13 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: 65507a587e21b568b17d69e651521548
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named SYLLING
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -1153,12 +1178,13 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: 7888bdc6a64b414606102b1decaab3be
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named ASKER
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -1220,12 +1246,13 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: cbbe32e61c559e4609eb2e0543f9bf10
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named SIMA
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -1289,12 +1316,13 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: 1177d61a0f24e1d809750be789e93418
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named PORJUS
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -1357,12 +1385,13 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: 895208b56cb851d9db0f610bd154dc74
-  nl_question: List all substations that are connected via an AC-line or a DC line to
+  question_text: List all substations that are connected via an AC-line or a DC line to
     substation named AURLAND
-  expected_steps:
+  reference_steps:
   - - name: sparql_query
       args:
         query: |2
@@ -1421,11 +1450,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 23dc0fe536eae1494750fa6c7d48fa3e
-  nl_question: List all AC-lines that traverse bidding zones NO2 SGR and NO5 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones NO2 SGR and NO5 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -1534,11 +1564,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 2e826c64d8d9c8dfb667a214be2001be
-  nl_question: List all AC-lines that traverse bidding zones NO5 SGR and NO2 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones NO5 SGR and NO2 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -1648,11 +1679,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 5e9b79f43e47f537749228e24e0f823e
-  nl_question: List all AC-lines that traverse bidding zones NO2 SGR and NO1 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones NO2 SGR and NO1 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -1744,11 +1776,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 3af7528ba724b84f37212dc045ff9973
-  nl_question: List all AC-lines that traverse bidding zones NO1 SGR and NO2 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones NO1 SGR and NO2 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -1840,11 +1873,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 888d6f4010a3850c88fe0cddb468c672
-  nl_question: List all AC-lines that traverse bidding zones SE2 SGR and SE3 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones SE2 SGR and SE3 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -1920,11 +1954,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 6479272428f20c71e9cf592d230f8908
-  nl_question: List all AC-lines that traverse bidding zones SE3 SGR and SE2 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones SE3 SGR and SE2 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -2001,11 +2036,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: a9f5851bb9df1cde06a921acc7309333
-  nl_question: List all AC-lines that traverse bidding zones NO1 SGR and NO5 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones NO1 SGR and NO5 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -2074,11 +2110,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: cf18cb94ac0f78c845b492950dcdee56
-  nl_question: List all AC-lines that traverse bidding zones NO5 SGR and NO1 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones NO5 SGR and NO1 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -2148,11 +2185,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 9c3c9e4f42ec1688bd080b8775ed214f
-  nl_question: List all AC-lines that traverse bidding zones SE4 SGR and SE3 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones SE4 SGR and SE3 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -2205,11 +2243,12 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: a8daaf98b84b4f6b0e0052fb942bf6b6
-  nl_question: List all AC-lines that traverse bidding zones SE1 SGR and SE2 SGR
-  expected_steps:
+  question_text: List all AC-lines that traverse bidding zones SE1 SGR and SE2 SGR
+  reference_steps:
   - - name: sparql_query
       args:
         query: "\nPREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>\nPREFIX
@@ -2262,4 +2301,5 @@
         - substation2
         - substation2Name
       ordered: false
+  status: error
   error: Some error

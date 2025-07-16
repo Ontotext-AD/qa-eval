@@ -4,7 +4,7 @@
       <urn:uuid:f17696da> . }
   id: call_QlgXRgY0h9JUbdbQy6AMpz2A
   name: sparql_query
-  output: "Error: ValueError('The following IRIs are not used in the data stored in\
+  error: "Error: ValueError('The following IRIs are not used in the data stored in\
     \ GraphDB: <urn:uuid:f17696da>')\n Please fix your mistakes."
   status: error
 - args:

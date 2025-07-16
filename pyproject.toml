@@ -1,6 +1,6 @@
 [project]
 name = "ttyg-evaluation"
-version = "2.2.0"
+version = "3.0.0"
 description = "Talk to Your Graph (TTYG) Evaluation is a Python module for evaluating whether LLM agents correctly orchestrate and invoke available tools to answer user questions, based on a Q&A dataset with tool call expectations."
 authors = []
 readme = "README.md"
