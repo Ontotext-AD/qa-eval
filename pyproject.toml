@@ -22,8 +22,6 @@ pyyaml = "^6.0.2"
 [tool.poetry.group.test]
 optional = true
 
-
-[tool.poetry.dependencies]
 [build-system]
 requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
