@@ -28,7 +28,7 @@ def match_group_by_output(
         group_idx: int,
         actual_calls: list[dict],
         candidates_by_name: dict[str, list[int]],
-) -> list[tuple[tuple[int, int], int]]:
+) -> list[tuple[int, int, int, float]]:
     used_actual_indices = set()
     matches = []
 
@@ -40,8 +40,9 @@ def match_group_by_output(
             if actual_idx in used_actual_indices:
                 continue
             actual_tool = actual_calls[actual_idx]
-            if compare_tools_outputs(reference_tool, actual_tool):
-                matches.append(((group_idx, reference_idx), actual_idx))
+            score = compare_tools_outputs(reference_tool, actual_tool)
+            if score > 0.0:
+                matches.append((group_idx, reference_idx, actual_idx, score))
                 used_actual_indices.add(actual_idx)
                 break
     return matches
@@ -66,7 +67,7 @@ def collect_possible_matches_by_name_and_status(
 def get_tools_calls_matches(
         reference_calls: list[list[dict]],
         actual_calls: list[dict],
-) -> list[tuple[tuple[int, int], int]]:
+) -> list[tuple[int, int, int, float]]:
     # when we have autocomplete
     # matches = []
     # search_upto = len(actual_calls)
