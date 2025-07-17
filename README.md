@@ -26,7 +26,7 @@ For issues or feature requests, please open [a GitHub issue](https://github.com/
 
 To use this module you must provide a reference corpus that defines questions and (optionally) the expected tool calls for each question.
 
-### Reference Standard Format
+### Q&A Format
 
 A reference corpus is a list of templates, each of which contains:
 
@@ -50,7 +50,7 @@ Each tool call includes:
 
 #### Example Corpus
 
-The example corpus below illustrates a minimal but realistic reference standard, showing two templates with associated questions and tool calls.
+The example corpus below illustrates a minimal but realistic Q&A dataset, showing two templates with associated questions and tool calls.
 
 ```yaml
 - template_id: list_all_transformers_within_Substation_SUBSTATION
@@ -260,7 +260,7 @@ evaluation_results = run_evaluation(sample_reference_standard, chat_responses)
 aggregates = compute_aggregations(evaluation_results)
 ```
 
-`evaluation_results` is a list in which for each question from the reference standard corpus we have for example
+`evaluation_results` is a list in which for each question from the Q&A dataset we have for example
 
 ```yaml
 - template_id: list_all_transformers_within_Substation_SUBSTATION
