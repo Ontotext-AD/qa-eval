@@ -172,7 +172,8 @@ def test_match_group_by_output():
         {"name": "tool_a", "output": "result_a_1"},
         {"name": "tool_b", "output": "result_b"},
     ]
-    assert match_group_by_output(expected_calls, -1, actual_calls, {"tool_b": [1]}) == [(-1, 0, 1, 1.0)]
+    matches = match_group_by_output(expected_calls, -1, actual_calls, {"tool_b": [1]})
+    assert matches == [(-1, 0, 1, 1.0)]
 
     expected_calls = [
         [
@@ -188,7 +189,8 @@ def test_match_group_by_output():
         {"name": "tool_a", "output": "result_a"},
         {"name": "tool_b", "output": "result_b"},
     ]
-    assert match_group_by_output(expected_calls, -1, actual_calls, {"tool_b": [1]}) == [(-1, 0, 1, 1.0)]
+    matches = match_group_by_output(expected_calls, -1, actual_calls, {"tool_b": [1]})
+    assert matches == [(-1, 0, 1, 1.0)]
 
     expected_calls = [
         [
@@ -205,9 +207,8 @@ def test_match_group_by_output():
         {"name": "tool_a", "output": "result_a"},
         {"name": "tool_b", "output": "result_b_1"},
     ]
-    assert match_group_by_output(expected_calls, -1, actual_calls, {"tool_b": [0, 2]}) == [
-        (-1, 0, 2, 1.0), (-1, 1, 0, 1.0)
-    ]
+    matches = match_group_by_output(expected_calls, -1, actual_calls, {"tool_b": [0, 2]})
+    assert matches == [(-1, 0, 2, 1.0), (-1, 1, 0, 1.0)]
 
 
 def test_collect_possible_matches_by_name():
@@ -258,5 +259,5 @@ def test_get_tools_calls_matches():
         {"name": "tool_a", "output": "result_a", "status": "success"},
         {"name": "tool_b", "output": "result_b_1", "status": "success"},
     ]
-
-    assert get_tools_calls_matches(expected_calls, actual_calls) == [(-1, 0, 3, 1.0), (-1, 1, 0, 1.0)]
+    matches = get_tools_calls_matches(expected_calls, actual_calls)
+    assert matches == [(-1, 0, 3, 1.0), (-1, 1, 0, 1.0)]
