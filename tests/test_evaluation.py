@@ -3,11 +3,11 @@ from pathlib import Path
 import jsonlines
 import yaml
 
-from ttyg_evaluation import (
-    stats_for_series,
-    run_evaluation,
+from qa_eval import (
     compute_aggregations,
-    compute_answer_score,
+    evaluate_steps,
+    run_evaluation,
+    stats_for_series,
 )
 
 
@@ -29,12 +29,12 @@ def test_run_evaluation_and_compute_aggregations():
                 responses[obj["question_id"]] = obj
         return responses
 
-    sample_gold_standard = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "sample_gold_standard_corpus_1.yaml").read_text(encoding="utf-8")
+    sample_reference_standard = yaml.safe_load(
+        (Path(__file__).parent / "test_data" / "sample_reference_standard_corpus_1.yaml").read_text(encoding="utf-8")
     )
     sample_chat_responses_path = Path(__file__).parent / "test_data" / "sample_chat_responses_1.jsonl"
 
-    evaluation_results = run_evaluation(sample_gold_standard, get_chat_responses(sample_chat_responses_path))
+    evaluation_results = run_evaluation(sample_reference_standard, get_chat_responses(sample_chat_responses_path))
     aggregates = compute_aggregations(evaluation_results)
     expected_evaluation_results = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "sample_evaluation_per_question_1.yaml").read_text(encoding="utf-8")
@@ -54,12 +54,12 @@ def test_run_evaluation_and_compute_aggregations_all_errors():
                 responses[obj["question_id"]] = obj
         return responses
 
-    sample_gold_standard = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "sample_gold_standard_corpus_1.yaml").read_text(encoding="utf-8")
+    sample_reference_standard = yaml.safe_load(
+        (Path(__file__).parent / "test_data" / "sample_reference_standard_corpus_1.yaml").read_text(encoding="utf-8")
     )
     sample_chat_responses_path = Path(__file__).parent / "test_data" / "sample_chat_responses_2.jsonl"
 
-    evaluation_results = run_evaluation(sample_gold_standard, get_chat_responses(sample_chat_responses_path))
+    evaluation_results = run_evaluation(sample_reference_standard, get_chat_responses(sample_chat_responses_path))
     aggregates = compute_aggregations(evaluation_results)
     expected_evaluation_results = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "sample_evaluation_per_question_2.yaml").read_text(encoding="utf-8")
@@ -88,7 +88,7 @@ def test_get_tools_calls_matches():
         {"name": "tool_a", "output": "result_a", "status": "success", "id": "4"},
         {"name": "tool_b", "error": "error", "status": "error", "id": "5"},
     ]
-    assert compute_answer_score(expected_calls, actual_calls) == 0
+    assert evaluate_steps(expected_calls, actual_calls) == 0
     assert "matches" not in expected_calls[-1][0]
 
     expected_calls = [
@@ -107,7 +107,7 @@ def test_get_tools_calls_matches():
         {"name": "tool_a", "output": "result_a", "status": "success", "id": "4"},
         {"name": "tool_b", "output": "result_b_1", "status": "success", "id": "5"},
     ]
-    assert compute_answer_score(expected_calls, actual_calls) == 1
+    assert evaluate_steps(expected_calls, actual_calls) == 1
     assert expected_calls[-1][0]["matches"] == "2"
 
     expected_calls = [
@@ -126,7 +126,7 @@ def test_get_tools_calls_matches():
         {"name": "tool_a", "output": "result_a", "status": "success", "id": "3"},
         {"name": "tool_b", "output": "result_b_1", "status": "success", "id": "4"},
     ]
-    assert compute_answer_score(expected_calls, actual_calls) == 1
+    assert evaluate_steps(expected_calls, actual_calls) == 1
     assert expected_calls[-1][0]["matches"] == "4"
     assert expected_calls[-1][1]["matches"] == "1"
 
@@ -146,19 +146,19 @@ def test_get_tools_calls_matches():
         {"name": "tool_a", "output": "result_a", "status": "success", "id": "3"},
         {"name": "tool_b", "output": "result_b_1", "status": "success", "id": "4"},
     ]
-    assert compute_answer_score(expected_calls, actual_calls) == 0.5
+    assert evaluate_steps(expected_calls, actual_calls) == 0.5
     assert expected_calls[-1][0]["matches"] == "4"
     assert "matches" not in expected_calls[-1][1]
 
 
-def test_compute_answer_score_expected_select_actual_ask():
+def test_evaluate_steps_expected_select_actual_ask():
     expected_calls = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "expected_tools_calls_1.yaml").read_text(encoding="utf-8")
     )
     actual_calls = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "actual_tools_calls_1.yaml").read_text(encoding="utf-8")
     )
-    assert compute_answer_score(expected_calls, actual_calls) == 0
+    assert evaluate_steps(expected_calls, actual_calls) == 0
     assert "matches" not in expected_calls[-1][0]
 
     expected_calls = yaml.safe_load(
@@ -167,28 +167,28 @@ def test_compute_answer_score_expected_select_actual_ask():
     actual_calls = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "actual_tools_calls_2.yaml").read_text(encoding="utf-8")
     )
-    assert compute_answer_score(expected_calls, actual_calls) == 0
+    assert evaluate_steps(expected_calls, actual_calls) == 0
     assert "matches" not in expected_calls[-1][0]
 
 
-def test_compute_answer_score_expected_select_actual_describe():
+def test_evaluate_steps_expected_select_actual_describe():
     expected_calls = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "expected_tools_calls_3.yaml").read_text(encoding="utf-8")
     )
     actual_calls = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "actual_tools_calls_3.yaml").read_text(encoding="utf-8")
     )
-    assert compute_answer_score(expected_calls, actual_calls) == 0
+    assert evaluate_steps(expected_calls, actual_calls) == 0
     assert "matches" not in expected_calls[-1][0]
 
 
-def test_compute_answer_score_expected_select_actual_ask_and_then_select():
+def test_evaluate_steps_expected_select_actual_ask_and_then_select():
     expected_calls = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "expected_tools_calls_4.yaml").read_text(encoding="utf-8")
     )
     actual_calls = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "actual_tools_calls_4.yaml").read_text(encoding="utf-8")
     )
-    assert compute_answer_score(expected_calls, actual_calls) == 1
+    assert evaluate_steps(expected_calls, actual_calls) == 1
     assert "matches" in expected_calls[-1][0]
     assert expected_calls[-1][0]["matches"] == "call_3qJK186HZj1twnr6x976slHN"

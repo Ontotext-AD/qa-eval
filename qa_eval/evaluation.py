@@ -3,23 +3,23 @@ from collections import defaultdict
 from statistics import mean, median
 from typing import Any
 
-from .tools_calls_comparison import get_tools_calls_matches
+from .steps import get_tools_calls_matches
 
 
-def compute_answer_score(
-        reference_tools_calls: list[list[dict]],
-        actual_tools_calls: list[dict]
+def evaluate_steps(
+    reference_steps_groups: list[list[dict]],
+    actual_steps: list[dict]
 ) -> float:
-    matches = get_tools_calls_matches(reference_tools_calls, actual_tools_calls)
+    matches = get_tools_calls_matches(reference_steps_groups, actual_steps)
     matches_by_group = defaultdict(list)
-    for match in matches:
-        (reference_group_idx, reference_match_idx), actual_idx = match
-        matches_by_group[reference_group_idx].append(reference_match_idx)
-        reference_tools_calls[reference_group_idx][reference_match_idx]["matches"] = actual_tools_calls[actual_idx]["id"]
-    # for now care only for the last group of tools; iterate over the other groups, when we have more tools
-    last_group = -1
-    score = len(matches_by_group[last_group]) / len(reference_tools_calls[last_group])
-    return score
+    scores_by_group = defaultdict(float)
+    for ref_group_idx, ref_match_idx, actual_idx, score in matches:
+        matches_by_group[ref_group_idx].append(ref_match_idx)
+        scores_by_group[ref_group_idx] += score
+        reference_steps_groups[ref_group_idx][ref_match_idx]["matches"] \
+            = actual_steps[actual_idx]["id"]
+    group_ix = -1  # For now, consider only the last reference group of steps
+    return scores_by_group[group_ix] / len(reference_steps_groups[group_ix])
 
 
 def run_evaluation(
@@ -45,7 +45,7 @@ def run_evaluation(
                 continue
 
             actual_tools_calls = actual_results["tools_calls"]
-            score = compute_answer_score(reference_tools_calls, actual_tools_calls)
+            score = evaluate_steps(reference_tools_calls, actual_tools_calls)
 
             for tool_call in actual_tools_calls:
                 actual_tools_calls_count_total[tool_call["name"]] += 1

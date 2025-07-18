@@ -38,15 +38,17 @@ def compare_sparql_results(
         actual_sparql_result: dict,
         required_vars: list[str],
         results_are_ordered: bool = False,
-) -> bool:
+) -> float:
     # DESCRIBE results
     if isinstance(actual_sparql_result, str):
-        return False
+        return 0.0
 
     # ASK
     if "boolean" in reference_sparql_result:
-        return "boolean" in actual_sparql_result and \
+        return float(
+            "boolean" in actual_sparql_result and
             reference_sparql_result["boolean"] == actual_sparql_result["boolean"]
+        )
 
     reference_bindings: list[dict] = reference_sparql_result["results"]["bindings"]
     actual_bindings: list[dict] = actual_sparql_result.get("results", dict()).get("bindings", [])
@@ -54,9 +56,9 @@ def compare_sparql_results(
     actual_vars: list[str] = actual_sparql_result["head"].get("vars", [])
 
     if (not actual_bindings) and (not reference_bindings):
-        return len(actual_vars) >= len(required_vars)
+        return float(len(actual_vars) >= len(required_vars))
     elif (not actual_bindings) or (not reference_bindings):
-        return False
+        return 0.0
 
     # re-order the vars, so that required come first
     reference_vars = required_vars + [var for var in reference_vars if var not in required_vars]

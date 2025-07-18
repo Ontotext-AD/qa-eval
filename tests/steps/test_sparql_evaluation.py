@@ -1,6 +1,6 @@
 import copy
 
-from ttyg_evaluation import (
+from qa_eval import (
     get_var_to_values,
     compare_sparql_results,
     get_permutation_indices,

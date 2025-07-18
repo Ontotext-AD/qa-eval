@@ -1,19 +1,23 @@
 [project]
-name = "ttyg-evaluation"
+name = "qa-eval"
 version = "3.0.0"
-description = "Talk to Your Graph (TTYG) Evaluation is a Python module for evaluating whether LLM agents correctly orchestrate and invoke available tools to answer user questions, based on a Q&A dataset with tool call expectations."
-authors = []
+description = "For assessing question answering systems' final answers and intermediate steps, against a given set of questions, reference answers and steps."
+authors = [
+    {name = "Neli Hateva", email = "neli.hateva@graphwise.ai"},
+    {name = "Philip Ganchev", email = "philip.ganchev@graphwise.ai"}
+]
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.12,<3.13"
 
 [project.urls]
-repository = "https://github.com/Ontotext-AD/ttyg-evaluation"
+repository = "https://github.com/Ontotext-AD/qa-eval"
 
 [tool.poetry.group.test.dependencies]
 pytest = "<9,>=8"
 pytest-cov = "<7,>=6"
 jsonlines = "4.0.0"
+pyyaml = "^6.0.2"
 
 [tool.poetry.group.test]
 optional = true

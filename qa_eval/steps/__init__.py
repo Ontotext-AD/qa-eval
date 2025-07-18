@@ -1,27 +1,26 @@
 import json
-from _collections import defaultdict
+from collections import defaultdict
 
-from .sparql_results_comparison import compare_sparql_results
+from .retrieval import recall_at_k
+from .sparql import compare_sparql_results
 
 
-def compare_tools_outputs(
-        reference: dict,
-        actual: dict
-) -> bool:
-    if "output_media_type" in reference:
-        if reference["output_media_type"] in {"application/sparql-results+json", "application/json"}:
-            reference_output = json.loads(reference["output"])
-            actual_output = json.loads(actual["output"])
-            if reference["output_media_type"] == "application/sparql-results+json":
-                return compare_sparql_results(
-                    reference_output,
-                    actual_output,
-                    reference["required_columns"],
-                    reference.get("ordered", False),
-                )
-            else:
-                return reference_output == actual_output
-    return reference["output"] == actual["output"]
+def compare_tools_outputs(reference: dict, actual: dict) -> float:
+    ref_output = reference["output"]
+    act_output = actual["output"]
+    if reference.get("output_media_type") == "application/sparql-results+json":
+        return compare_sparql_results(
+            json.loads(ref_output),
+            json.loads(act_output),
+            reference["required_columns"],
+            reference.get("ordered", False),
+        )
+    if reference.get("output_media_type") == "application/json":
+        return float(json.loads(ref_output) == json.loads(act_output))
+    if reference["name"] == "retrieval":
+        k = reference["args"]["k"]
+        return recall_at_k(ref_output, act_output, k)
+    return float(ref_output == act_output)
 
 
 def match_group_by_output(
@@ -29,7 +28,7 @@ def match_group_by_output(
         group_idx: int,
         actual_calls: list[dict],
         candidates_by_name: dict[str, list[int]],
-) -> list[tuple[tuple[int, int], int]]:
+) -> list[tuple[int, int, int, float]]:
     used_actual_indices = set()
     matches = []
 
@@ -41,8 +40,9 @@ def match_group_by_output(
             if actual_idx in used_actual_indices:
                 continue
             actual_tool = actual_calls[actual_idx]
-            if compare_tools_outputs(reference_tool, actual_tool):
-                matches.append(((group_idx, reference_idx), actual_idx))
+            score = compare_tools_outputs(reference_tool, actual_tool)
+            if score > 0.0:
+                matches.append((group_idx, reference_idx, actual_idx, score))
                 used_actual_indices.add(actual_idx)
                 break
     return matches
@@ -67,7 +67,7 @@ def collect_possible_matches_by_name_and_status(
 def get_tools_calls_matches(
         reference_calls: list[list[dict]],
         actual_calls: list[dict],
-) -> list[tuple[tuple[int, int], int]]:
+) -> list[tuple[int, int, int, float]]:
     # when we have autocomplete
     # matches = []
     # search_upto = len(actual_calls)

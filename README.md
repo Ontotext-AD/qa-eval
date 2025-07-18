@@ -2,10 +2,10 @@
   <img alt="Graphwise Logo" src=".github/Graphwise_Logo.jpg">
 </p>
 
-# Talk to Your Graph (TTYG) Evaluation
+# QA Evaluation
 
-TTYG Evaluation is a Python module for evaluating whether LLM agents correctly orchestrate and invoke available
-tools to answer user questions, based on a gold-standard corpus of tool call expectations.
+This is a Python module for assessing the quality of question-answering systems such as ones based on LLM agents, based on a set of questions and reference answers for them. This includes evaluating the final answer and the steps used
+to reach the answer (such as orchestrated and invoked tools), compared to the given reference steps.
 
 ## License
 
@@ -14,21 +14,21 @@ Apache-2.0 License. See [LICENSE](LICENSE) file for details.
 ## Installation
 
 ```bash
-pip install ttyg-evaluation
+pip install qa-eval
 ```
 
 ## Maintainers
 
 Developed and maintained by [Graphwise](https://graphwise.ai/).
-For issues or feature requests, please open [a GitHub issue](https://github.com/Ontotext-AD/ttyg-evaluation/issues).
+For issues or feature requests, please open [a GitHub issue](https://github.com/Ontotext-AD/qa-eval/issues).
 
 ## Usage
 
-To use this module you must provide a gold standard corpus that defines questions and expected tool calls for each question.
+To use this module you must provide a reference corpus that defines questions and (optionally) the expected tool calls for each question.
 
-### Gold Standard Format
+### Q&A Format
 
-A gold standard corpus is a list of templates. Each template contains:
+A reference corpus is a list of templates, each of which contains:
 
 - `template_id` – Unique template identifier
 - `questions` – A list of questions derived from this template, where each includes:
@@ -50,7 +50,7 @@ Each tool call includes:
 
 #### Example Corpus
 
-The example corpus below illustrates a minimal but realistic gold standard, showing two templates with associated questions and tool calls.
+The example corpus below illustrates a minimal but realistic Q&A dataset, showing two templates with associated questions and tool calls.
 
 ```yaml
 - template_id: list_all_transformers_within_Substation_SUBSTATION
@@ -252,15 +252,15 @@ If an error occurs, the expected response format is:
 Sample code:
 
 ```python
-from ttyg_evaluation import run_evaluation, compute_aggregations
+from qa_eval import run_evaluation, compute_aggregations
 
-sample_gold_standard: list[dict] = [] # read your corpus
+sample_reference_standard: list[dict] = [] # read your corpus
 chat_responses: dict = {} # call your implementation to get the response
-evaluation_results = run_evaluation(sample_gold_standard, chat_responses)
+evaluation_results = run_evaluation(sample_reference_standard, chat_responses)
 aggregates = compute_aggregations(evaluation_results)
 ```
 
-`evaluation_results` is a list in which for each question from the gold standard corpus we have for example
+`evaluation_results` is a list in which for each question from the Q&A dataset we have for example
 
 ```yaml
 - template_id: list_all_transformers_within_Substation_SUBSTATION
@@ -643,4 +643,57 @@ macro:
     mean: 197738.9527777778
   elapsed_sec:
     mean: 25.911653497483996
+```
+
+## Tool call evaluation
+
+### Retrieval
+
+#### Recall@k
+
+The fraction of relevant items among the top 'k' recommendations. It answers the question: "Of all items the user cares about, how many did we inclide in the first k spots?"
+* **Formula**:
+    $`
+    \frac{\text{Number of relevant items in top k}}{\text{Number of relevant items}}
+    `$
+* **Calculation**: Count the number of relevant items in the top `k` retrieved results; divide that by the *total* number of relevant items.
+* **Example**: Suppose there are 4 relevant documents for a given query. Suppose our system retrieves 3 of them in the top 5 results (`k=5`). Recall@5 is `3 / 4 = 0.75`.
+
+```python
+recall_at_k(
+    relevant_docs={1, 3, 5, 6},
+    retrieved_docs=[1, 4, 3, 5, 7],
+    k=5
+)  # => 0.75
+```
+
+#### Average Precision (AP)
+
+Evaluates a ranked list of recommendations by looking at the precision at the position of each correctly retrieved item. It rewards systems for placing relevant items higher up in the list. It's more sophisticated than just looking at precision at a single cutoff because it considers the entire ranking.
+* **Formula**:
+    $`
+    \frac{\sum_{k=1}^{n} (P(k) \times \text{rel}(k))}{\text{Number of relevant items}}
+    `$,\
+    where:
+    * `P(k)` is the precision at rank `k`
+    * `rel(k)` is 1 if the item at rank `k` is relevant and 0 otherwise.
+* **Calculation**:
+    1. For each retrieved item, if it is relevant, record the precision at that index (i.e., `number of hits / current rank`).
+    2. Average all of these precision scores.
+    3. Divide that average by the total number of relevant items.
+* **Example**:
+    * Suppose:
+      * The relevant items are `1, 3, 5, 6`
+      * Our system retrieves `1, 4, 3, 5, 7`
+    * Calculation:
+      * Item at index 1 (item 1) is relevant. Precision@1 = 1/1
+      * Item at index 3 (item 2) is relevant. Precision@3 = 2/3
+      * Item at index 4 (item 5) is relevant. Precision@4 = 3/4
+      * AP = (1.0 + 2/3 + 3/4) / 3 = 0.8055...
+
+```python
+average_precision(
+    relevant_docs={1, 3, 5, 6},
+    retrieved_docs=[1, 4, 3, 5, 7]
+) # ~=> 0.8056
 ```
