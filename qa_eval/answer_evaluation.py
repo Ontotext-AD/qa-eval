@@ -1,4 +1,5 @@
 import csv
+import json
 import sys
 from pathlib import Path
 
@@ -6,9 +7,10 @@ from openai import OpenAI
 
 
 DATA_FILE_PATH = '../data/knowledge-hub.tsv'
-PROMPT_FILE_PATH = 'prompts/template.md'
 OUT_FILE_PATH = 'results/knowledge-hub.tsv'
-OUT_FIELDS = ['#T', '#P', '#TP', 'LLM reasoning']
+PROMPT_FILE_PATH = 'prompts/template.md'
+#OUT_FIELDS = ['#T', '#P', '#TP', 'LLM reasoning']
+OUT_FIELDS = ['Reference claims', 'Actual claims', '#T', '#P', '#TP']
 LLM_MODEL = 'gpt-4o-mini'
 TEMPERATURE = 0.0
 
@@ -42,7 +44,20 @@ def evaluate_answers():
                     candidate_answer=row['Actual answer'],
                 )
                 llm_output = call_llm(client, prompt)
-                out_f.write(llm_output + '\n')
+                # out_f.write(llm_output + '\n')
+                # for f in llm_output.split('\n'):
+                #     out_f.write(f'"{f}"\t')
+                # out_f.write('\n')
+                try:
+                    out_vals = json.loads(llm_output)
+                except json.JSONDecodeError as e:
+                    print(llm_output)
+                    raise e
+                out_f.write('"' + '\n'.join(str(v) for v in out_vals['v1']) + '"\t')
+                out_f.write('"' + '\n'.join(str(v) for v in out_vals['v2']) + '"\t')
+                out_f.write(f"{out_vals['v3']}\t")
+                out_f.write(f"{out_vals['v4']}\t")
+                out_f.write(f"{out_vals['v4']}\n")
                 out_f.flush()
                 print('.', end='')
                 sys.stdout.flush()
