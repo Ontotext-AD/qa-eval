@@ -1,6 +1,7 @@
 import csv
 import json
 import sys
+from io import StringIO
 from pathlib import Path
 
 from openai import OpenAI
@@ -27,6 +28,31 @@ def call_llm(client, prompt) -> str:
         return str(e).replace('\n', '    ')
 
 
+def _format_list(vals) -> str:
+    out_f = StringIO()
+    for i, v in enumerate(vals):
+        if i > 0:
+            out_f.write('\n')
+        cleaned = v.strip().replace('"', '\\"')
+        out_f.write(f'{1 + i}: {cleaned}')
+    return out_f.getvalue()
+
+
+def format_table_row(llm_output) -> tuple[str, str, str, str, str]:
+    try:
+        out_vals = json.loads(llm_output)
+    except json.JSONDecodeError as e:
+        print(llm_output)
+        raise e
+    return (
+        _format_list(out_vals['v1']),
+        _format_list(out_vals['v2']),
+        out_vals['v3'],
+        out_vals['v4'],
+        out_vals['v5']
+    )
+
+
 def evaluate_answers():
     client = OpenAI()
     with open(PROMPT_FILE_PATH, 'r', encoding='utf-8') as f:
@@ -36,7 +62,8 @@ def evaluate_answers():
         Path(OUT_FILE_PATH).parent.mkdir(parents=True, exist_ok=True)
         print(f'Writing results to {OUT_FILE_PATH}')
         with open(OUT_FILE_PATH, 'w', encoding='utf-8') as out_f:
-            out_f.write('\t'.join(OUT_FIELDS) + '\n')
+            writer = csv.writer(out_f, delimiter='\t')
+            writer.writerow(OUT_FIELDS)
             for row in reader:
                 prompt = prompt_template.format(
                     question=row['Question'],
@@ -44,20 +71,7 @@ def evaluate_answers():
                     candidate_answer=row['Actual answer'],
                 )
                 llm_output = call_llm(client, prompt)
-                # out_f.write(llm_output + '\n')
-                # for f in llm_output.split('\n'):
-                #     out_f.write(f'"{f}"\t')
-                # out_f.write('\n')
-                try:
-                    out_vals = json.loads(llm_output)
-                except json.JSONDecodeError as e:
-                    print(llm_output)
-                    raise e
-                out_f.write('"' + '\n'.join(str(v) for v in out_vals['v1']) + '"\t')
-                out_f.write('"' + '\n'.join(str(v) for v in out_vals['v2']) + '"\t')
-                out_f.write(f"{out_vals['v3']}\t")
-                out_f.write(f"{out_vals['v4']}\t")
-                out_f.write(f"{out_vals['v4']}\n")
+                writer.writerow(format_table_row(llm_output))
                 out_f.flush()
                 print('.', end='')
                 sys.stdout.flush()
