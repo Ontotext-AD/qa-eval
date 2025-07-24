@@ -1,5 +1,6 @@
 import csv
 import json
+import re
 import sys
 from io import StringIO
 from pathlib import Path
@@ -10,10 +11,10 @@ from openai import OpenAI
 DATA_FILE_PATH = '../data/knowledge-hub.tsv'
 OUT_FILE_PATH = 'results/knowledge-hub.tsv'
 PROMPT_FILE_PATH = 'prompts/template.md'
-#OUT_FIELDS = ['#T', '#P', '#TP', 'LLM reasoning']
-OUT_FIELDS = ['Reference claims', 'Actual claims', '#T', '#P', '#TP']
+OUT_FIELDS = ['Reference claims', 'Actual claims', '#T', '#P', '#RTP', '#CTP']
 LLM_MODEL = 'gpt-4o-mini'
 TEMPERATURE = 0.0
+claim_match_pattern = re.compile(r'.*\[\d+(, \d+)*\][.,;]?\ *$')
 
 
 def call_llm(client, prompt) -> str:
@@ -38,18 +39,21 @@ def _format_list(vals) -> str:
     return out_f.getvalue()
 
 
-def format_table_row(llm_output) -> tuple[str, str, str, str, str]:
+def format_table_row(llm_output) -> tuple[str, str, str, str, str, str]:
     try:
         out_vals = json.loads(llm_output)
     except json.JSONDecodeError as e:
         print(llm_output)
         raise e
+    reference_claims = out_vals['reference_claims']
+    candidate_claims = out_vals['candidate_claims']
     return (
-        _format_list(out_vals['v1']),
-        _format_list(out_vals['v2']),
-        out_vals['v3'],
-        out_vals['v4'],
-        out_vals['v5']
+        _format_list(reference_claims),
+        _format_list(candidate_claims),
+        str(len(reference_claims)),
+        str(len(candidate_claims)),
+        str(sum(1 for c in reference_claims if claim_match_pattern.match(c))),
+        str(sum(1 for c in candidate_claims if claim_match_pattern.match(c))),
     )
 
 

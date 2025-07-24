@@ -13,17 +13,10 @@ Below is a question, a reference answer and a candidate answer to it.
 {candidate_answer}
 
 # Output values
-* v1: List of reference answer claims
-* v2: List of candidate answer claims. Each claim string ends with the matching reference claim's 1-based index in square brackets, only if there is a such a match
-* v3: Count of reference answer claims
-* v4: Count of candidate answer claims
-* v5: Count of matching claims
+* reference_claims: list of reference answer claims
+* candidate_claims: list of candidate answer claims
 
 # Output format
-* JSON without markup
-  * v1, v2 values are lists of strings
-
-# Value checks
-* v1, v2 values are valid JSON lists of strings
-* 1 <= v3, v4
-* 0 <= v5 <= v3, v4
+* JSON without formatting
+* Each claim is a string
+  * If the claim matches a claim from the other answer, then append the matching claim's 1-based index in square brackets
