@@ -28,15 +28,30 @@ def call_llm(client, prompt) -> str:
     except Exception as e:
         return str(e).replace('\n', '    ')
 
-
-def _format_list(vals) -> str:
+def _format_claims(claims: list[str], matching_ixs: dict[int, int]) -> str:
     out_f = StringIO()
-    for i, v in enumerate(vals):
+    for i, v in enumerate(claims):
         if i > 0:
             out_f.write('\n')
         cleaned = v.strip().replace('"', '\\"')
+        if i in matching_ixs:
+            cleaned += str(matching_ixs[i])
         out_f.write(f'{1 + i}: {cleaned}')
     return out_f.getvalue()
+
+
+def list_of_tuples_to_dict(tuples: list[tuple[int, int]], key_ix: int):
+    result = {}
+    for ixs in tuples:
+        k = ixs[key_ix]
+        if k not in result:
+            result[k] = []
+        v = ixs[1 - key_ix]
+        if v not in result[k]:
+            result[k].append(v)
+    for k in result:
+        result[k].sort()
+    return result
 
 
 def format_table_row(llm_output) -> tuple[str, str, str, str, str, str]:
@@ -47,13 +62,16 @@ def format_table_row(llm_output) -> tuple[str, str, str, str, str, str]:
         raise e
     reference_claims = out_vals['reference_claims']
     candidate_claims = out_vals['candidate_claims']
+    matching_claims = out_vals['matching_claims']
+    ref_cand_matches = list_of_tuples_to_dict(matching_claims, 0)
+    cand_ref_matches = list_of_tuples_to_dict(matching_claims, 1)
     return (
-        _format_list(reference_claims),
-        _format_list(candidate_claims),
+        _format_claims(reference_claims, ref_cand_matches),
+        _format_claims(candidate_claims, cand_ref_matches),
         str(len(reference_claims)),
         str(len(candidate_claims)),
-        str(sum(1 for c in reference_claims if claim_match_pattern.match(c))),
-        str(sum(1 for c in candidate_claims if claim_match_pattern.match(c))),
+        str(len(ref_cand_matches)),
+        str(len(cand_ref_matches)),
     )
 
 

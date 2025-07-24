@@ -15,8 +15,8 @@ Below is a question, a reference answer and a candidate answer to it.
 # Output values
 * reference_claims: list of reference answer claims
 * candidate_claims: list of candidate answer claims
+* matching_claims: list of pairs [reference_claim_index, candidate_claim_index] of all 1-based indices of matching claims
 
 # Output format
 * JSON without formatting
 * Each claim is a string
-  * If the claim matches a claim from the other answer, then append the matching claim's 1-based index in square brackets
