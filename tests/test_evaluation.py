@@ -71,60 +71,60 @@ def test_run_evaluation_and_compute_aggregations_all_errors():
     assert expected_aggregates == aggregates
 
 
-def test_get_tools_calls_matches():
+def test_get_steps_matches():
     expected_calls = [
         [
-            {"name": "tool_a", "output": "result_a_1", "status": "success"},
-            {"name": "tool_a", "output": "result_a_2", "status": "success"},
+            {"name": "step_a", "output": "result_a_1", "status": "success"},
+            {"name": "step_a", "output": "result_a_2", "status": "success"},
         ],
         [
-            {"name": "tool_b", "output": "result_b_2", "status": "success"},
+            {"name": "step_b", "output": "result_b_2", "status": "success"},
         ]
     ]
     actual_calls = [
-        {"name": "tool_a", "output": "result_a_1", "status": "success", "id": "1"},
-        {"name": "tool_b", "error": "error", "status": "error", "id": "2"},
-        {"name": "tool_b", "error": "error", "status": "error", "id": "3"},
-        {"name": "tool_a", "output": "result_a", "status": "success", "id": "4"},
-        {"name": "tool_b", "error": "error", "status": "error", "id": "5"},
+        {"name": "step_a", "output": "result_a_1", "status": "success", "id": "1"},
+        {"name": "step_b", "error": "error", "status": "error", "id": "2"},
+        {"name": "step_b", "error": "error", "status": "error", "id": "3"},
+        {"name": "step_a", "output": "result_a", "status": "success", "id": "4"},
+        {"name": "step_b", "error": "error", "status": "error", "id": "5"},
     ]
     assert evaluate_steps(expected_calls, actual_calls) == 0
     assert "matches" not in expected_calls[-1][0]
 
     expected_calls = [
         [
-            {"name": "tool_a", "output": "result_a_1", "status": "success"},
-            {"name": "tool_a", "output": "result_a_2", "status": "success"},
+            {"name": "step_a", "output": "result_a_1", "status": "success"},
+            {"name": "step_a", "output": "result_a_2", "status": "success"},
         ],
         [
-            {"name": "tool_b", "output": "result_b_2", "status": "success"},
+            {"name": "step_b", "output": "result_b_2", "status": "success"},
         ]
     ]
     actual_calls = [
-        {"name": "tool_a", "output": "result_a_1", "status": "success", "id": "1"},
-        {"name": "tool_b", "output": "result_b_2", "status": "success", "id": "2"},
-        {"name": "tool_b", "error": "error", "status": "error", "id": "3"},
-        {"name": "tool_a", "output": "result_a", "status": "success", "id": "4"},
-        {"name": "tool_b", "output": "result_b_1", "status": "success", "id": "5"},
+        {"name": "step_a", "output": "result_a_1", "status": "success", "id": "1"},
+        {"name": "step_b", "output": "result_b_2", "status": "success", "id": "2"},
+        {"name": "step_b", "error": "error", "status": "error", "id": "3"},
+        {"name": "step_a", "output": "result_a", "status": "success", "id": "4"},
+        {"name": "step_b", "output": "result_b_1", "status": "success", "id": "5"},
     ]
     assert evaluate_steps(expected_calls, actual_calls) == 1
     assert expected_calls[-1][0]["matches"] == "2"
 
     expected_calls = [
         [
-            {"name": "tool_a", "output": "result_a_1", "status": "success"},
-            {"name": "tool_a", "output": "result_a_2", "status": "success"},
+            {"name": "step_a", "output": "result_a_1", "status": "success"},
+            {"name": "step_a", "output": "result_a_2", "status": "success"},
         ],
         [
-            {"name": "tool_b", "output": "result_b_1", "status": "success"},
-            {"name": "tool_b", "output": "result_b_2", "status": "success"},
+            {"name": "step_b", "output": "result_b_1", "status": "success"},
+            {"name": "step_b", "output": "result_b_2", "status": "success"},
         ]
     ]
     actual_calls = [
-        {"name": "tool_b", "output": "result_b_2", "status": "success", "id": "1"},
-        {"name": "tool_b", "error": "error", "status": "error", "id": "2"},
-        {"name": "tool_a", "output": "result_a", "status": "success", "id": "3"},
-        {"name": "tool_b", "output": "result_b_1", "status": "success", "id": "4"},
+        {"name": "step_b", "output": "result_b_2", "status": "success", "id": "1"},
+        {"name": "step_b", "error": "error", "status": "error", "id": "2"},
+        {"name": "step_a", "output": "result_a", "status": "success", "id": "3"},
+        {"name": "step_b", "output": "result_b_1", "status": "success", "id": "4"},
     ]
     assert evaluate_steps(expected_calls, actual_calls) == 1
     assert expected_calls[-1][0]["matches"] == "4"
@@ -132,19 +132,19 @@ def test_get_tools_calls_matches():
 
     expected_calls = [
         [
-            {"name": "tool_a", "output": "result_a_1", "status": "success"},
-            {"name": "tool_a", "output": "result_a_2", "status": "success"},
+            {"name": "step_a", "output": "result_a_1", "status": "success"},
+            {"name": "step_a", "output": "result_a_2", "status": "success"},
         ],
         [
-            {"name": "tool_b", "output": "result_b_1", "status": "success"},
-            {"name": "tool_b", "output": "result_b_2", "status": "success"},
+            {"name": "step_b", "output": "result_b_1", "status": "success"},
+            {"name": "step_b", "output": "result_b_2", "status": "success"},
         ]
     ]
     actual_calls = [
-        {"name": "tool_b", "output": "result_b_24", "status": "success", "id": "1"},
-        {"name": "tool_b", "error": "error", "status": "error", "id": "2"},
-        {"name": "tool_a", "output": "result_a", "status": "success", "id": "3"},
-        {"name": "tool_b", "output": "result_b_1", "status": "success", "id": "4"},
+        {"name": "step_b", "output": "result_b_24", "status": "success", "id": "1"},
+        {"name": "step_b", "error": "error", "status": "error", "id": "2"},
+        {"name": "step_a", "output": "result_a", "status": "success", "id": "3"},
+        {"name": "step_b", "output": "result_b_1", "status": "success", "id": "4"},
     ]
     assert evaluate_steps(expected_calls, actual_calls) == 0.5
     assert expected_calls[-1][0]["matches"] == "4"
@@ -153,19 +153,19 @@ def test_get_tools_calls_matches():
 
 def test_evaluate_steps_expected_select_actual_ask():
     expected_calls = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "expected_tools_calls_1.yaml").read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "expected_steps_1.yaml").read_text(encoding="utf-8")
     )
     actual_calls = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "actual_tools_calls_1.yaml").read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "actual_steps_1.yaml").read_text(encoding="utf-8")
     )
     assert evaluate_steps(expected_calls, actual_calls) == 0
     assert "matches" not in expected_calls[-1][0]
 
     expected_calls = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "expected_tools_calls_2.yaml").read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "expected_steps_2.yaml").read_text(encoding="utf-8")
     )
     actual_calls = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "actual_tools_calls_2.yaml").read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "actual_steps_2.yaml").read_text(encoding="utf-8")
     )
     assert evaluate_steps(expected_calls, actual_calls) == 0
     assert "matches" not in expected_calls[-1][0]
@@ -173,10 +173,10 @@ def test_evaluate_steps_expected_select_actual_ask():
 
 def test_evaluate_steps_expected_select_actual_describe():
     expected_calls = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "expected_tools_calls_3.yaml").read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "expected_steps_3.yaml").read_text(encoding="utf-8")
     )
     actual_calls = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "actual_tools_calls_3.yaml").read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "actual_steps_3.yaml").read_text(encoding="utf-8")
     )
     assert evaluate_steps(expected_calls, actual_calls) == 0
     assert "matches" not in expected_calls[-1][0]
@@ -184,10 +184,10 @@ def test_evaluate_steps_expected_select_actual_describe():
 
 def test_evaluate_steps_expected_select_actual_ask_and_then_select():
     expected_calls = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "expected_tools_calls_4.yaml").read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "expected_steps_4.yaml").read_text(encoding="utf-8")
     )
     actual_calls = yaml.safe_load(
-        (Path(__file__).parent / "test_data" / "actual_tools_calls_4.yaml").read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "actual_steps_4.yaml").read_text(encoding="utf-8")
     )
     assert evaluate_steps(expected_calls, actual_calls) == 1
     assert "matches" in expected_calls[-1][0]

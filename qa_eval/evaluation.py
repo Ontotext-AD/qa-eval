@@ -3,14 +3,14 @@ from collections import defaultdict
 from statistics import mean, median
 from typing import Any
 
-from .steps import get_tools_calls_matches
+from .steps import get_steps_matches
 
 
 def evaluate_steps(
     reference_steps_groups: list[list[dict]],
     actual_steps: list[dict]
 ) -> float:
-    matches = get_tools_calls_matches(reference_steps_groups, actual_steps)
+    matches = get_steps_matches(reference_steps_groups, actual_steps)
     matches_by_group = defaultdict(list)
     scores_by_group = defaultdict(float)
     for ref_group_idx, ref_match_idx, actual_idx, score in matches:
@@ -29,37 +29,37 @@ def run_evaluation(
     evaluation_results = []
     for template in gsc_templates:
         template_id = template["template_id"]
-        actual_tools_calls_count_total, actual_tools_calls_error_total = defaultdict(int), defaultdict(int)
+        actual_steps_count_total, actual_steps_error_total = defaultdict(int), defaultdict(int)
         for question in template["questions"]:
             actual_results = chat_responses[question["id"]]
-            reference_tools_calls = question["reference_steps"]
+            reference_steps = question["reference_steps"]
             if "error" in actual_results:
                 evaluation_results.append({
                     "template_id": template_id,
                     "question_id": actual_results["question_id"],
                     "question_text": question["question_text"],
-                    "reference_steps": reference_tools_calls,
+                    "reference_steps": reference_steps,
                     "status": "error",
                     "error": actual_results["error"],
                 })
                 continue
 
-            actual_tools_calls = actual_results["tools_calls"]
-            score = evaluate_steps(reference_tools_calls, actual_tools_calls)
+            actual_steps = actual_results["steps"]
+            score = evaluate_steps(reference_steps, actual_steps)
 
-            for tool_call in actual_tools_calls:
-                actual_tools_calls_count_total[tool_call["name"]] += 1
-                if tool_call["status"] == "error":
-                    actual_tools_calls_error_total[tool_call["name"]] += 1
+            for step in actual_steps:
+                actual_steps_count_total[step["name"]] += 1
+                if step["status"] == "error":
+                    actual_steps_error_total[step["name"]] += 1
 
             evaluation_results.append({
                 "status": "success",
                 "template_id": template_id,
                 "question_id": actual_results["question_id"],
                 "question_text": question["question_text"],
-                "reference_steps": reference_tools_calls,
+                "reference_steps": reference_steps,
                 "actual_answer": actual_results["actual_answer"],
-                "actual_steps": actual_tools_calls,
+                "actual_steps": actual_steps,
                 "answer_score": score,
                 "input_tokens": actual_results["input_tokens"],
                 "output_tokens": actual_results["output_tokens"],
@@ -84,7 +84,7 @@ def compute_aggregations(samples: list[dict]) -> dict:
 
     results_per_template = defaultdict(lambda: defaultdict(list))
     number_of_samples_per_template_by_status = defaultdict(lambda: defaultdict(int))
-    tools_calls_summary_per_template = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    steps_summary_per_template = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
 
     templates_ids = set()
     for sample in samples:
@@ -101,21 +101,21 @@ def compute_aggregations(samples: list[dict]) -> dict:
             results_per_template[template_id][series].append(sample[series])
 
         seen = set()
-        for tool in sample["actual_steps"]:
-            tool_name = tool["name"]
-            tools_calls_summary_per_template[template_id]["total_calls"][tool_name] += 1
-            if tool["status"] == "error":
-                tools_calls_summary_per_template[template_id]["error_calls"][tool_name] += 1
-            if tool_name not in seen:
-                seen.add(tool_name)
-                tools_calls_summary_per_template[template_id]["once_per_sample"][tool_name] += 1
+        for step in sample["actual_steps"]:
+            name = step["name"]
+            steps_summary_per_template[template_id]["total"][name] += 1
+            if step["status"] == "error":
+                steps_summary_per_template[template_id]["errors"][name] += 1
+            if name not in seen:
+                seen.add(name)
+                steps_summary_per_template[template_id]["once_per_sample"][name] += 1
 
-            if tool["status"] != "error":
+            if step["status"] != "error":
                 try:
-                    res = json.loads(tool["output"])
+                    res = json.loads(step["output"])
                     if "results" in res and "bindings" in res["results"]:
                         if not res["results"]["bindings"]:
-                            tools_calls_summary_per_template[template_id]["empty_results"][tool_name] += 1
+                            steps_summary_per_template[template_id]["empty_results"][name] += 1
                 except json.decoder.JSONDecodeError:
                     pass
 
@@ -126,9 +126,9 @@ def compute_aggregations(samples: list[dict]) -> dict:
         template_summary: dict[str, Any] = {
             "number_of_error_samples": number_of_samples_per_template_by_status[template_id]["error"],
             "number_of_success_samples": number_of_samples_per_template_by_status[template_id]["success"],
-            "tools_calls": {
+            "steps": {
                 k1: {k2: v2 for k2, v2 in v1.items()}
-                for k1, v1 in tools_calls_summary_per_template[template_id].items()
+                for k1, v1 in steps_summary_per_template[template_id].items()
             },
         }
         for series in data_series:

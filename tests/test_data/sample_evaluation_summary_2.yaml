@@ -2,7 +2,7 @@ per_template:
   list_all_transformers_within_Substation_SUBSTATION:
     number_of_error_samples: 10
     number_of_success_samples: 0
-    tools_calls: {}
+    steps: {}
     answer_score:
       sum: 0
       mean: 0
@@ -36,7 +36,7 @@ per_template:
   list_all_substations_within_bidding_zone_REGION:
     number_of_error_samples: 10
     number_of_success_samples: 0
-    tools_calls: {}
+    steps: {}
     answer_score:
       sum: 0
       mean: 0
@@ -70,7 +70,7 @@ per_template:
   list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION:
     number_of_error_samples: 10
     number_of_success_samples: 0
-    tools_calls: {}
+    steps: {}
     answer_score:
       sum: 0
       mean: 0
@@ -104,7 +104,7 @@ per_template:
   list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2:
     number_of_error_samples: 10
     number_of_success_samples: 0
-    tools_calls: {}
+    steps: {}
     answer_score:
       sum: 0
       mean: 0

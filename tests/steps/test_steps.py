@@ -1,8 +1,8 @@
 from qa_eval import (
-    compare_tools_outputs,
+    compare_steps_outputs,
     match_group_by_output,
     collect_possible_matches_by_name_and_status,
-    get_tools_calls_matches
+    get_steps_matches
 )
 from qa_eval.evaluation import evaluate_steps
 
@@ -114,130 +114,130 @@ retrieval_error_step = {
 
 
 def test_compare_outputs_sparql_results():
-    assert compare_tools_outputs(sparkle_expected_step, sparkle_actual_step) == 1.0
+    assert compare_steps_outputs(sparkle_expected_step, sparkle_actual_step) == 1.0
 
 
 def test_compare_outputs_json():
-    assert compare_tools_outputs(influx_expected_step, influx_actual_step) == 1.0
+    assert compare_steps_outputs(influx_expected_step, influx_actual_step) == 1.0
 
 
 def test_compare_outputs_numbers():
-    assert compare_tools_outputs(calculation_expected_step, calculation_expected_step) == 1.0
-    assert compare_tools_outputs(calculation_expected_step, calculation_actual_step) == 0.0
+    assert compare_steps_outputs(calculation_expected_step, calculation_expected_step) == 1.0
+    assert compare_steps_outputs(calculation_expected_step, calculation_actual_step) == 0.0
 
 
 def test_compare_outputs_strings():
-    assert compare_tools_outputs(concatenation_expected_step, concatenation_expected_step) == 1.0
-    assert compare_tools_outputs(concatenation_expected_step, concatenation_actual_step) == 0.0
+    assert compare_steps_outputs(concatenation_expected_step, concatenation_expected_step) == 1.0
+    assert compare_steps_outputs(concatenation_expected_step, concatenation_actual_step) == 0.0
 
 
 def test_retrieval_evaluation():
-    assert compare_tools_outputs(retrieval_expected_step, retrieval_expected_step) == 1.0
-    assert compare_tools_outputs(retrieval_expected_step, retrieval_actual_step) == 0.6
+    assert compare_steps_outputs(retrieval_expected_step, retrieval_expected_step) == 1.0
+    assert compare_steps_outputs(retrieval_expected_step, retrieval_actual_step) == 0.6
 
 
 def test_match_group_by_output():
-    expected_calls = [
+    expected_steps = [
         [
-            {"name": "tool_a", "output": "result_a_1"},
-            {"name": "tool_a", "output": "result_a_2"},
+            {"name": "step_a", "output": "result_a_1"},
+            {"name": "step_a", "output": "result_a_2"},
         ],
         [
-            {"name": "tool_b", "output": "result_b"},
+            {"name": "step_b", "output": "result_b"},
         ]
     ]
-    actual_calls = [
-        {"name": "tool_a", "output": "result_a_1"},
-        {"name": "tool_b", "output": "result_b"},
+    actual_steps = [
+        {"name": "step_a", "output": "result_a_1"},
+        {"name": "step_b", "output": "result_b"},
     ]
-    matches = match_group_by_output(expected_calls, -1, actual_calls, {"tool_b": [1]})
+    matches = match_group_by_output(expected_steps, -1, actual_steps, {"step_b": [1]})
     assert matches == [(-1, 0, 1, 1.0)]
 
-    expected_calls = [
+    expected_steps = [
         [
-            {"name": "tool_a", "output": "result_a_1"},
-            {"name": "tool_a", "output": "result_a_2"},
+            {"name": "step_a", "output": "result_a_1"},
+            {"name": "step_a", "output": "result_a_2"},
         ],
         [
-            {"name": "tool_b", "output": "result_b"},
-            {"name": "tool_b", "output": "result_b"},
+            {"name": "step_b", "output": "result_b"},
+            {"name": "step_b", "output": "result_b"},
         ]
     ]
-    actual_calls = [
-        {"name": "tool_a", "output": "result_a"},
-        {"name": "tool_b", "output": "result_b"},
+    actual_steps = [
+        {"name": "step_a", "output": "result_a"},
+        {"name": "step_b", "output": "result_b"},
     ]
-    matches = match_group_by_output(expected_calls, -1, actual_calls, {"tool_b": [1]})
+    matches = match_group_by_output(expected_steps, -1, actual_steps, {"step_b": [1]})
     assert matches == [(-1, 0, 1, 1.0)]
 
-    expected_calls = [
+    expected_steps = [
         [
-            {"name": "tool_a", "output": "result_a_1"},
-            {"name": "tool_a", "output": "result_a_2"},
+            {"name": "step_a", "output": "result_a_1"},
+            {"name": "step_a", "output": "result_a_2"},
         ],
         [
-            {"name": "tool_b", "output": "result_b_1"},
-            {"name": "tool_b", "output": "result_b_2"},
+            {"name": "step_b", "output": "result_b_1"},
+            {"name": "step_b", "output": "result_b_2"},
         ]
     ]
-    actual_calls = [
-        {"name": "tool_b", "output": "result_b_2"},
-        {"name": "tool_a", "output": "result_a"},
-        {"name": "tool_b", "output": "result_b_1"},
+    actual_steps = [
+        {"name": "step_b", "output": "result_b_2"},
+        {"name": "step_a", "output": "result_a"},
+        {"name": "step_b", "output": "result_b_1"},
     ]
-    matches = match_group_by_output(expected_calls, -1, actual_calls, {"tool_b": [0, 2]})
+    matches = match_group_by_output(expected_steps, -1, actual_steps, {"step_b": [0, 2]})
     assert matches == [(-1, 0, 2, 1.0), (-1, 1, 0, 1.0)]
 
 
 def test_collect_possible_matches_by_name():
-    expected_calls = [
-        {"name": "tool_b", "output": "result_b_1", "status": "success"},
-        {"name": "tool_b", "output": "result_b_2", "status": "success"},
+    expected_steps = [
+        {"name": "step_b", "output": "result_b_1", "status": "success"},
+        {"name": "step_b", "output": "result_b_2", "status": "success"},
     ]
-    actual_calls = [
-        {"name": "tool_b", "output": "result_b_2", "status": "success"},
-        {"name": "tool_a", "output": "result_a", "status": "success"},
-        {"name": "tool_b", "output": "result_b_1", "status": "success"},
+    actual_steps = [
+        {"name": "step_b", "output": "result_b_2", "status": "success"},
+        {"name": "step_a", "output": "result_a", "status": "success"},
+        {"name": "step_b", "output": "result_b_1", "status": "success"},
     ]
-    assert collect_possible_matches_by_name_and_status(expected_calls, actual_calls, 2) == {"tool_b": [0]}
-    assert collect_possible_matches_by_name_and_status(expected_calls, actual_calls, len(actual_calls)) == {
-        "tool_b": [0, 2]}
+    assert collect_possible_matches_by_name_and_status(expected_steps, actual_steps, 2) == {"step_b": [0]}
+    assert collect_possible_matches_by_name_and_status(expected_steps, actual_steps, len(actual_steps)) == {
+        "step_b": [0, 2]}
 
-    expected_calls = [
-        {"name": "tool_b", "output": "result_b_1", "status": "success"},
-        {"name": "tool_b", "output": "result_b_2", "status": "success"},
+    expected_steps = [
+        {"name": "step_b", "output": "result_b_1", "status": "success"},
+        {"name": "step_b", "output": "result_b_2", "status": "success"},
     ]
-    actual_calls = [
-        {"name": "tool_b", "output": "result_b_2", "status": "success"},
-        {"name": "tool_b", "error": "error", "status": "error"},
-        {"name": "tool_a", "output": "result_a", "status": "success"},
-        {"name": "tool_b", "output": "result_b_1", "status": "success"},
+    actual_steps = [
+        {"name": "step_b", "output": "result_b_2", "status": "success"},
+        {"name": "step_b", "error": "error", "status": "error"},
+        {"name": "step_a", "output": "result_a", "status": "success"},
+        {"name": "step_b", "output": "result_b_1", "status": "success"},
     ]
-    assert collect_possible_matches_by_name_and_status(expected_calls, actual_calls, 0) == {}
-    assert collect_possible_matches_by_name_and_status(expected_calls, actual_calls, 1) == {"tool_b": [0]}
-    assert collect_possible_matches_by_name_and_status(expected_calls, actual_calls, 2) == {"tool_b": [0]}
-    assert collect_possible_matches_by_name_and_status(expected_calls, actual_calls, 3) == {"tool_b": [0]}
-    assert collect_possible_matches_by_name_and_status(expected_calls, actual_calls, 4) == {"tool_b": [0, 3]}
+    assert collect_possible_matches_by_name_and_status(expected_steps, actual_steps, 0) == {}
+    assert collect_possible_matches_by_name_and_status(expected_steps, actual_steps, 1) == {"step_b": [0]}
+    assert collect_possible_matches_by_name_and_status(expected_steps, actual_steps, 2) == {"step_b": [0]}
+    assert collect_possible_matches_by_name_and_status(expected_steps, actual_steps, 3) == {"step_b": [0]}
+    assert collect_possible_matches_by_name_and_status(expected_steps, actual_steps, 4) == {"step_b": [0, 3]}
 
 
-def test_get_tools_calls_matches():
-    expected_calls = [
+def test_get_steps_matches():
+    expected_steps = [
         [
-            {"name": "tool_a", "output": "result_a_1", "status": "success"},
-            {"name": "tool_a", "output": "result_a_2", "status": "success"},
+            {"name": "step_a", "output": "result_a_1", "status": "success"},
+            {"name": "step_a", "output": "result_a_2", "status": "success"},
         ],
         [
-            {"name": "tool_b", "output": "result_b_1", "status": "success"},
-            {"name": "tool_b", "output": "result_b_2", "status": "success"},
+            {"name": "step_b", "output": "result_b_1", "status": "success"},
+            {"name": "step_b", "output": "result_b_2", "status": "success"},
         ]
     ]
-    actual_calls = [
-        {"name": "tool_b", "output": "result_b_2", "status": "success"},
-        {"name": "tool_b", "error": "error", "status": "error"},
-        {"name": "tool_a", "output": "result_a", "status": "success"},
-        {"name": "tool_b", "output": "result_b_1", "status": "success"},
+    actual_steps = [
+        {"name": "step_b", "output": "result_b_2", "status": "success"},
+        {"name": "step_b", "error": "error", "status": "error"},
+        {"name": "step_a", "output": "result_a", "status": "success"},
+        {"name": "step_b", "output": "result_b_1", "status": "success"},
     ]
-    matches = get_tools_calls_matches(expected_calls, actual_calls)
+    matches = get_steps_matches(expected_steps, actual_steps)
     assert matches == [(-1, 0, 3, 1.0), (-1, 1, 0, 1.0)]
 
 

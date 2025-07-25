@@ -2,8 +2,8 @@ per_template:
   list_all_transformers_within_Substation_SUBSTATION:
     number_of_error_samples: 0
     number_of_success_samples: 10
-    tools_calls:
-      total_calls:
+    steps:
+      total:
         autocomplete_search: 10
         sparql_query: 8
       once_per_sample:
@@ -12,11 +12,11 @@ per_template:
       empty_results:
         autocomplete_search: 2
     answer_score:
-      sum: 8
+      sum: 8.0
       mean: 0.8
-      median: 1
-      min: 0
-      max: 1
+      median: 1.0
+      min: 0.0
+      max: 1.0
     input_tokens:
       sum: 2064559
       mean: 206455.9
@@ -26,7 +26,7 @@ per_template:
     output_tokens:
       sum: 1555
       mean: 155.5
-      median: 177
+      median: 177.0
       min: 46
       max: 212
     total_tokens:
@@ -44,35 +44,35 @@ per_template:
   list_all_substations_within_bidding_zone_REGION:
     number_of_error_samples: 0
     number_of_success_samples: 10
-    tools_calls:
-      total_calls:
+    steps:
+      total:
         autocomplete_search: 10
       once_per_sample:
         autocomplete_search: 10
       empty_results:
         autocomplete_search: 10
     answer_score:
-      sum: 0
-      mean: 0
-      median: 0
-      min: 0
-      max: 0
+      sum: 0.0
+      mean: 0.0
+      median: 0.0
+      min: 0.0
+      max: 0.0
     input_tokens:
       sum: 1471880
       mean: 147188
-      median: 147188
+      median: 147188.0
       min: 147188
       max: 147188
     output_tokens:
       sum: 571
       mean: 57.1
-      median: 57
+      median: 57.0
       min: 56
       max: 61
     total_tokens:
       sum: 1472451
       mean: 147245.1
-      median: 147245
+      median: 147245.0
       min: 147244
       max: 147249
     elapsed_sec:
@@ -84,21 +84,21 @@ per_template:
   list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION:
     number_of_error_samples: 1
     number_of_success_samples: 9
-    tools_calls:
-      total_calls:
+    steps:
+      total:
         autocomplete_search: 9
         sparql_query: 17
       once_per_sample:
         autocomplete_search: 9
         sparql_query: 9
-      error_calls:
+      errors:
         sparql_query: 8
     answer_score:
-      sum: 9
-      mean: 1
-      median: 1
-      min: 1
-      max: 1
+      sum: 9.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
     input_tokens:
       sum: 2601595
       mean: 289066.1111111111
@@ -126,23 +126,23 @@ per_template:
   list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2:
     number_of_error_samples: 0
     number_of_success_samples: 10
-    tools_calls:
-      total_calls:
+    steps:
+      total:
         autocomplete_search: 20
       once_per_sample:
         autocomplete_search: 10
       empty_results:
         autocomplete_search: 20
     answer_score:
-      sum: 0
-      mean: 0
-      median: 0
-      min: 0
-      max: 0
+      sum: 0.0
+      mean: 0.0
+      median: 0.0
+      min: 0.0
+      max: 0.0
     input_tokens:
       sum: 1472540
       mean: 147254
-      median: 147254
+      median: 147254.0
       min: 147254
       max: 147254
     output_tokens:
@@ -154,7 +154,7 @@ per_template:
     total_tokens:
       sum: 1473592
       mean: 147359.2
-      median: 147359
+      median: 147359.0
       min: 147359
       max: 147361
     elapsed_sec:
@@ -167,11 +167,11 @@ micro:
   number_of_error_samples: 1
   number_of_success_samples: 39
   answer_score:
-    sum: 17
+    sum: 17.0
     mean: 0.4358974358974359
-    median: 0
-    min: 0
-    max: 1
+    median: 0.0
+    min: 0.0
+    max: 1.0
   input_tokens:
     sum: 7610574
     mean: 195142.92307692306
