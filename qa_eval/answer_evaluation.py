@@ -6,7 +6,7 @@ from openai import OpenAI
 from tqdm import tqdm
 
 
-DATA_FILE_PATH = '../data/paws/validation.tsv'
+DATA_FILE_PATH = '../data/paws/knowledge-hub.tsv'
 PROMPT_FILE_PATH = 'prompts/template.md'
 OUT_FILE_PATH = 'results/knowledge-hub.tsv'
 OUT_FIELDS = ['#T', '#P', '#TP', 'LLM reasoning']
@@ -30,8 +30,6 @@ def evaluate_answers():
     client = OpenAI()
     with open(PROMPT_FILE_PATH, 'r', encoding='utf-8') as f:
         prompt_template = f.read()
-    Path(OUT_FILE_PATH).parent.mkdir(parents=True, exist_ok=True)
-    print(f'Writing results to {OUT_FILE_PATH}')
     with open(DATA_FILE_PATH, encoding='utf-8') as in_f:
         reader = csv.DictReader(in_f, delimiter='\t')
         Path(OUT_FILE_PATH).parent.mkdir(parents=True, exist_ok=True)
