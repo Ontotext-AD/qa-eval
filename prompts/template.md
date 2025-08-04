@@ -1,7 +1,7 @@
 Below are a query, a reference response and a candidate response to it.
 1. Extract all claims from each response
-2. Find matching claims between responses. Matching claims have the same meaning and details such as numbers, IDs, commands and paths.
-3. Output exactly the values listed below (nothing else).
+2. Find matching claims between responses. Matching claims have the same meaning and details such as subjects, names, locations, amounts, IDs, commands and paths.
+3. Output the values listed below (all and only those).
 
 # Query
 {question}
@@ -16,7 +16,7 @@ Below are a query, a reference response and a candidate response to it.
 * v1: Count of reference response claims
 * v2: Count of candidate response claims
 * v3: Count of matching claims
-* v4: Explanation of v1-v3 (in English)
+* v4: Explanation of v1-v3 in English
 
 # Value checks
 * 1 <= v1, v2
