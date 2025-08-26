@@ -5,7 +5,7 @@
 # QA Evaluation
 
 This is a Python module for assessing the quality of question-answering systems such as ones based on LLM agents, based on a set of questions and reference answers for them. This includes evaluating the final answer and the steps used
-to reach the answer (such as orchestrated and invoked tools), compared to the given reference steps.
+to reach the answer (such as orchestrated and executed steps), compared to the given reference steps.
 
 ## License
 
@@ -24,7 +24,7 @@ For issues or feature requests, please open [a GitHub issue](https://github.com/
 
 ## Usage
 
-To use this module you must provide a reference corpus that defines questions and (optionally) the expected tool calls for each question.
+To use this module you must provide a reference corpus that defines questions and (optionally) the expected steps for each question.
 
 ### Q&A Format
 
@@ -34,15 +34,15 @@ A reference corpus is a list of templates, each of which contains:
 - `questions` – A list of questions derived from this template, where each includes:
   - `id` – Unique question identifier
   - `question_text` – The natural language query passed to the LLM
-  - `reference_steps` – A list of expected steps / tool calls grouped by *level*.
-The assumption is that the final answer to the question is derived from the outputs of the tools, which are called last (last level).
+  - `reference_steps` – A list of expected steps grouped by *level*.
+The assumption is that the final answer to the question is derived from the outputs of the steps, which are executed last (last level).
 
-Each tool call includes:
+Each step includes:
 
-- `name` – The tool being called (e.g., `sparql_query`)
-- `args` – Arguments passed to the tool (e.g., SPARQL query)
-- `output` – The expected output from the tool
-- `output_media_type` – (optional, missing or one of `application/sparql-results+json`, `application/json`) - Indicates how the output of a tool must be processed
+- `name` – The type of step being performed (e.g., `sparql_query`)
+- `args` – Arguments of the step (e.g., arguments to a tool being called in the step, such as a SPARQL query)
+- `output` – The expected output from the step
+- `output_media_type` – (optional, missing or one of `application/sparql-results+json`, `application/json`) - Indicates how the output of a step must be processed
 - `ordered` – (optional, defaults to `false`) - only applicable for SPARQL query results, whether the order of the results matters.
 `false` means that the results are not ordered, hence for comparison we can re-order them.
 `true` means the results order matters and in order to match the order must be preserved.
@@ -50,7 +50,7 @@ Each tool call includes:
 
 #### Example Corpus
 
-The example corpus below illustrates a minimal but realistic Q&A dataset, showing two templates with associated questions and tool calls.
+The example corpus below illustrates a minimal but realistic Q&A dataset, showing two templates with associated questions and steps.
 
 ```yaml
 - template_id: list_all_transformers_within_Substation_SUBSTATION
@@ -387,12 +387,10 @@ aggregates = compute_aggregations(evaluation_results)
 - `template_id` - the template id
 - `question_id` - the question id
 - `question_text` - the natural language query
-- `reference_steps` - the expected tools calls as in the gold standard
+- `reference_steps` - the expected steps as in the gold standard
 - `actual_answer` - the LLM natural language answer
-- `actual_steps` - the actual tools calls by the LLM agent
-- `answer_score` - a real number between 0 and 1. It's calculated by comparing the results of the last tools calls, which are expected.
-If there is no match in the actual tools calls, then the score will be `0`.
-Otherwise, it's calculated as the number of the matched tools calls on the last step divided by the total tools calls from the last step.
+- `actual_steps` - the actual steps by the LLM agent
+- `answer_score` - a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
 - `input_tokens` - input tokens usage
 - `output_tokens` - output tokens usage
 - `total_tokens` - total tokens usage
@@ -411,11 +409,11 @@ Aggregations include:
   - `total_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `total_tokens` of all successful questions for this template
   - `elapsed_sec` - `sum`, `mean`, `median`, `min` and `max` statistics for `elapsed_sec` of all successful questions for this template
   - `answer_score` - `sum`, `mean`, `median`, `min` and `max` statistics for `answer_score` of all successful questions for this template
-  - `tools_calls` - statistics for the `tools_calls` for of all successful questions for this template. Includes:
-    - `total_calls` - for each tool how many times it was called
-    - `once_per_sample` - how many times each tool was called, but counted only once per question
-    - `empty_results` - how many times the tool was called, but it returned empty results
-    - `error_calls` - how many times the tool was called and this resulted in error
+  - `steps` - statistics for the steps for of all successful questions for this template. Includes:
+    - `steps` - for each step type how many times it was executed
+    - `once_per_sample` - how many times each step was executed, counted only once per question
+    - `empty_results` - how many times the step was executed and returned empty results
+    - `errors` - how many times the step was executed and resulted in error
 - `micro` - micro gives overall aggregate statistics across questions, treating each equally. It includes:
   - `number_of_error_samples` - total number of questions, which resulted in error response
   - `number_of_success_samples` - total number of questions, which resulted in successful response
@@ -438,8 +436,8 @@ per_template:
   list_all_transformers_within_Substation_SUBSTATION:
     number_of_error_samples: 0
     number_of_success_samples: 10
-    tools_calls:
-      total_calls:
+    steps:
+      total:
         autocomplete_search: 10
         sparql_query: 8
       once_per_sample:
@@ -480,8 +478,8 @@ per_template:
   list_all_substations_within_bidding_zone_REGION:
     number_of_error_samples: 0
     number_of_success_samples: 10
-    tools_calls:
-      total_calls:
+    steps:
+      total:
         autocomplete_search: 10
       once_per_sample:
         autocomplete_search: 10
@@ -520,14 +518,14 @@ per_template:
   list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION:
     number_of_error_samples: 1
     number_of_success_samples: 9
-    tools_calls:
-      total_calls:
+    steps:
+      total:
         autocomplete_search: 9
         sparql_query: 17
       once_per_sample:
         autocomplete_search: 9
         sparql_query: 9
-      error_calls:
+      errors:
         sparql_query: 8
     answer_score:
       sum: 9
@@ -562,8 +560,8 @@ per_template:
   list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2:
     number_of_error_samples: 0
     number_of_success_samples: 10
-    tools_calls:
-      total_calls:
+    steps:
+      total:
         autocomplete_search: 20
       once_per_sample:
         autocomplete_search: 10
@@ -645,7 +643,7 @@ macro:
     mean: 25.911653497483996
 ```
 
-## Tool call evaluation
+## Steps evaluation
 
 ### Retrieval
 
