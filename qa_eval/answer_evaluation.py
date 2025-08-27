@@ -5,7 +5,7 @@ from openai import OpenAI
 from tqdm import tqdm
 
 
-DATA_FILE_PATH = '../data/paws/knowledge-hub.tsv'
+DATA_FILE_PATH = '../data/knowledge-hub/data.tsv'
 PROMPT_FILE_PATH = 'prompts/template.md'
 OUT_FILE_PATH = 'results/knowledge-hub.tsv'
 OUT_FIELDS = ['#T', '#P', '#TP', 'LLM reasoning']
