@@ -1,5 +1,4 @@
 import csv
-import sys
 from pathlib import Path
 
 from openai import OpenAI
@@ -46,8 +45,7 @@ def evaluate_answers():
                 llm_output = call_llm(client, prompt)
                 out_f.write(llm_output + '\n')
                 out_f.flush()
-                print('.', end='')
-                sys.stdout.flush()
+                print('.', end='', flush=True)
         print()
 
 
