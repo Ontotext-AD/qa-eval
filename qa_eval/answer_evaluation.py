@@ -8,7 +8,7 @@ from tqdm import tqdm
 DATA_FILE_PATH = '../data/knowledge-hub/data.tsv'
 PROMPT_FILE_PATH = 'prompts/template.md'
 OUT_FILE_PATH = 'results/knowledge-hub.tsv'
-OUT_FIELDS = ['#T', '#P', '#TP', 'LLM reasoning']
+OUT_FIELDS = ['#T', '#P', '#TP', 'Reasoning', 'Error']
 LLM_MODEL = 'gpt-4o-mini'
 TEMPERATURE = 0.0
 
@@ -23,6 +23,21 @@ def call_llm(client: OpenAI, prompt: str) -> str:
         return response.choices[0].message.content.strip('\n')
     except Exception as e:
         return str(e).replace('\n', '    ')
+
+
+def extract_response_values(response: str) -> tuple[str, str, str, str, str]:
+    vals = response.split('\t')
+    if len(vals) >= 4:
+        vals = vals[:4]
+    try:
+        t, p, tp = map(int, vals[:3])
+    except ValueError:
+        msg = f'Non-int value: {t}\t{p}\t{tp}'
+        return '', '', '', vals[3], msg
+    if not (1 <=t and 1 <= p and 0 <= tp <= min(t, p)):
+        msg = f'Invalid int values: {t}\t{p}\t{tp}'
+        return '', '', '', vals[3], msg
+    return vals[0], vals[1], vals[2], vals[3], ''
 
 
 def evaluate_answers():
@@ -42,8 +57,9 @@ def evaluate_answers():
                     reference_answer=row['Reference answer'],
                     candidate_answer=row['Actual answer'],
                 )
-                llm_output = call_llm(client, prompt)
-                out_f.write(llm_output + '\n')
+                response_str = call_llm(client, prompt)
+                vals = extract_response_values(response_str)
+                out_f.write('\t'.join(vals) + '\n')
                 out_f.flush()
                 print('.', end='', flush=True)
         print()
