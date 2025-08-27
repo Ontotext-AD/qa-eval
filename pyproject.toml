@@ -31,3 +31,6 @@ pytest = "<9,>=8"
 pytest-cov = "<7,>=6"
 jsonlines = "4.0.0"
 pyyaml = "^6.0.2"
+
+[project.scripts]
+evaluate-answers = "qa_eval.answer_evaluation:evaluate_answers"
