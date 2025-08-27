@@ -14,7 +14,7 @@ LLM_MODEL = 'gpt-4o-mini'
 TEMPERATURE = 0.0
 
 
-def call_llm(client, prompt) -> str:
+def call_llm(client: OpenAI, prompt: str) -> str:
     try:
         response = client.chat.completions.create(
             model=LLM_MODEL,
