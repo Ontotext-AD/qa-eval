@@ -28,8 +28,11 @@ def call_llm(openai_client: OpenAI, prompt: str) -> str:
 
 def extract_response_values(response: str) -> tuple[str, str, str, str, str]:
     vals = response.split('\t')
-    if len(vals) >= 4:
-        vals = vals[:4]
+    n = len(vals)
+    if n < 4:
+        msg = f'Expected 4 tab-separated values: {response}'
+        return '', '', '', '', msg
+    vals = vals[:4]
     try:
         t, p, tp = map(int, vals[:3])
     except ValueError:
