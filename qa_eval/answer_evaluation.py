@@ -1,5 +1,4 @@
 import csv
-from io import TextIOWrapper
 from pathlib import Path
 
 from openai import OpenAI
