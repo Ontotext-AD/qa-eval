@@ -3,6 +3,40 @@ import io
 from pathlib import Path
 
 from qa_eval import answer_evaluation
+from qa_eval.answer_evaluation import extract_response_values
+
+
+def test_extract_response_values_expected_case():
+    response = '2\t3\t1\tsome reasoning'
+    result = extract_response_values(response)
+    assert result == ('2', '3', '1', 'some reasoning', '')
+
+
+def test_extract_response_values_five_values():
+    response = '2\t2\t2\thello\textra'
+    result = answer_evaluation.extract_response_values(response)
+    # only first 4 should be taken
+    assert result == ('2', '2', '2', 'hello', '')
+
+
+def test_extract_response_values_invalid_values():
+    response = '1\t1\t2\tsome reasoning'
+    result = extract_response_values(response)
+    assert result == ('', '', '', 'some reasoning', 'Invalid int values: 1\t1\t2')
+
+
+def test_extract_response_values_non_int():
+    response = '2\t2\tx\thello'
+    result = answer_evaluation.extract_response_values(response)
+    # t and p parse as ints, tp fails → error
+    assert result == ('', '', '', 'hello', 'Non-int value: 2\t2\tx\thello')
+
+
+def test_extract_response_values_too_few_values():
+    response = '2\t2\thello'
+    result = answer_evaluation.extract_response_values(response)
+    # fewer than 4 values → error
+    assert result == ('', '', '', '', 'Expected 4 tab-separated values: 2\t2\thello')
 
 
 def test_evaluate_answers(monkeypatch, tmp_path):
