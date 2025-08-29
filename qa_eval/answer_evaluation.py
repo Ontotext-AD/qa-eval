@@ -45,7 +45,7 @@ def extract_response_values(response: str) -> tuple[str, str, str, str, str]:
 
 def evaluate_answers():
     openai_client = OpenAI()
-    with open(PROMPT_FILE_PATH, 'r', encoding='utf-8') as f:
+    with open(PROMPT_FILE_PATH, encoding='utf-8') as f:
         prompt_template = f.read()
     with open(DATA_FILE_PATH, encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
