@@ -22,9 +22,16 @@ pip install qa-eval
 Developed and maintained by [Graphwise](https://graphwise.ai/).
 For issues or feature requests, please open [a GitHub issue](https://github.com/Ontotext-AD/qa-eval/issues).
 
-## Usage
+## Final Answer Evaluation
 
-To use this module you must provide a reference corpus that defines questions and (optionally) the expected steps for each question.
+1. Prepare an input TSV file with columns `Question`, `Reference answer` and `Actual answer`
+1. Modify file `answer_evaluation.py`, to set variable `DATA_FILE_PATH` to the path of the input TSV file
+1. Execute `poetry install --with answer-eval`
+1. Execute `poetry run evalaute-answers`
+
+## Steps Evaluation
+
+Provide a reference corpus of questions and expected steps, as specified below in secion [Q&A Format](#Q&A-Format).
 
 ### Q&A Format
 
@@ -643,11 +650,9 @@ macro:
     mean: 25.911653497483996
 ```
 
-## Steps evaluation
+### Retrieval Evaluation
 
-### Retrieval
-
-#### Recall@k
+#### Recall@k Metric
 
 The fraction of relevant items among the top 'k' recommendations. It answers the question: "Of all items the user cares about, how many did we inclide in the first k spots?"
 * **Formula**:
@@ -665,7 +670,7 @@ recall_at_k(
 )  # => 0.75
 ```
 
-#### Average Precision (AP)
+#### Average Precision (AP) Metric
 
 Evaluates a ranked list of recommendations by looking at the precision at the position of each correctly retrieved item. It rewards systems for placing relevant items higher up in the list. It's more sophisticated than just looking at precision at a single cutoff because it considers the entire ranking.
 * **Formula**:
