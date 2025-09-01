@@ -68,15 +68,27 @@ def run_evaluation(
                     question["reference_answer"],
                     actual_result["actual_answer"],
                 )
-                answer_eval = {
-                    "t": t,
-                    "p": p,
-                    "tp": tp,
-                    "reason": reason,
-                }
                 if error:
-                    answer_eval["error"] = error
-                eval_result["answer_eval"] = answer_eval
+                    eval_result["answer_eval_error"] = error
+                else:
+                    eval_result.update({
+                        "answer_eval_t": t,
+                        "answer_eval_p": p,
+                        "answer_eval_tp": tp,
+                        "answer_eval_reason": reason,
+                    })
+                    recall = t / tp if t is not None and tp else None
+                    precision = p / tp if p is not None and tp else None
+                    if recall is not None and precision is not None and recall + precision > 0:
+                        f1 = 2 * recall * precision / (recall + precision)
+                    else:
+                        f1 = None
+                    if recall is not None:
+                        eval_result["answer_eval_recall"] = recall
+                    if precision is not None:
+                        eval_result["answer_eval_precision"] = precision
+                    if f1 is not None:
+                        eval_result["answer_eval_f1"] = f1
 
             steps_score = evaluate_steps(reference_steps, actual_result["steps"])
             eval_result["steps_score"] = steps_score
@@ -99,8 +111,16 @@ def stats_for_series(values: list) -> dict[str, float]:
 
 
 def compute_aggregations(samples: list[dict]) -> dict:
-    data_series = ["steps_score", "input_tokens", "output_tokens", "total_tokens", "elapsed_sec"]
-
+    metrics = [
+        "answer_eval_recall",
+        "answer_eval_precision",
+        "answer_eval_f1",
+        "steps_score",
+        "input_tokens",
+        "output_tokens",
+        "total_tokens",
+        "elapsed_sec"
+    ]
     results_per_template = defaultdict(lambda: defaultdict(list))
     number_of_samples_per_template_by_status = defaultdict(lambda: defaultdict(int))
     steps_summary_per_template = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
@@ -116,8 +136,10 @@ def compute_aggregations(samples: list[dict]) -> dict:
 
         number_of_samples_per_template_by_status[template_id]["success"] += 1
 
-        for series in data_series:
-            results_per_template[template_id][series].append(sample[series])
+        for metric in metrics:
+            value = sample.get(metric)
+            if value is not None:
+                results_per_template[template_id][metric].append(value)
 
         seen = set()
         for step in sample["actual_steps"]:
@@ -150,10 +172,10 @@ def compute_aggregations(samples: list[dict]) -> dict:
                 for k1, v1 in steps_summary_per_template[template_id].items()
             },
         }
-        for series in data_series:
-            template_summary.update({
-                series: stats_for_series(results_per_template[template_id][series]),
-            })
+        for metric in metrics:
+            results_for_template = results_per_template[template_id]
+            series = results_for_template.get(metric, [])
+            template_summary[metric] = stats_for_series(series)
 
         summary["per_template"][template_id] = template_summary
 
@@ -163,18 +185,22 @@ def compute_aggregations(samples: list[dict]) -> dict:
         "number_of_success_samples": sum(
             [values["success"] for values in number_of_samples_per_template_by_status.values()]),
     }
-    for series in data_series:
-        summary["micro"].update({
-            series: stats_for_series([i for values in results_per_template.values() for i in values[series]]),
-        })
+    for metric in metrics:
+        series = [
+            i
+            for values in results_per_template.values()
+            for i in values[metric]
+            if values.get(metric) is not None
+        ]
+        summary["micro"][metric] = stats_for_series(series)
 
     summary["macro"] = {}
-    for series in data_series:
-        means = [values[series]["mean"] for template_id, values in summary["per_template"].items()]
-        summary["macro"].update({
-            series: {
-                "mean": mean(means) if means else 0
-            }
-        })
+    for metric in metrics:
+        means = [
+            values[metric]["mean"]
+            for template_id, values in summary["per_template"].items()
+            if values.get(metric) is not None
+        ]
+        summary["macro"][metric] = {"mean": mean(means) if means else 0}
 
     return summary

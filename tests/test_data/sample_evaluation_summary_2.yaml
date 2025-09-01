@@ -2,6 +2,24 @@ per_template:
   list_all_transformers_within_Substation_SUBSTATION:
     number_of_error_samples: 10
     number_of_success_samples: 0
+    answer_eval_recall:
+        max: 0
+        mean: 0
+        median: 0
+        min: 0
+        sum: 0
+    answer_eval_precision:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
+    answer_eval_f1:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
     steps: {}
     steps_score:
       sum: 0
@@ -36,6 +54,24 @@ per_template:
   list_all_substations_within_bidding_zone_REGION:
     number_of_error_samples: 10
     number_of_success_samples: 0
+    answer_eval_recall:
+        max: 0
+        mean: 0
+        median: 0
+        min: 0
+        sum: 0
+    answer_eval_precision:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
+    answer_eval_f1:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
     steps: {}
     steps_score:
       sum: 0
@@ -70,6 +106,24 @@ per_template:
   list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION:
     number_of_error_samples: 10
     number_of_success_samples: 0
+    answer_eval_recall:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
+    answer_eval_precision:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
+    answer_eval_f1:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
     steps: {}
     steps_score:
       sum: 0
@@ -105,6 +159,24 @@ per_template:
     number_of_error_samples: 10
     number_of_success_samples: 0
     steps: {}
+    answer_eval_recall:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
+    answer_eval_precision:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
+    answer_eval_f1:
+      max: 0
+      mean: 0
+      median: 0
+      min: 0
+      sum: 0
     steps_score:
       sum: 0
       mean: 0
@@ -138,6 +210,24 @@ per_template:
 micro:
   number_of_error_samples: 40
   number_of_success_samples: 0
+  answer_eval_recall:
+    max: 0
+    mean: 0
+    median: 0
+    min: 0
+    sum: 0
+  answer_eval_precision:
+    max: 0
+    mean: 0
+    median: 0
+    min: 0
+    sum: 0
+  answer_eval_f1:
+    max: 0
+    mean: 0
+    median: 0
+    min: 0
+    sum: 0
   steps_score:
     sum: 0
     mean: 0
@@ -169,6 +259,12 @@ micro:
     min: 0
     max: 0
 macro:
+  answer_eval_recall:
+    mean: 0
+  answer_eval_precision:
+    mean: 0
+  answer_eval_f1:
+    mean: 0
   steps_score:
     mean: 0
   input_tokens:
