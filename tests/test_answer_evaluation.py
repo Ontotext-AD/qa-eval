@@ -47,6 +47,8 @@ def test_evaluate_answers(monkeypatch, tmp_path):
     out_file_name = tmp_path / Path(answer_evaluation.OUT_FILE_PATH).name
     monkeypatch.setattr(answer_evaluation, 'OUT_FILE_PATH', str(out_file_name))
 
+    # Mock open()
+    #
     real_open = builtins.open
 
     def mock_open(path, *args, **kwargs):
@@ -58,7 +60,8 @@ def test_evaluate_answers(monkeypatch, tmp_path):
 
     monkeypatch.setattr(builtins, 'open', mock_open)
 
-    # Mock call_llm and tqdm
+    # Mock OpenAI(), call_llm() and tqdm()
+    monkeypatch.setattr(answer_evaluation, 'OpenAI', lambda: None)
     monkeypatch.setattr(answer_evaluation, 'call_llm', lambda *_: '2\t2\t2\thello')
     monkeypatch.setattr(answer_evaluation, 'tqdm', lambda x: x)
 
