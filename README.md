@@ -26,6 +26,7 @@ For issues or feature requests, please open [a GitHub issue](https://github.com/
 
 1. Prepare an input TSV file with columns `Question`, `Reference answer` and `Actual answer`
 1. Modify file `answer_evaluation.py`, to set variable `DATA_FILE_PATH` to the path of the input TSV file
+1. Execute `poetry install --with answer-eval`
 1. Execute `poetry run evalaute-answers`
 
 ## Steps Evaluation
