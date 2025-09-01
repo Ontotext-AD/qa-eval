@@ -17,11 +17,11 @@ repository = "https://github.com/Ontotext-AD/qa-eval"
 requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry.dependencies]
-openai = { version = "^1.97.0", optional = true }
+[tool.poetry.group.answer-eval]
+optional = true
 
-[tool.poetry.extras]
-answer-eval = ["openai"]
+[tool.poetry.group.answer-eval.dependencies]
+openai = "^1.97.0"
 
 [tool.poetry.group.test]
 optional = true
