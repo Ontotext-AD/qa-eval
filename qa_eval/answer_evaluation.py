@@ -37,7 +37,7 @@ def extract_response_values(response: str) -> tuple[str, str, str, str, str]:
     except ValueError:
         msg = f'Non-int value: {response}'
         return '', '', '', vals[3], msg
-    if not (1 <=t and 1 <= p and 0 <= tp <= min(t, p)):
+    if any([t < 1, p < 1, tp < 1, tp > t, tp > p]):
         msg = f'Invalid int values: {t}\t{p}\t{tp}'
         return '', '', '', vals[3], msg
     return vals[0], vals[1], vals[2], vals[3], ''
