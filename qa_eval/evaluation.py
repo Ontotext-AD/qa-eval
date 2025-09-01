@@ -3,6 +3,8 @@ from collections import defaultdict
 from statistics import mean, median
 from typing import Any
 
+from qa_eval.answer_evaluation import AnswerOpenAIEvaluator
+
 from .steps import get_steps_matches
 
 
@@ -24,48 +26,65 @@ def evaluate_steps(
 
 def run_evaluation(
         gsc_templates: list[dict],
-        chat_responses: dict,
+        responses_dict: dict,
 ) -> list[dict]:
+    answer_evaluator = None
     evaluation_results = []
     for template in gsc_templates:
         template_id = template["template_id"]
-        actual_steps_count_total, actual_steps_error_total = defaultdict(int), defaultdict(int)
+        #actual_steps_count_total, actual_steps_error_total = defaultdict(int), defaultdict(int)
         for question in template["questions"]:
-            actual_results = chat_responses[question["id"]]
+            actual_result = responses_dict[question["id"]]
             reference_steps = question["reference_steps"]
-            if "error" in actual_results:
-                evaluation_results.append({
-                    "template_id": template_id,
-                    "question_id": actual_results["question_id"],
-                    "question_text": question["question_text"],
-                    "reference_steps": reference_steps,
-                    "status": "error",
-                    "error": actual_results["error"],
-                })
-                continue
-
-            actual_steps = actual_results["steps"]
-            score = evaluate_steps(reference_steps, actual_steps)
-
-            for step in actual_steps:
-                actual_steps_count_total[step["name"]] += 1
-                if step["status"] == "error":
-                    actual_steps_error_total[step["name"]] += 1
-
-            evaluation_results.append({
-                "status": "success",
+            eval_result = {
                 "template_id": template_id,
-                "question_id": actual_results["question_id"],
+                "question_id": actual_result["question_id"],
                 "question_text": question["question_text"],
                 "reference_steps": reference_steps,
-                "actual_answer": actual_results["actual_answer"],
-                "actual_steps": actual_steps,
-                "answer_score": score,
-                "input_tokens": actual_results["input_tokens"],
-                "output_tokens": actual_results["output_tokens"],
-                "total_tokens": actual_results["total_tokens"],
-                "elapsed_sec": actual_results["elapsed_sec"],
+            }
+            if "error" in actual_result:
+                eval_result.update({
+                    "status": "error",
+                    "error": actual_result["error"],
+                })
+                evaluation_results.append(eval_result)
+                continue
+
+            eval_result.update({
+                "status": "success",
+                "actual_steps": actual_result["steps"],
+                "actual_answer": actual_result["actual_answer"],
+                "input_tokens": actual_result["input_tokens"],
+                "output_tokens": actual_result["output_tokens"],
+                "total_tokens": actual_result["total_tokens"],
+                "elapsed_sec": actual_result["elapsed_sec"],
             })
+            if "reference_answer" in question:
+                eval_result["reference_answer"] = question["reference_answer"]
+                if not answer_evaluator:
+                    answer_evaluator = AnswerOpenAIEvaluator()
+                t, p, tp, reason, error = answer_evaluator.evaluate_answer(
+                    question["question_text"],
+                    question["reference_answer"],
+                    actual_result["actual_answer"],
+                )
+                answer_eval = {
+                    "t": t,
+                    "p": p,
+                    "tp": tp,
+                    "reason": reason,
+                }
+                if error:
+                    answer_eval["error"] = error
+                eval_result["answer_eval"] = answer_eval
+
+            steps_score = evaluate_steps(reference_steps, actual_result["steps"])
+            eval_result["steps_score"] = steps_score
+            evaluation_results.append(eval_result)
+            # for step in eval_result["steps"]:
+            #     actual_steps_count_total[step["name"]] += 1
+            #     if step["status"] == "error":
+            #         actual_steps_error_total[step["name"]] += 1
     return evaluation_results
 
 
@@ -80,7 +99,7 @@ def stats_for_series(values: list) -> dict[str, float]:
 
 
 def compute_aggregations(samples: list[dict]) -> dict:
-    data_series = ["answer_score", "input_tokens", "output_tokens", "total_tokens", "elapsed_sec"]
+    data_series = ["steps_score", "input_tokens", "output_tokens", "total_tokens", "elapsed_sec"]
 
     results_per_template = defaultdict(lambda: defaultdict(list))
     number_of_samples_per_template_by_status = defaultdict(lambda: defaultdict(int))

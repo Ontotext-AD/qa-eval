@@ -22,16 +22,20 @@ pip install qa-eval
 Developed and maintained by [Graphwise](https://graphwise.ai/).
 For issues or feature requests, please open [a GitHub issue](https://github.com/Ontotext-AD/qa-eval/issues).
 
-## Final Answer Evaluation
+## Final Answer Evaluation Only
+
+To evaluate only final answers (system responses), you can clone this repository and run the code on the command line:
 
 1. Prepare an input TSV file with columns `Question`, `Reference answer` and `Actual answer`
 1. Modify file `answer_evaluation.py`, to set variable `DATA_FILE_PATH` to the path of the input TSV file
 1. Execute `poetry install --with answer-eval`
 1. Execute `poetry run evalaute-answers`
 
-## Steps Evaluation
+## Full Evaluation
 
-Provide a reference corpus of questions and expected steps, as specified below in secion [Q&A Format](#Q&A-Format).
+To evaluate the final answers and steps
+1. [install](#Installation) this package
+1. Call it from your code with a reference corpus of questions and expected steps, as specified below in secion [Q&A Format](#Q&A-Format).
 
 ### Q&A Format
 
@@ -42,6 +46,7 @@ A reference corpus is a list of templates, each of which contains:
   - `id` – Unique question identifier
   - `question_text` – The natural language query passed to the LLM
   - `reference_steps` – A list of expected steps grouped by *level*.
+  - `reference_answer` – (optional) The expected answer to the question
 The assumption is that the final answer to the question is derived from the outputs of the steps, which are executed last (last level).
 
 Each step includes:
@@ -64,6 +69,7 @@ The example corpus below illustrates a minimal but realistic Q&A dataset, showin
   questions:
   - id: c10bbc8dce98a4b8832d125134a16153
     question_text: List all transformers within Substation OSLO
+    reference_answer: OSLO T1, OSLO T2
     reference_steps:
     - - name: sparql_query
         args:
@@ -92,6 +98,7 @@ The example corpus below illustrates a minimal but realistic Q&A dataset, showin
           - transformerName
   - id: 8bbea9a10876a04ad77a82fd2aedee40
     question_text: List all transformers within Substation STAVANGER
+    reference_answer: STAVANGET1
     reference_steps:
     - - name: sparql_query
         args:
@@ -120,6 +127,7 @@ The example corpus below illustrates a minimal but realistic Q&A dataset, showin
   questions:
   - id: d566b1e9da418ac83e520a66cc7af4d7
     question_text: List all substations within bidding zone NO2 SGR
+    reference_answer: ARENDAL, BLAFALLI, STAVANGER, KRISTIA_HVDC, KVILLDAL, SANDEFJORD, KRISTIANSAND, FEDA_HVDC
     reference_steps:
     - - name: sparql_query
         args:
@@ -161,6 +169,7 @@ The example corpus below illustrates a minimal but realistic Q&A dataset, showin
         ordered: false
   - id: 03d4283773b4387114342518176b128b
     question_text: List all substations within bidding zone NO1 SGR
+    reference_answer: HALDEN, KONGSBERG, SYLLING, OSLO, ASKER, SYSLE, SKIEN, TRETTEN
     reference_steps:
     - - name: sparql_query
         args:
@@ -273,6 +282,7 @@ aggregates = compute_aggregations(evaluation_results)
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: c10bbc8dce98a4b8832d125134a16153
   question_text: List all transformers within Substation OSLO
+  reference_answer: OSLO T1, OSLO T2
   reference_steps:
   - - name: sparql_query
       args:
@@ -302,9 +312,13 @@ aggregates = compute_aggregations(evaluation_results)
       matches: call_3b3zHJnBXwYYSg04BiFGAAgO
   actual_answer: |-
     The following transformers are located within the Substation OSLO:
-
     1. **OSLO T2** (IRI: `urn:uuid:f1769de8-9aeb-11e5-91da-b8763fd99c5f`)
     2. **OSLO T1** (IRI: `urn:uuid:f1769dd6-9aeb-11e5-91da-b8763fd99c5f`)
+  answer_eval:
+    - t: 2
+    - p: 2
+    - tp: 2
+    - reason: The candidate answer contains exactly the transformers listed in the reference answer, asked in the question
   actual_steps:
   - name: autocomplete_search
     args:
@@ -384,7 +398,7 @@ aggregates = compute_aggregations(evaluation_results)
           ]
         }
       }
-  answer_score: 1
+  steps_score: 1
   input_tokens: 221339
   output_tokens: 212
   total_tokens: 221551
@@ -396,8 +410,9 @@ aggregates = compute_aggregations(evaluation_results)
 - `question_text` - the natural language query
 - `reference_steps` - the expected steps as in the gold standard
 - `actual_answer` - the LLM natural language answer
+- `answer_eval` - an object containing answer evaluation results
 - `actual_steps` - the actual steps by the LLM agent
-- `answer_score` - a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
+- `steps_score` - a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
 - `input_tokens` - input tokens usage
 - `output_tokens` - output tokens usage
 - `total_tokens` - total tokens usage
@@ -415,7 +430,7 @@ Aggregations include:
   - `output_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `output_tokens` of all successful questions for this template
   - `total_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `total_tokens` of all successful questions for this template
   - `elapsed_sec` - `sum`, `mean`, `median`, `min` and `max` statistics for `elapsed_sec` of all successful questions for this template
-  - `answer_score` - `sum`, `mean`, `median`, `min` and `max` statistics for `answer_score` of all successful questions for this template
+  - `steps_score` - `sum`, `mean`, `median`, `min` and `max` statistics for `steps_score` of all successful questions for this template
   - `steps` - statistics for the steps for of all successful questions for this template. Includes:
     - `steps` - for each step type how many times it was executed
     - `once_per_sample` - how many times each step was executed, counted only once per question
@@ -428,13 +443,13 @@ Aggregations include:
   - `output_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `output_tokens` of all successful questions
   - `total_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `total_tokens` of all successful questions
   - `elapsed_sec` - `sum`, `mean`, `median`, `min` and `max` statistics for `elapsed_sec` of all successful questions
-  - `answer_score` - `sum`, `mean`, `median`, `min` and `max` statistics for `answer_score` of all successful questions
+  - `steps_score` - `sum`, `mean`, `median`, `min` and `max` statistics for `steps_score` of all successful questions
 - `macro` - macro gives averages across templates, i.e., it computes the mean of each metric per template, then averages those means. It includes:
   - `input_tokens` - `mean` for `input_tokens`
   - `output_tokens` - `mean` for `output_tokens`
   - `total_tokens` - `mean` for `total_tokens`
   - `elapsed_sec` - `mean` for `elapsed_sec`
-  - `answer_score` - `mean` for `answer_score`
+  - `steps_score` - `mean` for `steps_score`
 
 Example aggregations:
 
@@ -452,7 +467,7 @@ per_template:
         sparql_query: 8
       empty_results:
         autocomplete_search: 2
-    answer_score:
+    steps_score:
       sum: 8
       mean: 0.8
       median: 1
@@ -492,7 +507,7 @@ per_template:
         autocomplete_search: 10
       empty_results:
         autocomplete_search: 10
-    answer_score:
+    steps_score:
       sum: 0
       mean: 0
       median: 0
@@ -534,7 +549,7 @@ per_template:
         sparql_query: 9
       errors:
         sparql_query: 8
-    answer_score:
+    steps_score:
       sum: 9
       mean: 1
       median: 1
@@ -574,7 +589,7 @@ per_template:
         autocomplete_search: 10
       empty_results:
         autocomplete_search: 20
-    answer_score:
+    steps_score:
       sum: 0
       mean: 0
       median: 0
@@ -607,7 +622,7 @@ per_template:
 micro:
   number_of_error_samples: 1
   number_of_success_samples: 39
-  answer_score:
+  steps_score:
     sum: 17
     mean: 0.4358974358974359
     median: 0
@@ -638,7 +653,7 @@ micro:
     min: 2.8653159141540527
     max: 55.4010910987854
 macro:
-  answer_score:
+  steps_score:
     mean: 0.45
   input_tokens:
     mean: 197491.0027777778

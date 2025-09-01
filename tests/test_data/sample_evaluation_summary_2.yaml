@@ -3,7 +3,7 @@ per_template:
     number_of_error_samples: 10
     number_of_success_samples: 0
     steps: {}
-    answer_score:
+    steps_score:
       sum: 0
       mean: 0
       median: 0
@@ -37,7 +37,7 @@ per_template:
     number_of_error_samples: 10
     number_of_success_samples: 0
     steps: {}
-    answer_score:
+    steps_score:
       sum: 0
       mean: 0
       median: 0
@@ -71,7 +71,7 @@ per_template:
     number_of_error_samples: 10
     number_of_success_samples: 0
     steps: {}
-    answer_score:
+    steps_score:
       sum: 0
       mean: 0
       median: 0
@@ -105,7 +105,7 @@ per_template:
     number_of_error_samples: 10
     number_of_success_samples: 0
     steps: {}
-    answer_score:
+    steps_score:
       sum: 0
       mean: 0
       median: 0
@@ -138,7 +138,7 @@ per_template:
 micro:
   number_of_error_samples: 40
   number_of_success_samples: 0
-  answer_score:
+  steps_score:
     sum: 0
     mean: 0
     median: 0
@@ -169,7 +169,7 @@ micro:
     min: 0
     max: 0
 macro:
-  answer_score:
+  steps_score:
     mean: 0
   input_tokens:
     mean: 0

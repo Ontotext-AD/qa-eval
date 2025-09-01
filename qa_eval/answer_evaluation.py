@@ -13,66 +13,85 @@ LLM_MODEL = 'gpt-4o-mini'
 TEMPERATURE = 0.0
 
 
-def call_llm(openai_client: OpenAI, prompt: str) -> str:
-    try:
-        response = openai_client.chat.completions.create(
-            model=LLM_MODEL,
-            messages=[{'role': 'user', 'content': prompt}],
-            temperature=TEMPERATURE
-        )
-        return response.choices[0].message.content.strip('\n')
-    except Exception as e:
-        return str(e).replace('\n', '    ')
 
-
-def extract_response_values(response: str) -> tuple[str, str, str, str, str]:
+def extract_response_values(response: str) -> tuple[int | None, int | None, int | None, str, str]:
     vals = response.split('\t')
     n = len(vals)
     if n < 4:
         msg = f'Expected 4 tab-separated values: {response}'
-        return '', '', '', '', msg
+        return None, None, None, '', msg
     vals = vals[:4]
     try:
         t, p, tp = map(int, vals[:3])
     except ValueError:
         msg = f'Non-int value: {response}'
-        return '', '', '', vals[3], msg
+        return None, None, None, vals[3], msg
     if any([t < 1, p < 1, tp < 1, tp > t, tp > p]):
         msg = f'Invalid int values: {t}\t{p}\t{tp}'
-        return '', '', '', vals[3], msg
-    return vals[0], vals[1], vals[2], vals[3], ''
+        return None, None, None, vals[3], msg
+    return t, p, tp, vals[3], ''
 
 
-def evaluate_answers(
+class AnswerOpenAIEvaluator:
+    def __init__(
+        self,
+        prompt_file_path: str | Path = PROMPT_FILE_PATH,
+        temperature : float = TEMPERATURE
+    ):
+        with open(prompt_file_path, encoding='utf-8') as f:
+            self.prompt_template = f.read()
+        self.openai_client = OpenAI()
+        self.temperature = temperature
+
+    def call_llm(self, prompt: str) -> str:
+        try:
+            response = self.openai_client.chat.completions.create(
+                model=LLM_MODEL,
+                messages=[{'role': 'user', 'content': prompt}],
+                temperature=self.temperature
+            )
+            return response.choices[0].message.content.strip('\n')
+        except Exception as e:
+            return str(e).replace('\n', '    ')
+
+    def evaluate_answer(
+        self,
+        question: str,
+        reference_answer: str,
+        actual_answer: str
+    ):
+        prompt = self.prompt_template.format(
+            question=question,
+            reference_answer=reference_answer,
+            candidate_answer=actual_answer,
+        )
+        response_str = self.call_llm(prompt)
+        return extract_response_values(response_str)
+
+
+def evaluate_and_write(
     prompt_file_path: str | Path,
     data_file_path: str | Path,
     out_file_path: str | Path,
 ) -> None:
-    openai_client = OpenAI()
-    with open(prompt_file_path, encoding='utf-8') as f:
-        prompt_template = f.read()
+    evaluator = AnswerOpenAIEvaluator(prompt_file_path)
     with open(data_file_path, encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
         rows = [row for row in reader]
     print(f'Writing results to {out_file_path}')
     Path(out_file_path).parent.mkdir(parents=True, exist_ok=True)
     with open(out_file_path, 'w', encoding='utf-8') as f:
-        f.write('\t'.join(OUT_FIELDS) + '\n')
+        writer = csv.writer(f, delimiter='\t')
+        writer.writerow(OUT_FIELDS)
         for row in tqdm(rows):
-            prompt = prompt_template.format(
-                question=row['Question'],
-                reference_answer=row['Reference answer'],
-                candidate_answer=row['Actual answer'],
+            vals = evaluator.evaluate_answer(
+                row['Question'],
+                row['Reference answer'],
+                row['Actual answer']
             )
-            response_str = call_llm(openai_client, prompt)
-            vals = extract_response_values(response_str)
-            f.write('\t'.join(vals) + '\n')
+            writer.writerow(vals)
             f.flush()
 
 
-def main():
-    evaluate_answers(PROMPT_FILE_PATH, DATA_FILE_PATH, OUT_FILE_PATH)
-
-
 if __name__ == '__main__':
-    main()
+    evaluate_and_write(PROMPT_FILE_PATH, DATA_FILE_PATH, OUT_FILE_PATH)
