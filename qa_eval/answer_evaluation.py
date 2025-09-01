@@ -43,16 +43,20 @@ def extract_response_values(response: str) -> tuple[str, str, str, str, str]:
     return vals[0], vals[1], vals[2], vals[3], ''
 
 
-def evaluate_answers():
+def evaluate_answers(
+    prompt_file_path: str | Path,
+    data_file_path: str | Path,
+    out_file_path: str | Path,
+) -> None:
     openai_client = OpenAI()
-    with open(PROMPT_FILE_PATH, encoding='utf-8') as f:
+    with open(prompt_file_path, encoding='utf-8') as f:
         prompt_template = f.read()
-    with open(DATA_FILE_PATH, encoding='utf-8') as f:
+    with open(data_file_path, encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
         rows = [row for row in reader]
-    print(f'Writing results to {OUT_FILE_PATH}')
-    Path(OUT_FILE_PATH).parent.mkdir(parents=True, exist_ok=True)
-    with open(OUT_FILE_PATH, 'w', encoding='utf-8') as f:
+    print(f'Writing results to {out_file_path}')
+    Path(out_file_path).parent.mkdir(parents=True, exist_ok=True)
+    with open(out_file_path, 'w', encoding='utf-8') as f:
         f.write('\t'.join(OUT_FIELDS) + '\n')
         for row in tqdm(rows):
             prompt = prompt_template.format(
@@ -66,5 +70,9 @@ def evaluate_answers():
             f.flush()
 
 
+def main():
+    evaluate_answers(PROMPT_FILE_PATH, DATA_FILE_PATH, OUT_FILE_PATH)
+
+
 if __name__ == '__main__':
-    evaluate_answers()
+    main()

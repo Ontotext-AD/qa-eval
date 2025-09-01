@@ -43,18 +43,17 @@ def test_evaluate_answers(monkeypatch, tmp_path):
     mock_prompt_content = 'Prompt with {question} {reference_answer} {candidate_answer}'
     mock_input_content = 'Question\tReference answer\tActual answer\nQ1\tRef\tAns\n'
 
-    # Redirect OUT_FILE_PATH to a temporary file
-    out_file_name = tmp_path / Path(answer_evaluation.OUT_FILE_PATH).name
-    monkeypatch.setattr(answer_evaluation, 'OUT_FILE_PATH', str(out_file_name))
+    prompt_file_path = 'prompt_file_path'
+    data_file_path = 'data_file_path'
+    out_file_path = tmp_path / 'out_file_name'
 
     # Mock open()
-    #
     real_open = builtins.open
 
     def mock_open(path, *args, **kwargs):
-        if path == answer_evaluation.PROMPT_FILE_PATH:
+        if path == prompt_file_path:
             return io.StringIO(mock_prompt_content)
-        elif path == answer_evaluation.DATA_FILE_PATH:
+        elif path == data_file_path:
             return io.StringIO(mock_input_content)
         return real_open(path, *args, **kwargs)
 
@@ -66,9 +65,9 @@ def test_evaluate_answers(monkeypatch, tmp_path):
     monkeypatch.setattr(answer_evaluation, 'tqdm', lambda x: x)
 
     # Run
-    answer_evaluation.evaluate_answers()
+    answer_evaluation.evaluate_answers(prompt_file_path, data_file_path, out_file_path)
 
     # Verify output file content
-    written = out_file_name.read_text().splitlines()
+    written = out_file_path.read_text().splitlines()
     assert written[0].split('\t') == answer_evaluation.OUT_FIELDS
     assert written[1].split('\t') == ['2', '2', '2', 'hello', '']
