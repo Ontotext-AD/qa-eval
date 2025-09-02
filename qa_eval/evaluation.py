@@ -89,6 +89,7 @@ def add_answer_evaluation(
 def run_evaluation(
         qa_dataset: list[dict],
         responses_dict: dict,
+        use_llm_metrics: bool = False
 ) -> list[dict]:
     answer_evaluator = None
     evaluation_results = []
@@ -111,6 +112,20 @@ def run_evaluation(
                 evaluation_results.append(eval_result)
                 continue
             eval_result["status"] = "success"
+            if use_llm_metrics:
+                from answer_relevance import compute_answer_relevance
+                relevance_dict = compute_answer_relevance(
+                    question["question_text"],
+                    actual_result["actual_answer"]
+                )
+                if relevance_dict["status"] == "processed":
+                    eval_result["answer_relevance"] = relevance_dict["score"]
+                    eval_result["answer_relevance_cost"] = relevance_dict["cost"]
+                else:
+                    eval_result["answer_relevance_error"] = relevance_dict["error_type"]
+                if relevance_dict.get("details"):
+                    eval_result["answer_relevance_details"] = relevance_dict["details"]
+
             if "reference_answer" in question:
                 from qa_eval.answer_correctness import OpenAIAnswerEvaluator
                 if not answer_evaluator:

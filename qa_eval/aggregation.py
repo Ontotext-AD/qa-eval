@@ -5,6 +5,8 @@ from typing import Any, Iterable
 
 
 METRICS = [
+    "answer_relevance",
+    "answer_relevance_cost",
     "answer_recall",
     "answer_precision",
     "answer_f1",
