@@ -7,17 +7,17 @@ from .steps import get_steps_matches
 
 
 def compute_recall_precision_f1(
-    positives: int | None,
-    predicted_positives: int | None,
-    true_positives: int | None,
+    n_pos: int | None,
+    n_pred_pos: int | None,
+    n_true_pos: int | None,
 ) -> tuple[float | None, float | None, float | None]:
     recall = None
     precision = None
     f1 = None
-    if true_positives is not None and positives:
-        recall = true_positives / positives
-    if true_positives is not None and predicted_positives:
-        precision = true_positives / predicted_positives
+    if n_true_pos is not None and n_pos:
+        recall = n_true_pos / n_pos
+    if n_true_pos is not None and n_pred_pos:
+        precision = n_true_pos / n_pred_pos
     if precision is not None and recall is not None and precision + recall > 0:
         f1 = 2 * (precision * recall) / (precision + recall)
     return recall, precision, f1
@@ -79,7 +79,7 @@ def run_evaluation(
                 eval_result["reference_answer"] = question["reference_answer"]
                 if not answer_evaluator:
                     answer_evaluator = AnswerOpenAIEvaluator()
-                pos, pred_pos, tp, reason, error = answer_evaluator.evaluate_answer(
+                n_pos, n_pred_pos, n_true_pos, reason, error = answer_evaluator.evaluate_answer(
                     question["question_text"],
                     question["reference_answer"],
                     actual_result["actual_answer"],
@@ -88,19 +88,22 @@ def run_evaluation(
                     eval_result["answer_eval_error"] = error
                 else:
                     eval_result.update({
-                        # Nested output would be much cleaner:
+                        # Nested output would be cleaner:
                         # ```yaml
                         # answer_eval:
-                        #     t: 0
-                        #     ....
+                        #     n_pos: ...
+                        #     n_pred_pos: ...
+                        #     n_true_pos: ...
                         # ```
                         # but would complicate aggregation
-                        "answer_eval_t": pos,
-                        "answer_eval_p": pred_pos,
-                        "answer_eval_tp": tp,
+                        "answer_eval_pos": n_pos,
+                        "answer_eval_pred_pos": n_pred_pos,
+                        "answer_eval_true_pos": n_true_pos,
                         "answer_eval_reason": reason,
                     })
-                    recall, precision, f1 = compute_recall_precision_f1(pos, pred_pos, tp)
+                    recall, precision, f1 = compute_recall_precision_f1(
+                        n_pos, n_pred_pos, n_true_pos
+                    )
                     if recall is not None:
                         eval_result["answer_eval_recall"] = recall
                     if precision is not None:
