@@ -77,7 +77,7 @@ def run_evaluation(
                     actual_result["actual_answer"],
                 )
                 if error:
-                    eval_result["answer_f1error"] = error
+                    eval_result["answer_eval_error"] = error
                 else:
                     eval_result.update({
                         # Nested output would be cleaner:
@@ -91,7 +91,7 @@ def run_evaluation(
                         "answer_n_pos": n_pos,
                         "answer_n_pred_pos": n_pred_pos,
                         "answer_n_true_pos": n_true_pos,
-                        "answer_f1reason": reason,
+                        "answer_eval_reason": reason,
                     })
                     recall, precision, f1 = compute_recall_precision_f1(
                         n_pos, n_pred_pos, n_true_pos
