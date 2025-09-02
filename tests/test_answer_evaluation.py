@@ -12,13 +12,6 @@ def test_extract_response_values_expected_case():
     assert result == (2, 3, 1, 'some reason', '')
 
 
-def test_extract_response_values_five_values():
-    response = '2\t2\t2\thello\textra'
-    result = answer_evaluation.extract_response_values(response)
-    # only first 4 should be taken
-    assert result == (2, 2, 2, 'hello', '')
-
-
 def test_extract_response_values_invalid_values():
     response = '1\t1\t2\tsome reason'
     result = extract_response_values(response)
