@@ -410,10 +410,16 @@ The output is a list of statistics for each question from the Q&A dataset. Here 
 - `template_id` - the template id
 - `question_id` - the question id
 - `question_text` - the natural language query
-- `reference_steps` - the expected steps as in the gold standard
-- `actual_answer` - the LLM natural language answer
-- `answer_eval` - an object containing answer evaluation results
-- `actual_steps` - the actual steps by the LLM agent
+- `reference_steps` - (optional) copy of the expected steps in the Q&A dataset, if specified there
+- `reference_answer` - (optional) copy of the expected answer in the Q&A dataset, if specified there
+- `actual_answer` - (optional) copy of the actual answer of the LLM agent from the output to evaluate, if specified there
+- `answer_n_pos` - (optional) number of claims extracted from the reference answer, if a reference answer and actual answer are available
+- `answer_n_pred_pos` - (optional) number of claims extracted from the answer being evaluated, if a reference answer and actual answer are available
+- `answer_n_true_pos` - (optional) number of matching claims between the reference answer and the actual answer, if a reference answer and actual answer are available
+- `answer_recall` - (optional) `answer_n_true_pos / answer_n_pos`
+- `answer_precision` - (optional) `answer_n_true_pos / answer_n_pred_pos`
+- `answer_f1` - (optional) Harmonic mean of `answer_recall` and `answer_precision`
+- `actual_steps` - (optional) copy of the steps in the output to evaluate, if specified there
 - `steps_score` - a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
 - `input_tokens` - input tokens usage
 - `output_tokens` - output tokens usage
