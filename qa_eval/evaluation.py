@@ -6,6 +6,23 @@ from typing import Any
 from .steps import get_steps_matches
 
 
+def compute_recall_precision_f1(
+    positives: int | None,
+    predicted_positives: int | None,
+    true_positives: int | None,
+) -> tuple[float | None, float | None, float | None]:
+    recall = None
+    precision = None
+    f1 = None
+    if true_positives is not None and positives:
+        recall = true_positives / positives
+    if true_positives is not None and predicted_positives:
+        precision = true_positives / predicted_positives
+    if precision is not None and recall is not None and precision + recall > 0:
+        f1 = 2 * (precision * recall) / (precision + recall)
+    return recall, precision, f1
+
+
 def evaluate_steps(
     reference_steps_groups: list[list[dict]],
     actual_steps: list[dict]
@@ -62,7 +79,7 @@ def run_evaluation(
                 eval_result["reference_answer"] = question["reference_answer"]
                 if not answer_evaluator:
                     answer_evaluator = AnswerOpenAIEvaluator()
-                t, p, tp, reason, error = answer_evaluator.evaluate_answer(
+                pos, pred_pos, tp, reason, error = answer_evaluator.evaluate_answer(
                     question["question_text"],
                     question["reference_answer"],
                     actual_result["actual_answer"],
@@ -78,17 +95,12 @@ def run_evaluation(
                         #     ....
                         # ```
                         # but would complicated aggregation
-                        "answer_eval_t": t,
-                        "answer_eval_p": p,
+                        "answer_eval_t": pos,
+                        "answer_eval_p": pred_pos,
                         "answer_eval_tp": tp,
                         "answer_eval_reason": reason,
                     })
-                    recall = t / tp if t is not None and tp else None
-                    precision = p / tp if p is not None and tp else None
-                    if recall is not None and precision is not None and recall + precision > 0:
-                        f1 = 2 * recall * precision / (recall + precision)
-                    else:
-                        f1 = None
+                    recall, precision, f1 = compute_recall_precision_f1(pos, pred_pos, tp)
                     if recall is not None:
                         eval_result["answer_eval_recall"] = recall
                     if precision is not None:
