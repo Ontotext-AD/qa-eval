@@ -158,6 +158,12 @@ def compute_aggregations(samples: list[dict]) -> dict:
         "total_tokens",
         "elapsed_sec"
     ]
+    protected_metrics = [
+        "input_tokens",
+        "output_tokens",
+        "total_tokens",
+        "elapsed_sec"
+    ]
     results_per_template = defaultdict(lambda: defaultdict(list))
     number_of_samples_per_template_by_status = defaultdict(lambda: defaultdict(int))
     steps_summary_per_template = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
@@ -212,7 +218,8 @@ def compute_aggregations(samples: list[dict]) -> dict:
         for metric in metrics:
             results_for_template = results_per_template[template_id]
             series = results_for_template.get(metric, [])
-            template_summary[metric] = stats_for_series(series)
+            if series or metric in protected_metrics:
+                template_summary[metric] = stats_for_series(series)
 
         summary["per_template"][template_id] = template_summary
 
@@ -229,7 +236,8 @@ def compute_aggregations(samples: list[dict]) -> dict:
             for i in values[metric]
             if values.get(metric) is not None
         ]
-        summary["micro"][metric] = stats_for_series(series)
+        if series or metric in protected_metrics:
+            summary["micro"][metric] = stats_for_series(series)
 
     summary["macro"] = {}
     for metric in metrics:
@@ -238,6 +246,7 @@ def compute_aggregations(samples: list[dict]) -> dict:
             for template_id, values in summary["per_template"].items()
             if values.get(metric) is not None
         ]
-        summary["macro"][metric] = {"mean": mean(means) if means else 0}
+        if means or metric in protected_metrics:
+            summary["macro"][metric] = {"mean": mean(means) if means else 0}
 
     return summary
