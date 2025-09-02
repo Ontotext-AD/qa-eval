@@ -49,13 +49,13 @@ def run_evaluation(
         template_id = template["template_id"]
         for question in template["questions"]:
             actual_result = responses_dict[question["id"]]
-            reference_steps = question["reference_steps"]
             eval_result = {
                 "template_id": template_id,
                 "question_id": actual_result["question_id"],
                 "question_text": question["question_text"],
-                "reference_steps": reference_steps,
             }
+            if "reference_steps" in question:
+                eval_result["reference_steps"] = question["reference_steps"]
             if "error" in actual_result:
                 eval_result.update({
                     "status": "error",
@@ -63,16 +63,8 @@ def run_evaluation(
                 })
                 evaluation_results.append(eval_result)
                 continue
+            eval_result["status"] = "success"
 
-            eval_result.update({
-                "status": "success",
-                "actual_steps": actual_result["steps"],
-                "actual_answer": actual_result["actual_answer"],
-                "input_tokens": actual_result["input_tokens"],
-                "output_tokens": actual_result["output_tokens"],
-                "total_tokens": actual_result["total_tokens"],
-                "elapsed_sec": actual_result["elapsed_sec"],
-            })
             if "reference_answer" in question:
                 from qa_eval.answer_evaluation import AnswerOpenAIEvaluator
 
@@ -110,9 +102,20 @@ def run_evaluation(
                         eval_result["answer_precision"] = precision
                     if f1 is not None:
                         eval_result["answer_f1"] = f1
-
-            steps_score = evaluate_steps(reference_steps, actual_result["steps"])
-            eval_result["steps_score"] = steps_score
+            if "steps" in actual_result:
+                act_steps = actual_result["steps"]
+                eval_result["actual_steps"] = act_steps
+                if "reference_steps" in question:
+                    ref_steps = question["reference_steps"]
+                    steps_score = evaluate_steps(ref_steps, act_steps)
+                    eval_result["steps_score"] = steps_score
+            eval_result.update({
+                "actual_answer": actual_result["actual_answer"],
+                "input_tokens": actual_result["input_tokens"],
+                "output_tokens": actual_result["output_tokens"],
+                "total_tokens": actual_result["total_tokens"],
+                "elapsed_sec": actual_result["elapsed_sec"],
+            })
             evaluation_results.append(eval_result)
     return evaluation_results
 
