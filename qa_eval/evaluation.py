@@ -30,7 +30,6 @@ def run_evaluation(
     evaluation_results = []
     for template in gsc_templates:
         template_id = template["template_id"]
-        #actual_steps_count_total, actual_steps_error_total = defaultdict(int), defaultdict(int)
         for question in template["questions"]:
             actual_result = responses_dict[question["id"]]
             reference_steps = question["reference_steps"]
@@ -100,10 +99,6 @@ def run_evaluation(
             steps_score = evaluate_steps(reference_steps, actual_result["steps"])
             eval_result["steps_score"] = steps_score
             evaluation_results.append(eval_result)
-            # for step in eval_result["steps"]:
-            #     actual_steps_count_total[step["name"]] += 1
-            #     if step["status"] == "error":
-            #         actual_steps_error_total[step["name"]] += 1
     return evaluation_results
 
 
