@@ -3,8 +3,6 @@ from collections import defaultdict
 from statistics import mean, median
 from typing import Any
 
-from qa_eval.answer_evaluation import AnswerOpenAIEvaluator
-
 from .steps import get_steps_matches
 
 
@@ -60,6 +58,8 @@ def run_evaluation(
                 "elapsed_sec": actual_result["elapsed_sec"],
             })
             if "reference_answer" in question:
+                from qa_eval.answer_evaluation import AnswerOpenAIEvaluator
+
                 eval_result["reference_answer"] = question["reference_answer"]
                 if not answer_evaluator:
                     answer_evaluator = AnswerOpenAIEvaluator()
