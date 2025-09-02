@@ -54,8 +54,16 @@ def add_answer_evaluation(
     answer_evaluator: 'AnswerEvaluator',
     eval_result: dict
 ):
+    # Nested output would be cleaner:
+    # ```yaml
+    # answer_eval:
+    #     n_pos: ...
+    #     n_pred_pos: ...
+    #     n_true_pos: ...
+    # ```
+    # but would complicate aggregation
     eval_result["reference_answer"] = question["reference_answer"]
-    n_pos, n_pred_pos, n_true_pos, reason, error = \
+    num_ref_claims, num_actual_claims, num_matching_claims, reason, error = \
     answer_evaluator.evaluate_answer(
         question["question_text"],
         question["reference_answer"],
@@ -65,21 +73,13 @@ def add_answer_evaluation(
         eval_result["answer_eval_error"] = error
     else:
         eval_result.update({
-            # Nested output would be cleaner:
-            # ```yaml
-            # answer_eval:
-            #     n_pos: ...
-            #     n_pred_pos: ...
-            #     n_true_pos: ...
-            # ```
-            # but would complicate aggregation
-            "answer_n_pos": n_pos,
-            "answer_n_pred_pos": n_pred_pos,
-            "answer_n_true_pos": n_true_pos,
+            "answer_num_ref_claims": num_ref_claims,
+            "answer_num_actual_claims": num_actual_claims,
+            "answer_num_matching_claims": num_matching_claims,
             "answer_eval_reason": reason,
         })
         recall, precision, f1 = compute_recall_precision_f1(
-            n_pos, n_pred_pos, n_true_pos
+            num_ref_claims, num_actual_claims, num_matching_claims
         )
         if recall is not None:
             eval_result["answer_recall"] = recall
