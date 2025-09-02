@@ -23,12 +23,12 @@ def evaluate_steps(
 
 
 def run_evaluation(
-        gsc_templates: list[dict],
+        qa_dataset: list[dict],
         responses_dict: dict,
 ) -> list[dict]:
     answer_evaluator = None
     evaluation_results = []
-    for template in gsc_templates:
+    for template in qa_dataset:
         template_id = template["template_id"]
         for question in template["questions"]:
             actual_result = responses_dict[question["id"]]
