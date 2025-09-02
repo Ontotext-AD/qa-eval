@@ -94,7 +94,7 @@ def run_evaluation(
                         #     t: 0
                         #     ....
                         # ```
-                        # but would complicated aggregation
+                        # but would complicate aggregation
                         "answer_eval_t": pos,
                         "answer_eval_p": pred_pos,
                         "answer_eval_tp": tp,
