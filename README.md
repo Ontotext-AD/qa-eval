@@ -36,13 +36,14 @@ We plan to improve CLI support in future releases.
 ## Use as a Library
 
 To evaluate the final answers and/or steps:
-1. [install](#Installation) this package
-1. Format your reference corpus of questions and expected answers and/or expected steps, as in section [Q&A Format](#Q&A-Format)
-1. Format the system output of answers and/or steps you want to evaluate, as in section [Example Output to Evaluate](#Example-Output-to-Evaluate)
-1. To evaluate answers, set environment variable `OPENAI_API_KEY`
-1. Call it from your code, passing as parameters the reference corpus and actual responses (see section [Example Usage Code](#Example-Usage-Code))
+1. Install this package: section [Install](#Installation)
+1. Format the corpus of questions and reference answers and/or steps: section [Reference Q&A Corpus](#Reference-Q&A-Corpus)
+1. Format the answers and/or steps you want to evaluate: section [Evaluation Target Corpus](#Evaluation-Target-Corpus)
+1. To evaluate answers, set environment variable `OPENAI_API_KEY` appropriately
+1. Call the evaluation function with the reference corpus and target corpus: section [Example Usage Code](#Example-Usage-Code)
+1. Call the aggregation function with the evaluation results
 
-### Q&A Format
+### Reference Q&A Corpus
 
 A reference corpus is a list of templates, each of which contains:
 
@@ -63,7 +64,7 @@ Each step includes:
 - `ordered` – (optional, defaults to `false`) For SPARQL query results, whether results order matters. `true` means that the actual result rows must be ordered as the reference result; `false` means that result rows are matched as a set.
 - `required_columns`– (optional) - required only for SPARQL query results; list of binding names, which are required for SPARQL query results to match
 
-#### Example Corpus
+#### Example Reference Corpus
 
 The example corpus below illustrates a minimal but realistic Q&A dataset, showing two templates with associated questions and steps.
 
@@ -216,7 +217,7 @@ The example corpus below illustrates a minimal but realistic Q&A dataset, showin
 
 The module is agnostic to the specific LLM agent implementation and model; it depends solely on the format of the response.
 
-### Example Output to Evaluate
+### Evaluation Target Corpus
 
 Below is a sample response from the LLM agent for a single question:
 
@@ -266,17 +267,17 @@ Below is a sample response from the LLM agent for a single question:
 ```python
 from qa_eval import run_evaluation, compute_aggregates
 
-sample_reference_standard: list[dict] = [] # read your corpus
+reference_qas: list[dict] = [] # read your corpus
 chat_responses: dict = {} # call your implementation to get the response
-evaluation_results = run_evaluation(sample_reference_standard, chat_responses)
+evaluation_results = run_evaluation(reference_qas, chat_responses)
 aggregates = compute_aggregates(evaluation_results)
 ```
 
-`evaluation_results` is a list of statistics for each question, as in section (Example Output)[Example-output] or (Example Output on Error)[Example-Output-on-Error]. The format is explained in section (Output Keys)[Output-Keys]
+`evaluation_results` is a list of statistics for each question, as in section (Example Evaluation Results)[Example-Evaluation-Results] or (Example Output on Error)[Example-Output-on-Error]. The format is explained in section (Output Keys)[Output-Keys]
 
-### Example Output
+### Example Evaluation Results
 
-The output is a list of statistics for each question from the Q&A dataset. Here is an example of statistics for one question:
+The output is a list of statistics for each question from the reference Q&A dataset. Here is an example of statistics for one question:
 
 ```yaml
 - template_id: list_all_transformers_within_Substation_SUBSTATION
@@ -405,21 +406,21 @@ The output is a list of statistics for each question from the Q&A dataset. Here 
   elapsed_sec: 6.601679801940918
 ```
 
-### Output keys
+### Output Keys
 
 - `template_id` - the template id
 - `question_id` - the question id
 - `question_text` - the natural language query
 - `reference_steps` - (optional) copy of the expected steps in the Q&A dataset, if specified there
 - `reference_answer` - (optional) copy of the expected answer in the Q&A dataset, if specified there
-- `actual_answer` - (optional) copy of the actual answer of the LLM agent from the output to evaluate, if specified there
+- `actual_answer` - (optional) copy of the response text in the evaluation target, if specified there
 - `answer_num_ref_claims` - (optional) number of claims extracted from the reference answer, if a reference answer and actual answer are available
 - `answer_num_actual_claims` - (optional) number of claims extracted from the answer being evaluated, if a reference answer and actual answer are available
 - `answer_num_matching_claims` - (optional) number of matching claims between the reference answer and the actual answer, if a reference answer and actual answer are available
 - `answer_recall` - (optional) `answer_num_matching_claims / answer_num_ref_claims`
 - `answer_precision` - (optional) `answer_num_matching_claims / answer_num_actual_claims`
 - `answer_f1` - (optional) Harmonic mean of `answer_recall` and `answer_precision`
-- `actual_steps` - (optional) copy of the steps in the output to evaluate, if specified there
+- `actual_steps` - (optional) copy of the steps in the evaluation target, if specified there
 - `steps_score` - a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
 - `input_tokens` - input tokens usage
 - `output_tokens` - output tokens usage
@@ -688,9 +689,11 @@ If an error occurs, the response format is:
 
 ### Retrieval Evaluation
 
+The following metrics are based on the ids of retrieved documents.
+
 #### Recall@k Metric
 
-The fraction of relevant items among the top 'k' recommendations. It answers the question: "Of all items the user cares about, how many did we inclide in the first k spots?"
+The fraction of relevant items among the top *k* recommendations. It answers the question: "Of all items the user cares about, how many did we inclide in the first k spots?"
 * **Formula**:
     $`
     \frac{\text{Number of relevant items in top k}}{\text{Number of relevant items}}
