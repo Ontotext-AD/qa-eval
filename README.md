@@ -33,7 +33,7 @@ To evaluate only final answers (system responses), you can clone this repository
 
 ## Full Evaluation
 
-To evaluate the final answers and steps
+To evaluate the final answers and/or steps
 1. [install](#Installation) this package
 1. Call it from your code with a reference corpus of questions and expected steps, as specified below in secion [Q&A Format](#Q&A-Format).
 
@@ -45,19 +45,17 @@ A reference corpus is a list of templates, each of which contains:
 - `questions` – A list of questions derived from this template, where each includes:
   - `id` – Unique question identifier
   - `question_text` – The natural language query passed to the LLM
-  - `reference_steps` – A list of expected steps grouped by *level*.
+  - `reference_steps` – (optional) A list of expected steps grouped by expected order of execution, where all steps in a group can be executed in any order relative to each other, but after all steps in the previous group and before all steps in the next group.
   - `reference_answer` – (optional) The expected answer to the question
 The assumption is that the final answer to the question is derived from the outputs of the steps, which are executed last (last level).
 
 Each step includes:
 
 - `name` – The type of step being performed (e.g., `sparql_query`)
-- `args` – Arguments of the step (e.g., arguments to a tool being called in the step, such as a SPARQL query)
+- `args` – Arguments of the step (e.g., arguments to a tool used in the step, such as a SPARQL query)
 - `output` – The expected output from the step
-- `output_media_type` – (optional, missing or one of `application/sparql-results+json`, `application/json`) - Indicates how the output of a step must be processed
-- `ordered` – (optional, defaults to `false`) - only applicable for SPARQL query results, whether the order of the results matters.
-`false` means that the results are not ordered, hence for comparison we can re-order them.
-`true` means the results order matters and in order to match the order must be preserved.
+- `output_media_type` – (optional, missing or one of `application/sparql-results+json`, `application/json`) Indicates how the output of a step must be processed
+- `ordered` – (optional, defaults to `false`) For SPARQL query results, whether results order matters. `true` means that the actual result rows must be ordered as the reference result; `false` means that result rows are matched as a set.
 - `required_columns`– (optional) - required only for SPARQL query results; list of binding names, which are required for SPARQL query results to match
 
 #### Example Corpus
