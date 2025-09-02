@@ -22,20 +22,25 @@ pip install qa-eval
 Developed and maintained by [Graphwise](https://graphwise.ai/).
 For issues or feature requests, please open [a GitHub issue](https://github.com/Ontotext-AD/qa-eval/issues).
 
-## Final Answer Evaluation Only
+## Command Line Use
 
 To evaluate only final answers (system responses), you can clone this repository and run the code on the command line:
 
 1. Prepare an input TSV file with columns `Question`, `Reference answer` and `Actual answer`
 1. Modify file `answer_evaluation.py`, to set variable `DATA_FILE_PATH` to the path of the input TSV file
 1. Execute `poetry install --with answer-eval`
-1. Execute `poetry run evalaute-answers`
+1. Execute `OPENAI_API_KEY=<your_api_key> poetry run evaluate-answers`
 
-## Full Evaluation
+We plan to improve CLI support in future releases.
 
-To evaluate the final answers and/or steps
+## Use as a Library
+
+To evaluate the final answers and/or steps:
 1. [install](#Installation) this package
-1. Call it from your code with a reference corpus of questions and expected steps, as specified below in secion [Q&A Format](#Q&A-Format).
+1. Format your reference corpus of questions and expected answers and/or expected steps, as in section [Q&A Format](#Q&A-Format)
+1. Format the system output of answers and/or steps you want to evaluate, as in section [Example Output to Evaluate](#Example-Output-to-Evaluate)
+1. To evaluate answers, set environment variable `OPENAI_API_KEY`
+1. Call it from your code, passing as parameters the reference corpus and actual responses (see example code below)
 
 ### Q&A Format
 
@@ -210,6 +215,8 @@ The example corpus below illustrates a minimal but realistic Q&A dataset, showin
 ```
 
 The module is agnostic to the specific LLM agent implementation and model; it depends solely on the format of the response.
+
+### Example Output to Evaluate
 Below is a sample response from the LLM agent for a single question:
 
 ```json
