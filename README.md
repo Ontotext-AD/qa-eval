@@ -40,7 +40,7 @@ To evaluate the final answers and/or steps:
 1. Format your reference corpus of questions and expected answers and/or expected steps, as in section [Q&A Format](#Q&A-Format)
 1. Format the system output of answers and/or steps you want to evaluate, as in section [Example Output to Evaluate](#Example-Output-to-Evaluate)
 1. To evaluate answers, set environment variable `OPENAI_API_KEY`
-1. Call it from your code, passing as parameters the reference corpus and actual responses (see example code below)
+1. Call it from your code, passing as parameters the reference corpus and actual responses (see section [Example Usage Code](#Example-Usage-Code))
 
 ### Q&A Format
 
@@ -217,6 +217,7 @@ The example corpus below illustrates a minimal but realistic Q&A dataset, showin
 The module is agnostic to the specific LLM agent implementation and model; it depends solely on the format of the response.
 
 ### Example Output to Evaluate
+
 Below is a sample response from the LLM agent for a single question:
 
 ```json
@@ -260,17 +261,7 @@ Below is a sample response from the LLM agent for a single question:
 }
 ```
 
-If an error occurs, the expected response format is:
-
-```json
-{
-    "question_id": "a8daaf98b84b4f6b0e0052fb942bf6b6",
-    "error": "Error message",
-    "status": "error"
-}
-```
-
-Sample code:
+### Example Usage Code
 
 ```python
 from qa_eval import run_evaluation, compute_aggregations
@@ -281,7 +272,11 @@ evaluation_results = run_evaluation(sample_reference_standard, chat_responses)
 aggregates = compute_aggregations(evaluation_results)
 ```
 
-`evaluation_results` is a list in which for each question from the Q&A dataset we have for example
+`evaluation_results` is a list of statistics for each question, as in section (Example Output)[Example-output] or (Example Output on Error)[Example-Output-on-Error]. The format is explained in section (Output Keys)[Output-Keys]
+
+### Example Output
+
+The output is a list of statistics for each question from the Q&A dataset. Here is an example of statistics for one question:
 
 ```yaml
 - template_id: list_all_transformers_within_Substation_SUBSTATION
@@ -410,6 +405,8 @@ aggregates = compute_aggregations(evaluation_results)
   elapsed_sec: 6.601679801940918
 ```
 
+### Output keys
+
 - `template_id` - the template id
 - `question_id` - the question id
 - `question_text` - the natural language query
@@ -456,7 +453,7 @@ Aggregations include:
   - `elapsed_sec` - `mean` for `elapsed_sec`
   - `steps_score` - `mean` for `steps_score`
 
-Example aggregations:
+#### Example Aggregations
 
 ```yaml
 per_template:
@@ -668,6 +665,18 @@ macro:
     mean: 197738.9527777778
   elapsed_sec:
     mean: 25.911653497483996
+```
+
+### Example Output on Error
+
+If an error occurs, the response format is:
+
+```json
+{
+    "question_id": "a8daaf98b84b4f6b0e0052fb942bf6b6",
+    "error": "Error message",
+    "status": "error"
+}
 ```
 
 ### Retrieval Evaluation
