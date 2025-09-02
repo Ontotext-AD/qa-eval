@@ -419,6 +419,8 @@ The output is a list of statistics for each question from the reference Q&A data
 - `answer_num_matching_claims` - (optional) number of matching claims between the reference answer and the actual answer, if a reference answer and actual answer are available
 - `answer_recall` - (optional) `answer_num_matching_claims / answer_num_ref_claims`
 - `answer_precision` - (optional) `answer_num_matching_claims / answer_num_actual_claims`
+- `answer_eval_reason` - (optional) LLM reasoning in extracting and matching claims from the reference answer and the actual answer
+- `answer_eval_error` - (optional) error message if answer evaluation failed
 - `answer_f1` - (optional) Harmonic mean of `answer_recall` and `answer_precision`
 - `actual_steps` - (optional) copy of the steps in the evaluation target, if specified there
 - `steps_score` - a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
