@@ -85,7 +85,7 @@ def run_evaluation(
                     actual_result["actual_answer"],
                 )
                 if error:
-                    eval_result["answer_eval_error"] = error
+                    eval_result["answer_f1error"] = error
                 else:
                     eval_result.update({
                         # Nested output would be cleaner:
@@ -96,20 +96,20 @@ def run_evaluation(
                         #     n_true_pos: ...
                         # ```
                         # but would complicate aggregation
-                        "answer_eval_pos": n_pos,
-                        "answer_eval_pred_pos": n_pred_pos,
-                        "answer_eval_true_pos": n_true_pos,
-                        "answer_eval_reason": reason,
+                        "answer_n_pos": n_pos,
+                        "answer_n_pred_pos": n_pred_pos,
+                        "answer_n_true_pos": n_true_pos,
+                        "answer_f1reason": reason,
                     })
                     recall, precision, f1 = compute_recall_precision_f1(
                         n_pos, n_pred_pos, n_true_pos
                     )
                     if recall is not None:
-                        eval_result["answer_eval_recall"] = recall
+                        eval_result["answer_recall"] = recall
                     if precision is not None:
-                        eval_result["answer_eval_precision"] = precision
+                        eval_result["answer_precision"] = precision
                     if f1 is not None:
-                        eval_result["answer_eval_f1"] = f1
+                        eval_result["answer_f1"] = f1
 
             steps_score = evaluate_steps(reference_steps, actual_result["steps"])
             eval_result["steps_score"] = steps_score
@@ -129,9 +129,9 @@ def stats_for_series(values: list) -> dict[str, float]:
 
 def compute_aggregations(samples: list[dict]) -> dict:
     metrics = [
-        "answer_eval_recall",
-        "answer_eval_precision",
-        "answer_eval_f1",
+        "answer_recall",
+        "answer_precision",
+        "answer_f1",
         "steps_score",
         "input_tokens",
         "output_tokens",
