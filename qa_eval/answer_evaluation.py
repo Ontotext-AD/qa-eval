@@ -5,16 +5,18 @@ from openai import OpenAI
 from tqdm import tqdm
 
 
-DATA_FILE_PATH = '../data/knowledge-hub/data.tsv'
+IN_FILE_PATH = '../data/data-1.tsv'
 PROMPT_FILE_PATH = 'prompts/template.md'
-OUT_FILE_PATH = 'results/knowledge-hub.tsv'
+OUT_FILE_PATH = 'results/data-1.tsv'
 OUT_FIELDS = ['#T', '#P', '#TP', 'Reasoning', 'Error']
 LLM_MODEL = 'gpt-4o-mini'
 TEMPERATURE = 0.0
 
 
 
-def extract_response_values(response: str) -> tuple[int | None, int | None, int | None, str, str]:
+def extract_response_values(
+    response: str
+) -> tuple[int | None, int | None, int | None, str, str]:
     vals = response.split('\t')
     n = len(vals)
     if n < 4:
@@ -70,12 +72,11 @@ class AnswerOpenAIEvaluator:
 
 
 def evaluate_and_write(
-    prompt_file_path: str | Path,
-    data_file_path: str | Path,
+    in_file_path: str | Path,
     out_file_path: str | Path,
 ) -> None:
-    evaluator = AnswerOpenAIEvaluator(prompt_file_path)
-    with open(data_file_path, encoding='utf-8') as f:
+    evaluator = AnswerOpenAIEvaluator(PROMPT_FILE_PATH)
+    with open(in_file_path, encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
         rows = [row for row in reader]
     print(f'Writing results to {out_file_path}')
@@ -93,5 +94,13 @@ def evaluate_and_write(
             f.flush()
 
 
-if __name__ == '__main__':
-    evaluate_and_write(PROMPT_FILE_PATH, DATA_FILE_PATH, OUT_FILE_PATH)
+def main():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--in-file', type=str, default=IN_FILE_PATH)
+    parser.add_argument('-o', '--out-file', type=str, default=OUT_FILE_PATH)
+    args = parser.parse_args()
+    evaluate_and_write(
+        in_file_path=args.in_file,
+        out_file_path=args.out_file,
+    )

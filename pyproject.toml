@@ -34,4 +34,4 @@ pyyaml = "^6.0.2"
 openai = "^1.97.0"
 
 [project.scripts]
-evaluate-answers = "qa_eval.answer_evaluation:evaluate_answers"
+evaluate-answers = "qa_eval.answer_evaluation:main"

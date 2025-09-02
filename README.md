@@ -27,9 +27,8 @@ For issues or feature requests, please open [a GitHub issue](https://github.com/
 To evaluate only final answers (system responses), you can clone this repository and run the code on the command line:
 
 1. Prepare an input TSV file with columns `Question`, `Reference answer` and `Actual answer`
-1. Modify file `answer_evaluation.py`, to set variable `DATA_FILE_PATH` to the path of the input TSV file
 1. Execute `poetry install --with answer-eval`
-1. Execute `OPENAI_API_KEY=<your_api_key> poetry run evaluate-answers`
+1. Execute `OPENAI_API_KEY=<your_api_key> poetry run evaluate-answers -i <input_file.tsv> -o <output_file.tsv>`
 
 We plan to improve CLI support in future releases.
 
