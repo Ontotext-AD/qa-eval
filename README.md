@@ -264,12 +264,12 @@ Below is a sample response from the LLM agent for a single question:
 ### Example Usage Code
 
 ```python
-from qa_eval import run_evaluation, compute_aggregations
+from qa_eval import run_evaluation, compute_aggregates
 
 sample_reference_standard: list[dict] = [] # read your corpus
 chat_responses: dict = {} # call your implementation to get the response
 evaluation_results = run_evaluation(sample_reference_standard, chat_responses)
-aggregates = compute_aggregations(evaluation_results)
+aggregates = compute_aggregates(evaluation_results)
 ```
 
 `evaluation_results` is a list of statistics for each question, as in section (Example Output)[Example-output] or (Example Output on Error)[Example-Output-on-Error]. The format is explained in section (Output Keys)[Output-Keys]
@@ -426,12 +426,13 @@ The output is a list of statistics for each question from the Q&A dataset. Here 
 - `total_tokens` - total tokens usage
 - `elapsed_sec` - elapsed seconds
 
-The `aggregates` object provides aggregated evaluation metrics.
-Aggregations are computed both per-template and overall, using micro and macro averaging strategies.
-These aggregations support analysis of agent quality, token efficiency, and execution performance.
-Aggregations include:
+#### Aggregates keys
 
-- `per_template` - a dictionary where each key is a template identifier. For each template, the following statistics are reported:
+The `aggregates` object provides aggregated evaluation metrics.
+Aggregates are computed both per-template and overall, using micro and macro averaging strategies.
+These aggregates support analysis of agent quality, token efficiency, and execution performance.
+Aggregates include:
+- `per_template` - a dictionary mapping a template identifier to the following statistics:
   - `number_of_error_samples` - number of questions for this template, which resulted in error response
   - `number_of_success_samples` - number of questions for this template, which resulted in successful response
   - `input_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `input_tokens` of all successful questions for this template
@@ -444,22 +445,22 @@ Aggregations include:
     - `once_per_sample` - how many times each step was executed, counted only once per question
     - `empty_results` - how many times the step was executed and returned empty results
     - `errors` - how many times the step was executed and resulted in error
-- `micro` - micro gives overall aggregate statistics across questions, treating each equally. It includes:
+- `micro` - statistics across questions, regardless of template. It includes:
   - `number_of_error_samples` - total number of questions, which resulted in error response
   - `number_of_success_samples` - total number of questions, which resulted in successful response
-  - `input_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `input_tokens` of all successful questions
-  - `output_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `output_tokens` of all successful questions
-  - `total_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `total_tokens` of all successful questions
-  - `elapsed_sec` - `sum`, `mean`, `median`, `min` and `max` statistics for `elapsed_sec` of all successful questions
-  - `steps_score` - `sum`, `mean`, `median`, `min` and `max` statistics for `steps_score` of all successful questions
-- `macro` - macro gives averages across templates, i.e., it computes the mean of each metric per template, then averages those means. It includes:
+  - `input_tokens` - `sum`, `mean`, `median`, `min` and `max` for `input_tokens` of all successful questions
+  - `output_tokens` - `sum`, `mean`, `median`, `min` and `max` for `output_tokens` of all successful questions
+  - `total_tokens` - `sum`, `mean`, `median`, `min` and `max` for `total_tokens` of all successful questions
+  - `elapsed_sec` - `sum`, `mean`, `median`, `min` and `max` for `elapsed_sec` of all successful questions
+  - `steps_score` - `sum`, `mean`, `median`, `min` and `max` for `steps_score` of all successful questions
+- `macro` - averages across templates, i.e., the mean of each metric per template, averaged. It includes:
   - `input_tokens` - `mean` for `input_tokens`
   - `output_tokens` - `mean` for `output_tokens`
   - `total_tokens` - `mean` for `total_tokens`
   - `elapsed_sec` - `mean` for `elapsed_sec`
   - `steps_score` - `mean` for `steps_score`
 
-#### Example Aggregations
+#### Example Aggregates
 
 ```yaml
 per_template:

@@ -147,7 +147,7 @@ def stats_for_series(values: list) -> dict[str, float]:
     }
 
 
-def compute_aggregations(samples: list[dict]) -> dict:
+def compute_aggregates(samples: list[dict]) -> dict:
     metrics = [
         "answer_recall",
         "answer_precision",
@@ -187,19 +187,20 @@ def compute_aggregations(samples: list[dict]) -> dict:
         seen = set()
         for step in sample["actual_steps"]:
             name = step["name"]
-            steps_summary_per_template[template_id]["total"][name] += 1
+            template_steps_summary = steps_summary_per_template[template_id]
+            template_steps_summary["total"][name] += 1
             if step["status"] == "error":
-                steps_summary_per_template[template_id]["errors"][name] += 1
+                template_steps_summary["errors"][name] += 1
             if name not in seen:
                 seen.add(name)
-                steps_summary_per_template[template_id]["once_per_sample"][name] += 1
+                template_steps_summary["once_per_sample"][name] += 1
 
             if step["status"] != "error":
                 try:
                     res = json.loads(step["output"])
                     if "results" in res and "bindings" in res["results"]:
                         if not res["results"]["bindings"]:
-                            steps_summary_per_template[template_id]["empty_results"][name] += 1
+                            template_steps_summary["empty_results"][name] += 1
                 except json.decoder.JSONDecodeError:
                     pass
 
