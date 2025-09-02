@@ -39,6 +39,56 @@ def evaluate_steps(
     return scores_by_group[group_ix] / len(reference_steps_groups[group_ix])
 
 
+def add_steps_evaluation(question: dict, actual_result: dict, eval_result: dict):
+    act_steps = actual_result["steps"]
+    eval_result["actual_steps"] = act_steps
+    if "reference_steps" in question:
+        ref_steps = question["reference_steps"]
+        steps_score = evaluate_steps(ref_steps, act_steps)
+        eval_result["steps_score"] = steps_score
+
+
+def add_answer_evaluation(
+    question: dict,
+    actual_result: dict,
+    answer_evaluator: 'AnswerEvaluator',
+    eval_result: dict
+):
+    eval_result["reference_answer"] = question["reference_answer"]
+    n_pos, n_pred_pos, n_true_pos, reason, error = \
+    answer_evaluator.evaluate_answer(
+        question["question_text"],
+        question["reference_answer"],
+        actual_result["actual_answer"],
+    )
+    if error:
+        eval_result["answer_eval_error"] = error
+    else:
+        eval_result.update({
+            # Nested output would be cleaner:
+            # ```yaml
+            # answer_eval:
+            #     n_pos: ...
+            #     n_pred_pos: ...
+            #     n_true_pos: ...
+            # ```
+            # but would complicate aggregation
+            "answer_n_pos": n_pos,
+            "answer_n_pred_pos": n_pred_pos,
+            "answer_n_true_pos": n_true_pos,
+            "answer_eval_reason": reason,
+        })
+        recall, precision, f1 = compute_recall_precision_f1(
+            n_pos, n_pred_pos, n_true_pos
+        )
+        if recall is not None:
+            eval_result["answer_recall"] = recall
+        if precision is not None:
+            eval_result["answer_precision"] = precision
+        if f1 is not None:
+            eval_result["answer_f1"] = f1
+
+
 def run_evaluation(
         qa_dataset: list[dict],
         responses_dict: dict,
@@ -64,51 +114,18 @@ def run_evaluation(
                 evaluation_results.append(eval_result)
                 continue
             eval_result["status"] = "success"
-
             if "reference_answer" in question:
                 from qa_eval.answer_evaluation import AnswerOpenAIEvaluator
-
-                eval_result["reference_answer"] = question["reference_answer"]
                 if not answer_evaluator:
                     answer_evaluator = AnswerOpenAIEvaluator()
-                n_pos, n_pred_pos, n_true_pos, reason, error = answer_evaluator.evaluate_answer(
-                    question["question_text"],
-                    question["reference_answer"],
-                    actual_result["actual_answer"],
+                add_answer_evaluation(
+                    question,
+                    actual_result,
+                    answer_evaluator,
+                    eval_result
                 )
-                if error:
-                    eval_result["answer_eval_error"] = error
-                else:
-                    eval_result.update({
-                        # Nested output would be cleaner:
-                        # ```yaml
-                        # answer_eval:
-                        #     n_pos: ...
-                        #     n_pred_pos: ...
-                        #     n_true_pos: ...
-                        # ```
-                        # but would complicate aggregation
-                        "answer_n_pos": n_pos,
-                        "answer_n_pred_pos": n_pred_pos,
-                        "answer_n_true_pos": n_true_pos,
-                        "answer_eval_reason": reason,
-                    })
-                    recall, precision, f1 = compute_recall_precision_f1(
-                        n_pos, n_pred_pos, n_true_pos
-                    )
-                    if recall is not None:
-                        eval_result["answer_recall"] = recall
-                    if precision is not None:
-                        eval_result["answer_precision"] = precision
-                    if f1 is not None:
-                        eval_result["answer_f1"] = f1
             if "steps" in actual_result:
-                act_steps = actual_result["steps"]
-                eval_result["actual_steps"] = act_steps
-                if "reference_steps" in question:
-                    ref_steps = question["reference_steps"]
-                    steps_score = evaluate_steps(ref_steps, act_steps)
-                    eval_result["steps_score"] = steps_score
+                add_steps_evaluation(question, actual_result, eval_result)
             eval_result.update({
                 "actual_answer": actual_result["actual_answer"],
                 "input_tokens": actual_result["input_tokens"],
