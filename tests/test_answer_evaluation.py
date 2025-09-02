@@ -1,9 +1,8 @@
 import builtins
 import io
-from pathlib import Path
 
-from qa_eval import answer_evaluation
-from qa_eval.answer_evaluation import extract_response_values
+from qa_eval import answer_correctness
+from qa_eval.answer_correctness import extract_response_values
 
 
 def test_extract_response_values_expected_case():
@@ -20,21 +19,21 @@ def test_extract_response_values_invalid_values():
 
 def test_extract_response_values_non_int():
     response = '2\t2\tx\thello'
-    result = answer_evaluation.extract_response_values(response)
+    result = answer_correctness.extract_response_values(response)
     # t and p parse as ints, tp fails → error
     assert result == (None, None, None, 'hello', 'Non-int value: 2\t2\tx\thello')
 
 
 def test_extract_response_values_too_few_values():
     response = '2\t2\thello'
-    result = answer_evaluation.extract_response_values(response)
+    result = answer_correctness.extract_response_values(response)
     # fewer than 4 values → error
     assert result == (None, None, None, '', 'Expected 4 tab-separated values: 2\t2\thello')
 
 
 def test_extract_response_values_too_many_values():
     response = '2\t2\t2\thello\textra'
-    result = answer_evaluation.extract_response_values(response)
+    result = answer_correctness.extract_response_values(response)
     # only first 4 should be taken
     assert result == (2, 2, 2, 'hello', '')
 
@@ -60,14 +59,14 @@ def test_evaluate_answers(monkeypatch, tmp_path):
     monkeypatch.setattr(builtins, 'open', mock_open)
 
     # Mock OpenAI(), call_llm() and tqdm()
-    monkeypatch.setattr(answer_evaluation, 'OpenAI', lambda: None)
-    monkeypatch.setattr(answer_evaluation.AnswerOpenAIEvaluator, 'call_llm', lambda *_: '2\t2\t2\thello')
-    monkeypatch.setattr(answer_evaluation, 'tqdm', lambda x: x)
+    monkeypatch.setattr(answer_correctness, 'OpenAI', lambda: None)
+    monkeypatch.setattr(answer_correctness.OpenAIAnswerEvaluator, 'call_llm', lambda *_: '2\t2\t2\thello')
+    monkeypatch.setattr(answer_correctness, 'tqdm', lambda x: x)
 
     # Run
-    answer_evaluation.evaluate_and_write(prompt_file_path, data_file_path, out_file_path)
+    answer_correctness.evaluate_and_write(prompt_file_path, data_file_path, out_file_path)
 
     # Verify output file content
     written = out_file_path.read_text().splitlines()
-    assert written[0].split('\t') == answer_evaluation.OUT_FIELDS
+    assert written[0].split('\t') == answer_correctness.OUT_FIELDS
     assert written[1].split('\t') == ['2', '2', '2', 'hello', '']

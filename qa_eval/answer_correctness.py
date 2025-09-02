@@ -13,7 +13,6 @@ LLM_MODEL = 'gpt-4o-mini'
 TEMPERATURE = 0.0
 
 
-
 def extract_response_values(
     response: str
 ) -> tuple[int | None, int | None, int | None, str, str]:
@@ -34,7 +33,7 @@ def extract_response_values(
     return t, p, tp, vals[3], ''
 
 
-class AnswerOpenAIEvaluator:
+class OpenAIAnswerEvaluator:
     def __init__(
         self,
         prompt_file_path: str | Path = PROMPT_FILE_PATH,
@@ -75,7 +74,7 @@ def evaluate_and_write(
     in_file_path: str | Path,
     out_file_path: str | Path,
 ) -> None:
-    evaluator = AnswerOpenAIEvaluator(PROMPT_FILE_PATH)
+    evaluator = OpenAIAnswerEvaluator(PROMPT_FILE_PATH)
     with open(in_file_path, encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter='\t')
         rows = [row for row in reader]

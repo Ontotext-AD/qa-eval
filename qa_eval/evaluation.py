@@ -67,13 +67,13 @@ def add_answer_evaluation(
         actual_result["actual_answer"],
     )
     if error:
-        eval_result["answer_eval_error"] = error
+        eval_result["answer_correctness_error"] = error
     else:
         eval_result.update({
             "answer_num_ref_claims": num_ref_claims,
             "answer_num_actual_claims": num_actual_claims,
             "answer_num_matching_claims": num_matching_claims,
-            "answer_eval_reason": reason,
+            "answer_correctness_reason": reason,
         })
         recall, precision, f1 = compute_recall_precision_f1(
             num_ref_claims, num_actual_claims, num_matching_claims
@@ -112,9 +112,9 @@ def run_evaluation(
                 continue
             eval_result["status"] = "success"
             if "reference_answer" in question:
-                from qa_eval.answer_evaluation import AnswerOpenAIEvaluator
+                from qa_eval.answer_correctness import OpenAIAnswerEvaluator
                 if not answer_evaluator:
-                    answer_evaluator = AnswerOpenAIEvaluator()
+                    answer_evaluator = OpenAIAnswerEvaluator()
                 add_answer_evaluation(
                     question,
                     actual_result,
