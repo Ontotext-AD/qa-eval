@@ -72,6 +72,13 @@ def run_evaluation(
                     eval_result["answer_eval_error"] = error
                 else:
                     eval_result.update({
+                        # Nested output would be much cleaner:
+                        # ```yaml
+                        # answer_eval:
+                        #     t: 0
+                        #     ....
+                        # ```
+                        # but would complicated aggregation
                         "answer_eval_t": t,
                         "answer_eval_p": p,
                         "answer_eval_tp": tp,
