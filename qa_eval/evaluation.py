@@ -48,7 +48,7 @@ def add_steps_evaluation(question: dict, actual_result: dict, eval_result: dict)
 def add_answer_evaluation(
     question: dict,
     actual_result: dict,
-    answer_evaluator: 'AnswerEvaluator',
+    answer_evaluator: "OpenAIAnswerEvaluator",
     eval_result: dict
 ):
     # Nested output would be cleaner:
