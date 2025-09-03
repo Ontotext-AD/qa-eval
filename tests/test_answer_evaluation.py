@@ -59,7 +59,7 @@ def test_evaluate_answers(monkeypatch, tmp_path):
 
     # Mock OpenAI(), call_llm() and tqdm()
     monkeypatch.setattr(answer_evaluation, 'OpenAI', lambda: None)
-    monkeypatch.setattr(answer_evaluation.AnswerOpenAIEvaluator, 'call_llm', lambda *_: '2\t2\t2\thello')
+    monkeypatch.setattr(answer_evaluation.OpenAIAnswerEvaluator, 'call_llm', lambda *_: '2\t2\t2\thello')
     monkeypatch.setattr(answer_evaluation, 'tqdm', lambda x: x)
 
     # Run

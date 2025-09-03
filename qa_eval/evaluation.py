@@ -112,9 +112,9 @@ def run_evaluation(
                 continue
             eval_result["status"] = "success"
             if "reference_answer" in question:
-                from qa_eval.answer_evaluation import AnswerOpenAIEvaluator
+                from qa_eval.answer_evaluation import OpenAIAnswerEvaluator
                 if not answer_evaluator:
-                    answer_evaluator = AnswerOpenAIEvaluator()
+                    answer_evaluator = OpenAIAnswerEvaluator()
                 add_answer_evaluation(
                     question,
                     actual_result,
