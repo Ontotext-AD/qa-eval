@@ -314,11 +314,10 @@ The output is a list of statistics for each question from the reference Q&A data
     The following transformers are located within the Substation OSLO:
     1. **OSLO T2** (IRI: `urn:uuid:f1769de8-9aeb-11e5-91da-b8763fd99c5f`)
     2. **OSLO T1** (IRI: `urn:uuid:f1769dd6-9aeb-11e5-91da-b8763fd99c5f`)
-  answer_eval:
-    - t: 2
-    - p: 2
-    - tp: 2
-    - reason: The candidate answer contains exactly the transformers listed in the reference answer, asked in the question
+  answer_reference_claims_count: 2
+  answer_actual_claims_count: 2
+  answer_matching_claims_count: 2
+  answer_eval_reason: The candidate answer contains exactly the transformers listed in the reference answer, asked in the question
   actual_steps:
   - name: autocomplete_search
     args:
@@ -413,11 +412,11 @@ The output is a list of statistics for each question from the reference Q&A data
 - `reference_steps` - (optional) copy of the expected steps in the Q&A dataset, if specified there
 - `reference_answer` - (optional) copy of the expected answer in the Q&A dataset, if specified there
 - `actual_answer` - (optional) copy of the response text in the evaluation target, if specified there
-- `answer_num_ref_claims` - (optional) number of claims extracted from the reference answer, if a reference answer and actual answer are available
-- `answer_num_actual_claims` - (optional) number of claims extracted from the answer being evaluated, if a reference answer and actual answer are available
-- `answer_num_matching_claims` - (optional) number of matching claims between the reference answer and the actual answer, if a reference answer and actual answer are available
-- `answer_recall` - (optional) `answer_num_matching_claims / answer_num_ref_claims`
-- `answer_precision` - (optional) `answer_num_matching_claims / answer_num_actual_claims`
+- `answer_reference_claims_count` - (optional) number of claims extracted from the reference answer, if a reference answer and actual answer are available
+- `answer_actual_claims_count` - (optional) number of claims extracted from the answer being evaluated, if a reference answer and actual answer are available
+- `answer_matching_claims_count` - (optional) number of matching claims between the reference answer and the actual answer, if a reference answer and actual answer are available
+- `answer_recall` - (optional) `answer_matching_claims_count / answer_reference_claims_count`
+- `answer_precision` - (optional) `answer_matching_claims_count / answer_actual_claims_count`
 - `answer_eval_reason` - (optional) LLM reasoning in extracting and matching claims from the reference answer and the actual answer
 - `answer_eval_error` - (optional) error message if answer evaluation failed
 - `answer_f1` - (optional) Harmonic mean of `answer_recall` and `answer_precision`
