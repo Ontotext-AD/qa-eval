@@ -28,7 +28,13 @@ def extract_response_values(
     except ValueError:
         msg = f'Non-int value: {response}'
         return None, None, None, vals[3], msg
-    if any([n_ref < 1, n_target < 1, n_matching < 1, n_matching > n_ref, n_matching > n_target]):
+    if any([
+        n_ref < 1,
+        n_target < 1,
+        n_matching < 0,
+        n_matching > n_ref,
+        n_matching > n_target
+    ]):
         msg = f'Invalid int values: {n_ref}\t{n_target}\t{n_matching}'
         return None, None, None, vals[3], msg
     return n_ref, n_target, n_matching, vals[3], ''

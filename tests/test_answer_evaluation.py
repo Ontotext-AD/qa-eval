@@ -12,9 +12,29 @@ def test_extract_response_values_expected_case():
 
 
 def test_extract_response_values_invalid_values():
-    response = '1\t1\t2\tsome reason'
+    response = '0\t1\t1\tsome reason'
     result = extract_response_values(response)
-    assert result == (None, None, None, 'some reason', 'Invalid int values: 1\t1\t2')
+    assert result == (None, None, None, 'some reason', 'Invalid int values: 0\t1\t1')
+
+    response = '1\t0\t1\tsome reason'
+    result = extract_response_values(response)
+    assert result == (None, None, None, 'some reason', 'Invalid int values: 1\t0\t1')
+
+    response = '1\t2\t-1\tsome reason'
+    result = extract_response_values(response)
+    assert result == (None, None, None, 'some reason', 'Invalid int values: 1\t2\t-1')
+
+    response = '1\t3\t2\tsome reason'
+    result = extract_response_values(response)
+    assert result == (None, None, None, 'some reason', 'Invalid int values: 1\t3\t2')
+
+    response = '3\t1\t2\tsome reason'
+    result = extract_response_values(response)
+    assert result == (None, None, None, 'some reason', 'Invalid int values: 3\t1\t2')
+
+    response = '3\t1\t2\tsome reason'
+    result = extract_response_values(response)
+    assert result == (None, None, None, 'some reason', 'Invalid int values: 3\t1\t2')
 
 
 def test_extract_response_values_non_int():
