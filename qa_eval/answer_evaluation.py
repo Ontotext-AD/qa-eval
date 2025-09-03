@@ -8,7 +8,7 @@ from tqdm import tqdm
 IN_FILE_PATH = '../data/data-1.tsv'
 PROMPT_FILE_PATH = 'prompts/template.md'
 OUT_FILE_PATH = 'results/data-1.tsv'
-OUT_FIELDS = ['#T', '#P', '#TP', 'Reasoning', 'Error']
+OUT_FIELDS = ['#Reference', '#PTarget', '#Matching', 'Reasoning', 'Error']
 LLM_MODEL = 'gpt-4o-mini'
 TEMPERATURE = 0.0
 
@@ -24,14 +24,14 @@ def extract_response_values(
         return None, None, None, '', msg
     vals = vals[:4]
     try:
-        t, p, tp = map(int, vals[:3])
+        n_ref, n_target, n_matching = map(int, vals[:3])
     except ValueError:
         msg = f'Non-int value: {response}'
         return None, None, None, vals[3], msg
-    if any([t < 1, p < 1, tp < 1, tp > t, tp > p]):
-        msg = f'Invalid int values: {t}\t{p}\t{tp}'
+    if any([n_ref < 1, n_target < 1, n_matching < 1, n_matching > n_ref, n_matching > n_target]):
+        msg = f'Invalid int values: {n_ref}\t{n_target}\t{n_matching}'
         return None, None, None, vals[3], msg
-    return t, p, tp, vals[3], ''
+    return n_ref, n_target, n_matching, vals[3], ''
 
 
 class AnswerOpenAIEvaluator:
