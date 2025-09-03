@@ -1,6 +1,5 @@
 import builtins
 import io
-from pathlib import Path
 
 from qa_eval import answer_evaluation
 from qa_eval.answer_evaluation import extract_response_values
@@ -44,7 +43,7 @@ def test_evaluate_answers(monkeypatch, tmp_path):
     mock_input_content = 'Question\tReference answer\tActual answer\nQ1\tRef\tAns\n'
 
     prompt_file_path = 'prompt_file_path'
-    data_file_path = 'data_file_path'
+    in_file_path = 'in_file_path'
     out_file_path = tmp_path / 'out_file_name'
 
     # Mock open()
@@ -53,7 +52,7 @@ def test_evaluate_answers(monkeypatch, tmp_path):
     def mock_open(path, *args, **kwargs):
         if path == prompt_file_path:
             return io.StringIO(mock_prompt_content)
-        elif path == data_file_path:
+        elif path == in_file_path:
             return io.StringIO(mock_input_content)
         return real_open(path, *args, **kwargs)
 
@@ -65,7 +64,7 @@ def test_evaluate_answers(monkeypatch, tmp_path):
     monkeypatch.setattr(answer_evaluation, 'tqdm', lambda x: x)
 
     # Run
-    answer_evaluation.evaluate_and_write(prompt_file_path, data_file_path, out_file_path)
+    answer_evaluation.evaluate_and_write(in_file_path, out_file_path)
 
     # Verify output file content
     written = out_file_path.read_text().splitlines()
