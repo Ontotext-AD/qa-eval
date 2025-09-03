@@ -36,18 +36,18 @@ def evaluate_steps(
     return scores_by_group[group_ix] / len(reference_steps_groups[group_ix])
 
 
-def add_steps_evaluation(question: dict, actual_result: dict, eval_result: dict):
-    act_steps = actual_result["steps"]
+def add_steps_evaluation(reference: dict, target: dict, eval_result: dict):
+    act_steps = target["steps"]
     eval_result["actual_steps"] = act_steps
-    if "reference_steps" in question:
-        ref_steps = question["reference_steps"]
+    if "reference_steps" in reference:
+        ref_steps = reference["reference_steps"]
         steps_score = evaluate_steps(ref_steps, act_steps)
         eval_result["steps_score"] = steps_score
 
 
 def add_answer_evaluation(
-    question: dict,
-    actual_result: dict,
+    reference: dict,
+    target: dict,
     answer_evaluator: "OpenAIAnswerEvaluator",
     eval_result: dict
 ):
@@ -59,12 +59,12 @@ def add_answer_evaluation(
     #     n_true_pos: ...
     # ```
     # but would complicate aggregation
-    eval_result["reference_answer"] = question["reference_answer"]
+    eval_result["reference_answer"] = reference["reference_answer"]
     num_ref_claims, num_actual_claims, num_matching_claims, reason, error = \
     answer_evaluator.evaluate_answer(
-        question["question_text"],
-        question["reference_answer"],
-        actual_result["actual_answer"],
+        reference["question_text"],
+        reference["reference_answer"],
+        target["actual_answer"],
     )
     if error:
         eval_result["answer_eval_error"] = error
