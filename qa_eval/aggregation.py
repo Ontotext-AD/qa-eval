@@ -87,7 +87,11 @@ def compute_aggregates(samples: list[dict]) -> dict:
         number_of_samples_per_template_by_status[template_id]["success"] += 1
 
         update_stats_per_template(sample, stats_per_template, template_id)
-        update_steps_summary_per_template(sample, steps_summary_per_template, template_id)
+        update_steps_summary_per_template(
+            sample,
+            steps_summary_per_template,
+            template_id
+        )
 
     summary = {"per_template": {}}
 
