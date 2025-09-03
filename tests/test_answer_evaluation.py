@@ -20,7 +20,6 @@ def test_extract_response_values_invalid_values():
 def test_extract_response_values_non_int():
     response = '2\t2\tx\thello'
     result = answer_evaluation.extract_response_values(response)
-    # t and p parse as ints, tp fails → error
     assert result == (None, None, None, 'hello', 'Non-int value: 2\t2\tx\thello')
 
 
