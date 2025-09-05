@@ -36,7 +36,7 @@ We plan to improve CLI support in future releases.
 
 To evaluate the final answers and/or steps:
 1. Install this package: section [Install](#Installation)
-1. Format the corpus of questions and reference answers and/or steps: section [Reference Q&A Corpus](#Reference-Q&A-Corpus)
+1. Format the corpus of questions and reference answers and/or steps: section [Reference Q&A Corpus](#reference-qa-corpus)
 1. Format the answers and/or steps you want to evaluate: section [Evaluation Target Corpus](#Evaluation-Target-Corpus)
 1. To evaluate answers, set environment variable `OPENAI_API_KEY` appropriately
 1. Call the evaluation function with the reference corpus and target corpus: section [Example Usage Code](#Example-Usage-Code)
