@@ -272,7 +272,7 @@ evaluation_results = run_evaluation(reference_qas, chat_responses)
 aggregates = compute_aggregates(evaluation_results)
 ```
 
-`evaluation_results` is a list of statistics for each question, as in section (Example Evaluation Results)[Example-Evaluation-Results] or (Example Output on Error)[Example-Output-on-Error]. The format is explained in section (Output Keys)[Output-Keys]
+`evaluation_results` is a list of statistics for each question, as in section (Example Evaluation Results)[#example-evaluation-results] or (Example Output on Error)[#example-output-on-error]. The format is explained in section (Output Keys)[#output-keys]
 
 ### Example Evaluation Results
 
