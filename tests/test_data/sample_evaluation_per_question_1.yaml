@@ -113,7 +113,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 221339
   output_tokens: 212
   total_tokens: 221551
@@ -222,7 +222,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 221279
   output_tokens: 193
   total_tokens: 221472
@@ -330,7 +330,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 221260
   output_tokens: 178
   total_tokens: 221438
@@ -437,7 +437,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 221259
   output_tokens: 170
   total_tokens: 221429
@@ -491,7 +491,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147171
   output_tokens: 46
   total_tokens: 147217
@@ -598,7 +598,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 221268
   output_tokens: 173
   total_tokens: 221441
@@ -707,7 +707,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 221267
   output_tokens: 179
   total_tokens: 221446
@@ -816,7 +816,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 221260
   output_tokens: 176
   total_tokens: 221436
@@ -871,7 +871,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147177
   output_tokens: 49
   total_tokens: 147226
@@ -979,7 +979,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 221279
   output_tokens: 179
   total_tokens: 221458
@@ -1049,7 +1049,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 58
   total_tokens: 147246
@@ -1118,7 +1118,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 56
   total_tokens: 147244
@@ -1183,7 +1183,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 57
   total_tokens: 147245
@@ -1249,7 +1249,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 61
   total_tokens: 147249
@@ -1313,7 +1313,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 56
   total_tokens: 147244
@@ -1375,7 +1375,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 56
   total_tokens: 147244
@@ -1435,7 +1435,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 57
   total_tokens: 147245
@@ -1493,7 +1493,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 57
   total_tokens: 147245
@@ -1549,7 +1549,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 56
   total_tokens: 147244
@@ -1605,7 +1605,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147188
   output_tokens: 57
   total_tokens: 147245
@@ -2209,7 +2209,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 298028
   output_tokens: 725
   total_tokens: 298753
@@ -2710,7 +2710,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 297945
   output_tokens: 770
   total_tokens: 298715
@@ -3209,7 +3209,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 297982
   output_tokens: 805
   total_tokens: 298787
@@ -3595,7 +3595,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 297229
   output_tokens: 747
   total_tokens: 297976
@@ -3958,7 +3958,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 297059
   output_tokens: 700
   total_tokens: 297759
@@ -4316,7 +4316,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 296988
   output_tokens: 664
   total_tokens: 297652
@@ -4654,7 +4654,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 296909
   output_tokens: 667
   total_tokens: 297576
@@ -4990,7 +4990,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 296927
   output_tokens: 625
   total_tokens: 297552
@@ -5277,7 +5277,7 @@
           ]
         }
       }
-  answer_score: 1.0
+  steps_score: 1.0
   input_tokens: 222528
   output_tokens: 363
   total_tokens: 222891
@@ -5436,7 +5436,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 105
   total_tokens: 147359
@@ -5596,7 +5596,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 105
   total_tokens: 147359
@@ -5738,7 +5738,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 105
   total_tokens: 147359
@@ -5880,7 +5880,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 107
   total_tokens: 147361
@@ -6006,7 +6006,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 105
   total_tokens: 147359
@@ -6133,7 +6133,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 105
   total_tokens: 147359
@@ -6252,7 +6252,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 105
   total_tokens: 147359
@@ -6372,7 +6372,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 105
   total_tokens: 147359
@@ -6475,7 +6475,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 105
   total_tokens: 147359
@@ -6578,7 +6578,7 @@
           "bindings": []
         }
       }
-  answer_score: 0.0
+  steps_score: 0.0
   input_tokens: 147254
   output_tokens: 105
   total_tokens: 147359

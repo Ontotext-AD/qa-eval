@@ -21,14 +21,16 @@ jobs:
           environment-file: environment.yml
           auto-activate-base: false
 
-      - name: Install dependencies with Poetry
+      - name: Run simple tests
         shell: bash -l {0}
         run: |
           conda activate qa-eval
-          poetry install --no-interaction --with test
-
-      - name: Run tests
-        shell: bash -l {0}
-        run: |
-          conda activate qa-eval
+          poetry install --no-interaction --with=test
           poetry run pytest --cov=qa_eval --cov-report=term-missing tests/
+
+      - name: Run tests dependent on OpenAI
+        shell: bash -l {0}
+        run: |
+          conda activate qa-eval
+          poetry install --no-interaction --with=test --with=openai
+          poetry run pytest --cov=qa_eval --cov-report=term-missing tests-with-openai

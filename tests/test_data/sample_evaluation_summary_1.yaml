@@ -11,7 +11,7 @@ per_template:
         sparql_query: 8
       empty_results:
         autocomplete_search: 2
-    answer_score:
+    steps_score:
       sum: 8.0
       mean: 0.8
       median: 1.0
@@ -51,7 +51,7 @@ per_template:
         autocomplete_search: 10
       empty_results:
         autocomplete_search: 10
-    answer_score:
+    steps_score:
       sum: 0.0
       mean: 0.0
       median: 0.0
@@ -93,7 +93,7 @@ per_template:
         sparql_query: 9
       errors:
         sparql_query: 8
-    answer_score:
+    steps_score:
       sum: 9.0
       mean: 1.0
       median: 1.0
@@ -133,7 +133,7 @@ per_template:
         autocomplete_search: 10
       empty_results:
         autocomplete_search: 20
-    answer_score:
+    steps_score:
       sum: 0.0
       mean: 0.0
       median: 0.0
@@ -166,7 +166,7 @@ per_template:
 micro:
   number_of_error_samples: 1
   number_of_success_samples: 39
-  answer_score:
+  steps_score:
     sum: 17.0
     mean: 0.4358974358974359
     median: 0.0
@@ -197,7 +197,7 @@ micro:
     min: 2.8653159141540527
     max: 55.4010910987854
 macro:
-  answer_score:
+  steps_score:
     mean: 0.45
   input_tokens:
     mean: 197491.0027777778
