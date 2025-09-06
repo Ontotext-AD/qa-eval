@@ -104,6 +104,8 @@ def run_evaluation(
                 "question_id": actual_result["question_id"],
                 "question_text": question["question_text"],
             }
+            if "reference_answer" in question:
+                eval_result["reference_answer"] = question["reference_answer"]
             if "reference_steps" in question:
                 eval_result["reference_steps"] = question["reference_steps"]
             if "error" in actual_result:
