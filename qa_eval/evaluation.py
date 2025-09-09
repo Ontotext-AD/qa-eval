@@ -1,4 +1,5 @@
 from .steps import get_steps_evaluation_result_dict
+from qa_eval import answer_relevance
 
 
 def run_evaluation(
@@ -29,6 +30,12 @@ def run_evaluation(
                 evaluation_results.append(eval_result)
                 continue
             eval_result["status"] = "success"
+            eval_result.update(
+                answer_relevance.get_relevance_dict(
+                    question,
+                    actual_result,
+                )
+            )
             if "reference_answer" in question:
                 from qa_eval.answer_correctness import AnswerCorrectnessEvaluator
                 if not answer_correctess_evaluator:

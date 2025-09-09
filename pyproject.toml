@@ -34,6 +34,7 @@ optional = true
 
 [tool.poetry.group.openai.dependencies]
 openai = "^1.97.0"
+langevals = { version = "^0.1.8", extras = ["all"] }
 
 [tool.poetry.group.openai]
 optional = true
