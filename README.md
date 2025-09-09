@@ -319,6 +319,9 @@ The output is a list of statistics for each question from the reference Q&A data
   answer_actual_claims_count: 2
   answer_matching_claims_count: 2
   answer_eval_reason: The candidate answer contains exactly the transformers listed in the reference answer, asked in the question
+  answer_recall: 1.0
+  answer_precision: 1.0
+  answer_f1: 1.0
   actual_steps:
   - name: autocomplete_search
     args:
