@@ -469,6 +469,24 @@ per_template:
   list_all_transformers_within_Substation_SUBSTATION:
     number_of_error_samples: 0
     number_of_success_samples: 10
+    answer_recall:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
+    answer_precision:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
+    answer_f1:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
     steps:
       total:
         autocomplete_search: 10
