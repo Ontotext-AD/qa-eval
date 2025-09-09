@@ -554,6 +554,24 @@ per_template:
   list_all_substations_within_bidding_zone_REGION:
     number_of_error_samples: 0
     number_of_success_samples: 10
+    answer_recall:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
+    answer_precision:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
+    answer_f1:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
     steps:
       total:
         autocomplete_search: 10
@@ -594,6 +612,24 @@ per_template:
   list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION:
     number_of_error_samples: 1
     number_of_success_samples: 9
+    answer_recall:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
+    answer_precision:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
+    answer_f1:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
     steps:
       total:
         autocomplete_search: 9
@@ -636,6 +672,24 @@ per_template:
   list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2:
     number_of_error_samples: 0
     number_of_success_samples: 10
+    answer_recall:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
+    answer_precision:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
+    answer_f1:
+      sum: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      max: 1.0
     steps:
       total:
         autocomplete_search: 20
