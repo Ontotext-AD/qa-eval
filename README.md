@@ -473,12 +473,18 @@ Aggregates include:
   - `output_tokens` - `sum`, `mean`, `median`, `min` and `max` for `output_tokens` of all successful questions
   - `total_tokens` - `sum`, `mean`, `median`, `min` and `max` for `total_tokens` of all successful questions
   - `elapsed_sec` - `sum`, `mean`, `median`, `min` and `max` for `elapsed_sec` of all successful questions
+  - `answer_recall` - `sum`, `mean`, `median`, `min` and `max` for `answer_recall` of all successful questions
+  - `answer_precision` - `sum`, `mean`, `median`, `min` and `max` for `answer_precision` of all successful questions
+  - `answer_f1` - `sum`, `mean`, `median`, `min` and `max` for `answer_f1` of all successful questions
   - `steps_score` - `sum`, `mean`, `median`, `min` and `max` for `steps_score` of all successful questions
 - `macro` - averages across templates, i.e., the mean of each metric per template, averaged. It includes:
   - `input_tokens` - `mean` for `input_tokens`
   - `output_tokens` - `mean` for `output_tokens`
   - `total_tokens` - `mean` for `total_tokens`
   - `elapsed_sec` - `mean` for `elapsed_sec`
+  - `answer_recall` - `mean` for `answer_recall`
+  - `answer_precision` - `mean` for `answer_precision`
+  - `answer_f1` - `mean` for `answer_f1`
   - `steps_score` - `mean` for `steps_score`
 
 #### Example Aggregates
@@ -701,6 +707,9 @@ micro:
     min: 2.8653159141540527
     max: 55.4010910987854
 macro:
+  answer_recall:...
+  answer_precision:...
+  aswer_f1:...
   steps_score:
     mean: 0.45
   input_tokens:
