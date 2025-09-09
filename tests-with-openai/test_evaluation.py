@@ -24,11 +24,11 @@ def test_run_evaluation_and_compute_aggregates(monkeypatch, tmp_path):
     sample_chat_responses_path = Path(__file__).parent.parent / "tests" / "test_data" / "sample_chat_responses_1.jsonl"
 
     # Define mock call_llm()
-    mock_call_llm = lambda *_: '2\t2\t2\treason'
+    mock_call_llm = lambda *_: "2\t2\t2\treason"
     
     # Assign mocks
-    monkeypatch.setattr(answer_evaluation, 'OpenAI', lambda: None)
-    monkeypatch.setattr(answer_evaluation.OpenAIAnswerEvaluator, 'call_llm', mock_call_llm)
+    monkeypatch.setattr(answer_evaluation, "OpenAI", lambda: None)
+    monkeypatch.setattr(answer_evaluation.OpenAIAnswerEvaluator, "call_llm", mock_call_llm)
     
     # Run
     evaluation_results = run_evaluation(sample_reference_standard, get_chat_responses(sample_chat_responses_path))
