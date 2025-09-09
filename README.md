@@ -218,7 +218,7 @@ The module is agnostic to the specific LLM agent implementation and model; it de
 
 ### Evaluation Target Corpus
 
-Below is a sample response from the LLM agent for a single question:
+Below is an example response from the question-answering system for a single question (unless there is an error in answering: see [Example Target Input on Error](#example-target-input-on-error) below):
 
 ```json
 {
@@ -261,6 +261,18 @@ Below is a sample response from the LLM agent for a single question:
 }
 ```
 
+#### Example Target Input on Error
+
+If an error occurs during generating a response to a question, the expected target input for evaluation is:
+
+```json
+{
+    "question_id": "a8daaf98b84b4f6b0e0052fb942bf6b6",
+    "error": "Error message",
+    "status": "error"
+}
+```
+
 ### Example Usage Code
 
 ```python
@@ -272,7 +284,7 @@ evaluation_results = run_evaluation(reference_qas, chat_responses)
 aggregates = compute_aggregates(evaluation_results)
 ```
 
-`evaluation_results` is a list of statistics for each question, as in section [Example Evaluation Results](#example-evaluation-results) or [Example Output on Error](#example-output-on-error). The format is explained in section [Output Keys](#output-keys)
+`evaluation_results` is a list of statistics for each question, as in section [Example Evaluation Results](#example-evaluation-results). The format is explained in section [Output Keys](#output-keys)
 
 ### Example Evaluation Results
 
@@ -699,18 +711,6 @@ macro:
     mean: 197738.9527777778
   elapsed_sec:
     mean: 25.911653497483996
-```
-
-### Example Output on Error
-
-If an error occurs, the response format is:
-
-```json
-{
-    "question_id": "a8daaf98b84b4f6b0e0052fb942bf6b6",
-    "error": "Error message",
-    "status": "error"
-}
 ```
 
 ### Retrieval Evaluation
