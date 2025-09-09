@@ -432,7 +432,7 @@ The output is a list of statistics for each question from the reference Q&A data
 - `total_tokens` - total tokens usage
 - `elapsed_sec` - elapsed seconds
 
-#### Aggregates keys
+#### Aggregates Keys
 
 The `aggregates` object provides aggregated evaluation metrics.
 Aggregates are computed both per-template and overall, using micro and macro averaging strategies.
