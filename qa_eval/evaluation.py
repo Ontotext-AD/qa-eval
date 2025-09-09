@@ -45,24 +45,13 @@ def add_steps_evaluation(reference: dict, target: dict, eval_result: dict):
         eval_result["steps_score"] = steps_score
 
 
-def add_answer_evaluation(
+def get_answer_evaluation_dict(
     reference: dict,
     target: dict,
     answer_evaluator: "OpenAIAnswerEvaluator",
-    eval_result: dict
 ):
-    # Nested output would be cleaner:
-    # ```yaml
-    # answer_eval:
-    #     reference_claims_count: ...
-    #     actual_claims_count: ...
-    #     matching_claims_count: ...
-    #     recall: ...
-    #     ...
-    #     reason: ...
-    # ```
-    # but would complicate aggregation
-    eval_result["reference_answer"] = reference["reference_answer"]
+    result = {}
+    result["reference_answer"] = reference["reference_answer"]
     num_ref_claims, num_actual_claims, num_matching_claims, reason, error = \
     answer_evaluator.evaluate_answer(
         reference["question_text"],
@@ -70,9 +59,9 @@ def add_answer_evaluation(
         target["actual_answer"],
     )
     if error:
-        eval_result["answer_eval_error"] = error
+        result["answer_eval_error"] = error
     else:
-        eval_result.update({
+        result.update({
             "answer_reference_claims_count": num_ref_claims,
             "answer_actual_claims_count": num_actual_claims,
             "answer_matching_claims_count": num_matching_claims,
@@ -82,17 +71,19 @@ def add_answer_evaluation(
             num_ref_claims, num_actual_claims, num_matching_claims
         )
         if recall is not None:
-            eval_result["answer_recall"] = recall
+            result["answer_recall"] = recall
         if precision is not None:
-            eval_result["answer_precision"] = precision
+            result["answer_precision"] = precision
         if f1 is not None:
-            eval_result["answer_f1"] = f1
+            result["answer_f1"] = f1
+    return result
 
 
 def run_evaluation(
         qa_dataset: list[dict],
         responses_dict: dict,
 ) -> list[dict]:
+    # Output metrics are not nested, for simpler aggregation
     answer_evaluator = None
     evaluation_results = []
     for template in qa_dataset:
@@ -120,11 +111,12 @@ def run_evaluation(
                 from qa_eval.answer_evaluation import OpenAIAnswerEvaluator
                 if not answer_evaluator:
                     answer_evaluator = OpenAIAnswerEvaluator()
-                add_answer_evaluation(
-                    question,
-                    actual_result,
-                    answer_evaluator,
-                    eval_result
+                eval_result.update(
+                    get_answer_evaluation_dict(
+                        question,
+                        actual_result,
+                        answer_evaluator,
+                    )
                 )
             if "steps" in actual_result:
                 add_steps_evaluation(question, actual_result, eval_result)
