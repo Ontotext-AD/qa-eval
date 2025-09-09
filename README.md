@@ -310,6 +310,7 @@ The output is a list of statistics for each question from the reference Q&A data
         - transformer
         - transformerName
       matches: call_3b3zHJnBXwYYSg04BiFGAAgO
+  status: success
   actual_answer: |-
     The following transformers are located within the Substation OSLO:
     1. **OSLO T2** (IRI: `urn:uuid:f1769de8-9aeb-11e5-91da-b8763fd99c5f`)
