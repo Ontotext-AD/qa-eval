@@ -676,6 +676,24 @@ per_template:
 micro:
   number_of_error_samples: 1
   number_of_success_samples: 39
+  answer_recall:
+    sum: 1.0
+    mean: 1.0
+    median: 1.0
+    min: 1.0
+    max: 1.0
+  answer_precision:
+    sum: 1.0
+    mean: 1.0
+    median: 1.0
+    min: 1.0
+    max: 1.0
+  answer_f1:
+    sum: 1.0
+    mean: 1.0
+    median: 1.0
+    min: 1.0
+    max: 1.0
   steps_score:
     sum: 17
     mean: 0.4358974358974359
@@ -707,9 +725,12 @@ micro:
     min: 2.8653159141540527
     max: 55.4010910987854
 macro:
-  answer_recall:...
-  answer_precision:...
-  aswer_f1:...
+  answer_recall:
+    mean: 1.0
+  answer_precision:
+    mean: 1.0
+  answer_f1:
+    mean: 1.0
   steps_score:
     mean: 0.45
   input_tokens:
