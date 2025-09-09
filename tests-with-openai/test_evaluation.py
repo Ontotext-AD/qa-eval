@@ -4,7 +4,7 @@ import jsonlines
 import yaml
 
 from qa_eval import (
-    answer_evaluation,
+    answer_correctness,
     compute_aggregates,
     run_evaluation,
 )
@@ -27,8 +27,9 @@ def test_run_evaluation_and_compute_aggregates(monkeypatch, tmp_path):
     mock_call_llm = lambda *_: "2\t2\t2\treason"
     
     # Assign mocks
-    monkeypatch.setattr(answer_evaluation, "OpenAI", lambda: None)
-    monkeypatch.setattr(answer_evaluation.OpenAIAnswerEvaluator, "call_llm", mock_call_llm)
+    monkeypatch.setattr(answer_correctness, "OpenAI", lambda: None)
+    eval_class = answer_correctness.AnswerCorrectnessEvaluator
+    monkeypatch.setattr(eval_class, "call_llm", mock_call_llm)
     
     # Run
     evaluation_results = run_evaluation(sample_reference_standard, get_chat_responses(sample_chat_responses_path))

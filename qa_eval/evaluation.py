@@ -6,7 +6,7 @@ def run_evaluation(
         responses_dict: dict,
 ) -> list[dict]:
     # Output metrics are not nested, for simpler aggregation
-    answer_evaluator = None
+    answer_correctess_evaluator = None
     evaluation_results = []
     for template in qa_dataset:
         template_id = template["template_id"]
@@ -30,11 +30,11 @@ def run_evaluation(
                 continue
             eval_result["status"] = "success"
             if "reference_answer" in question:
-                from qa_eval.answer_evaluation import OpenAIAnswerEvaluator
-                if not answer_evaluator:
-                    answer_evaluator = OpenAIAnswerEvaluator()
+                from qa_eval.answer_correctness import AnswerCorrectnessEvaluator
+                if not answer_correctess_evaluator:
+                    answer_correctess_evaluator = AnswerCorrectnessEvaluator()
                 eval_result.update(
-                    answer_evaluator.get_evaluation_result_dict(
+                    answer_correctess_evaluator.get_correctness_dict(
                         question,
                         actual_result,
                     )
