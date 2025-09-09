@@ -412,6 +412,7 @@ The output is a list of statistics for each question from the reference Q&A data
 - `question_text` - the natural language query
 - `reference_steps` - (optional) copy of the expected steps in the Q&A dataset, if specified there
 - `reference_answer` - (optional) copy of the expected answer in the Q&A dataset, if specified there
+- `status` - "success" or "error", indicating whether the evaluation succeeded
 - `actual_answer` - (optional) copy of the response text in the evaluation target, if specified there
 - `answer_reference_claims_count` - (optional) number of claims extracted from the reference answer, if a reference answer and actual answer are available
 - `answer_actual_claims_count` - (optional) number of claims extracted from the answer being evaluated, if a reference answer and actual answer are available
