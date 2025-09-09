@@ -14,6 +14,23 @@ TEMPERATURE = 0.0
 
 
 
+def compute_recall_precision_f1(
+    n_pos: int | None,
+    n_pred_pos: int | None,
+    n_true_pos: int | None,
+) -> tuple[float | None, float | None, float | None]:
+    recall = None
+    precision = None
+    f1 = None
+    if n_true_pos is not None and n_pos:
+        recall = n_true_pos / n_pos
+    if n_true_pos is not None and n_pred_pos:
+        precision = n_true_pos / n_pred_pos
+    if precision is not None and recall is not None and precision + recall > 0:
+        f1 = 2 * (precision * recall) / (precision + recall)
+    return recall, precision, f1
+
+
 def extract_response_values(
     response: str
 ) -> tuple[int | None, int | None, int | None, str, str]:
@@ -75,6 +92,39 @@ class OpenAIAnswerEvaluator:
         )
         response_str = self.call_llm(prompt)
         return extract_response_values(response_str)
+
+    def get_evaluation_result_dict(
+        self,
+        reference: dict,
+        target: dict,
+    ):
+        result = {}
+        result["reference_answer"] = reference["reference_answer"]
+        num_ref_claims, num_actual_claims, num_matching_claims, reason, error = \
+        self.evaluate_answer(
+            reference["question_text"],
+            reference["reference_answer"],
+            target["actual_answer"],
+        )
+        if error:
+            result["answer_eval_error"] = error
+        else:
+            result.update({
+                "answer_reference_claims_count": num_ref_claims,
+                "answer_actual_claims_count": num_actual_claims,
+                "answer_matching_claims_count": num_matching_claims,
+                "answer_eval_reason": reason,
+            })
+            recall, precision, f1 = compute_recall_precision_f1(
+                num_ref_claims, num_actual_claims, num_matching_claims
+            )
+            if recall is not None:
+                result["answer_recall"] = recall
+            if precision is not None:
+                result["answer_precision"] = precision
+            if f1 is not None:
+                result["answer_f1"] = f1
+        return result
 
 
 def evaluate_and_write(
