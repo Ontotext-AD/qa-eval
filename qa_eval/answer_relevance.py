@@ -19,7 +19,7 @@ def get_relevance_dict(
         output=actual_answer
     )
     evaluator = RagasResponseRelevancyEvaluator(settings=settings_dict)
-    _result_dict = evaluator.evaluate(entry).model_dump()
+    _result_dict = evaluator.evaluate(entry)["ragas_answer_relevancy"][0]
     if _result_dict["status"] == "processed":
         return {
             "answer_relevance": _result_dict["score"],
