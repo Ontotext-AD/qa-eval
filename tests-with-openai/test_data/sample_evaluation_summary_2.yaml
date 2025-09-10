@@ -1,0 +1,65 @@
+per_template:
+  list_all_transformers_within_Substation_SUBSTATION:
+    number_of_error_samples: 1
+    number_of_success_samples: 0
+    steps: {}
+    input_tokens:
+      sum: 0
+      mean: 0
+      median: 0
+      min: 0
+      max: 0
+    output_tokens:
+      sum: 0
+      mean: 0
+      median: 0
+      min: 0
+      max: 0
+    total_tokens:
+      sum: 0
+      mean: 0
+      median: 0
+      min: 0
+      max: 0
+    elapsed_sec:
+      sum: 0
+      mean: 0
+      median: 0
+      min: 0
+      max: 0
+micro:
+  number_of_error_samples: 1
+  number_of_success_samples: 0
+  input_tokens:
+    sum: 0
+    mean: 0
+    median: 0
+    min: 0
+    max: 0
+  output_tokens:
+    sum: 0
+    mean: 0
+    median: 0
+    min: 0
+    max: 0
+  total_tokens:
+    sum: 0
+    mean: 0
+    median: 0
+    min: 0
+    max: 0
+  elapsed_sec:
+    sum: 0
+    mean: 0
+    median: 0
+    min: 0
+    max: 0
+macro:
+  input_tokens:
+    mean: 0
+  output_tokens:
+    mean: 0
+  total_tokens:
+    mean: 0
+  elapsed_sec:
+    mean: 0
