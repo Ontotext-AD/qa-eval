@@ -1,5 +1,4 @@
 from .steps import get_steps_evaluation_result_dict
-from qa_eval import answer_relevance
 
 
 def run_evaluation(
@@ -32,6 +31,7 @@ def run_evaluation(
                 continue
             eval_result["status"] = "success"
             if "question_text" in question and "actual_answer" in actual_result:
+                from qa_eval import answer_relevance
                 eval_result.update(
                     answer_relevance.get_relevance_dict(
                         question["question_text"],
