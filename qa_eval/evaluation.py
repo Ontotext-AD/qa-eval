@@ -30,12 +30,13 @@ def run_evaluation(
                 evaluation_results.append(eval_result)
                 continue
             eval_result["status"] = "success"
-            eval_result.update(
-                answer_relevance.get_relevance_dict(
-                    question,
-                    actual_result,
+            if "actual_answer" in actual_result:
+                eval_result.update(
+                    answer_relevance.get_relevance_dict(
+                        question,
+                        actual_result,
+                    )
                 )
-            )
             if "reference_answer" in question:
                 from qa_eval.answer_correctness import AnswerCorrectnessEvaluator
                 if not answer_correctess_evaluator:

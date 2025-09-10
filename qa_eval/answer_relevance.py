@@ -15,8 +15,8 @@ def get_relevance_dict(
     }
     ds = pandas.DataFrame(
         {
-            "input": question_dict["question"],
-            "output": actual_answer_dict["answer"]
+            "input": question_dict["question_text"],
+            "output": actual_answer_dict["actual_answer"]
         }
     )
     evaluator = RagasResponseRelevancyEvaluator(settings=settings_dict)

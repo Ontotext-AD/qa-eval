@@ -2,7 +2,6 @@ from qa_eval import answer_relevance
 from langevals_ragas.response_relevancy import RagasResponseRelevancyEvaluator
 
 
-
 def test_get_relevance_dict_eval_success(monkeypatch):
     monkeypatch.setattr(
         answer_relevance, 
