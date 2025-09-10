@@ -20,6 +20,12 @@ per_template:
         mean: 1.0
         median: 1.0
         sum: 1.0
+    answer_relevance:
+        min: 0.9
+        max: 0.9
+        mean: 0.9
+        median: 0.9
+        sum: 0.9
     steps:
       total:
         autocomplete_search: 1
@@ -78,6 +84,12 @@ micro:
       median: 1.0
       min: 1.0
       sum: 1.0
+  answer_relevance:
+      min: 0.9
+      max: 0.9
+      mean: 0.9
+      median: 0.9
+      sum: 0.9
   steps_score:
     sum: 1.0
     mean: 1.0
@@ -115,6 +127,8 @@ macro:
       mean: 1.0
   answer_recall: 
       mean: 1.0           
+  answer_relevance:
+      mean: 0.9
   steps_score:
     mean: 1.0
   input_tokens:

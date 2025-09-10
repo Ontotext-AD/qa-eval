@@ -1,6 +1,5 @@
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: c10bbc8dce98a4b8832d125134a16153
-  question_text: List all transformers within Substation OSLO
   reference_steps:
   - - name: sparql_query
       args:
@@ -120,7 +119,6 @@
   elapsed_sec: 6.601679801940918
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 8bbea9a10876a04ad77a82fd2aedee40
-  question_text: List all transformers within Substation STAVANGER
   reference_steps:
   - - name: sparql_query
       args:
@@ -229,7 +227,6 @@
   elapsed_sec: 6.4518632888793945
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 8033a2e09b55ae4d793f58cf305592db
-  question_text: List all transformers within Substation HALDEN
   reference_steps:
   - - name: sparql_query
       args:
@@ -337,7 +334,6 @@
   elapsed_sec: 54.34022521972656
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: efcfb8fac22f5a937de3c1371a4c82ea
-  question_text: List all transformers within Substation ASKER
   reference_steps:
   - - name: sparql_query
       args:
@@ -444,7 +440,6 @@
   elapsed_sec: 5.974300146102905
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: f0dc4a429b5c054d5d300ae04c29cf10
-  question_text: List all transformers within Substation MO
   reference_steps:
   - - name: sparql_query
       args:
@@ -498,7 +493,6 @@
   elapsed_sec: 52.01950478553772
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: c93c45fe6505ad05d9cfa643f40d51ee
-  question_text: List all transformers within Substation ARENDAL
   reference_steps:
   - - name: sparql_query
       args:
@@ -605,7 +599,6 @@
   elapsed_sec: 7.270059823989868
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 7a57bdadce5b1d7e9daef7b31794ef02
-  question_text: List all transformers within Substation KVILLDAL
   reference_steps:
   - - name: sparql_query
       args:
@@ -714,7 +707,6 @@
   elapsed_sec: 55.4010910987854
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 26d8cc0c39667b65e50c43979668467a
-  question_text: List all transformers within Substation SIMA
   reference_steps:
   - - name: sparql_query
       args:
@@ -823,7 +815,6 @@
   elapsed_sec: 5.529741525650024
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 686c2ac2cab10f7cb9a33620e43ffd9b
-  question_text: List all transformers within Substation AJAURE
   reference_steps:
   - - name: sparql_query
       args:
@@ -878,7 +869,6 @@
   elapsed_sec: 53.55501365661621
 - template_id: list_all_transformers_within_Substation_SUBSTATION
   question_id: 64d73cb977f038b905e24ba5052607cb
-  question_text: List all transformers within Substation HOGASEN
   reference_steps:
   - - name: sparql_query
       args:
@@ -986,7 +976,6 @@
   elapsed_sec: 12.084330081939697
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: d566b1e9da418ac83e520a66cc7af4d7
-  question_text: List all substations within bidding zone NO2 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1056,7 +1045,6 @@
   elapsed_sec: 2.8653159141540527
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 03d4283773b4387114342518176b128b
-  question_text: List all substations within bidding zone NO1 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1125,7 +1113,6 @@
   elapsed_sec: 47.20949578285217
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 16844c85e263a85aea5f853b5bfa2809
-  question_text: List all substations within bidding zone NO5 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1190,7 +1177,6 @@
   elapsed_sec: 9.326632022857666
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: ba2a44c6180ee107a384737e24c619a9
-  question_text: List all substations within bidding zone SE3 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1256,7 +1242,6 @@
   elapsed_sec: 4.496114015579224
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: d0bb513c8b0a4634e985c7edc852ad22
-  question_text: List all substations within bidding zone SE2 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1320,7 +1305,6 @@
   elapsed_sec: 47.20561671257019
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 55b89c3ebb2608a35c05c3a1bdc536c0
-  question_text: List all substations within bidding zone FI1 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1382,7 +1366,6 @@
   elapsed_sec: 9.527981758117676
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 6edbddac497a580250b9a1a51910d497
-  question_text: List all substations within bidding zone SE4 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1442,7 +1425,6 @@
   elapsed_sec: 4.092341423034668
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 3dfffe0b2bb649d81e7562ca50036920
-  question_text: List all substations within bidding zone NO4 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1500,7 +1482,6 @@
   elapsed_sec: 47.51542258262634
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 96a289df6ebc9e7806c25e8977dae0ee
-  question_text: List all substations within bidding zone NO3 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1556,7 +1537,6 @@
   elapsed_sec: 8.445486307144165
 - template_id: list_all_substations_within_bidding_zone_REGION
   question_id: 8a97ff8f7b96471f5f99f5fe6de5ff53
-  question_text: List all substations within bidding zone SE1 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -1612,8 +1592,6 @@
   elapsed_sec: 4.863905906677246
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: f435a0def240f68c9cbcebcbe4722a83
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named KVILLDAL
   reference_steps:
   - - name: sparql_query
       args:
@@ -1714,8 +1692,6 @@
   error: Some error
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: f91fc938d606e5f6089912bebfaf114b
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named STAVANGER
   reference_steps:
   - - name: sparql_query
       args:
@@ -2216,8 +2192,6 @@
   elapsed_sec: 46.48961806297302
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: aed48417664f990772c809e264c4b1a2
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named OSLO
   reference_steps:
   - - name: sparql_query
       args:
@@ -2717,8 +2691,6 @@
   elapsed_sec: 26.418761014938354
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: b6957ed683edad25c8534378df3d2626
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named HAGAFOSS
   reference_steps:
   - - name: sparql_query
       args:
@@ -3216,8 +3188,6 @@
   elapsed_sec: 52.42662525177002
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: e752fe96517d4eae8523cc5abe77bd12
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named HALDEN
   reference_steps:
   - - name: sparql_query
       args:
@@ -3602,8 +3572,6 @@
   elapsed_sec: 41.88556528091431
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: 65507a587e21b568b17d69e651521548
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named SYLLING
   reference_steps:
   - - name: sparql_query
       args:
@@ -3965,8 +3933,6 @@
   elapsed_sec: 27.501954078674316
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: 7888bdc6a64b414606102b1decaab3be
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named ASKER
   reference_steps:
   - - name: sparql_query
       args:
@@ -4323,8 +4289,6 @@
   elapsed_sec: 49.95414996147156
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: cbbe32e61c559e4609eb2e0543f9bf10
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named SIMA
   reference_steps:
   - - name: sparql_query
       args:
@@ -4661,8 +4625,6 @@
   elapsed_sec: 45.21958899497986
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: 1177d61a0f24e1d809750be789e93418
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named PORJUS
   reference_steps:
   - - name: sparql_query
       args:
@@ -4997,8 +4959,6 @@
   elapsed_sec: 34.390618085861206
 - template_id: list_all_substations_that_are_connected_via_an_ac_line_or_a_dc_line_to_substation_named_SUBSTATION
   question_id: 895208b56cb851d9db0f610bd154dc74
-  question_text: List all substations that are connected via an AC-line or a DC line to
-    substation named AURLAND
   reference_steps:
   - - name: sparql_query
       args:
@@ -5284,7 +5244,6 @@
   elapsed_sec: 30.534802436828613
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 23dc0fe536eae1494750fa6c7d48fa3e
-  question_text: List all AC-lines that traverse bidding zones NO2 SGR and NO5 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -5443,7 +5402,6 @@
   elapsed_sec: 15.56333041191101
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 2e826c64d8d9c8dfb667a214be2001be
-  question_text: List all AC-lines that traverse bidding zones NO5 SGR and NO2 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -5603,7 +5561,6 @@
   elapsed_sec: 16.074594974517822
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 5e9b79f43e47f537749228e24e0f823e
-  question_text: List all AC-lines that traverse bidding zones NO2 SGR and NO1 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -5745,7 +5702,6 @@
   elapsed_sec: 26.422670125961304
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 3af7528ba724b84f37212dc045ff9973
-  question_text: List all AC-lines that traverse bidding zones NO1 SGR and NO2 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -5887,7 +5843,6 @@
   elapsed_sec: 18.32871961593628
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 888d6f4010a3850c88fe0cddb468c672
-  question_text: List all AC-lines that traverse bidding zones SE2 SGR and SE3 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -6013,7 +5968,6 @@
   elapsed_sec: 15.770667791366577
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 6479272428f20c71e9cf592d230f8908
-  question_text: List all AC-lines that traverse bidding zones SE3 SGR and SE2 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -6140,7 +6094,6 @@
   elapsed_sec: 26.316898584365845
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: a9f5851bb9df1cde06a921acc7309333
-  question_text: List all AC-lines that traverse bidding zones NO1 SGR and NO5 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -6259,7 +6212,6 @@
   elapsed_sec: 18.32638382911682
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: cf18cb94ac0f78c845b492950dcdee56
-  question_text: List all AC-lines that traverse bidding zones NO5 SGR and NO1 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -6379,7 +6331,6 @@
   elapsed_sec: 16.895934581756592
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: 9c3c9e4f42ec1688bd080b8775ed214f
-  question_text: List all AC-lines that traverse bidding zones SE4 SGR and SE3 SGR
   reference_steps:
   - - name: sparql_query
       args:
@@ -6482,7 +6433,6 @@
   elapsed_sec: 26.010571002960205
 - template_id: list_all_ac_lines_that_traverse_bidding_zones_REGION1_and_REGION2
   question_id: a8daaf98b84b4f6b0e0052fb942bf6b6
-  question_text: List all AC-lines that traverse bidding zones SE1 SGR and SE2 SGR
   reference_steps:
   - - name: sparql_query
       args:

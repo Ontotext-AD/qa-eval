@@ -5,12 +5,13 @@ import yaml
 
 from qa_eval import (
     answer_correctness,
+    answer_relevance,
     compute_aggregates,
     run_evaluation,
 )
 
 
-def test_run_evaluation_and_compute_aggregates(monkeypatch, tmp_path):
+def test_run_evaluation_and_compute_aggregates(monkeypatch):
     def get_chat_responses(path: Path) -> dict:
         responses = dict()
         with jsonlines.open(path, "r") as reader:
@@ -25,7 +26,26 @@ def test_run_evaluation_and_compute_aggregates(monkeypatch, tmp_path):
 
     # Define mock call_llm()
     mock_call_llm = lambda *_: "2\t2\t2\treason"
-    
+    monkeypatch.setattr(
+        answer_relevance.RagasResponseRelevancyEvaluator, 
+        'evaluate', 
+        lambda *_: {
+            "ragas_answer_relevancy": [
+                {
+                    "status": "processed",
+                    "score": 0.9,
+                    "passed": None,
+                    "label": None,
+                    "details": "details",
+                    "cost": {
+                        "currency": "USD",
+                        "amount": 0.0007,
+                    }                            
+                }
+            ]
+        }
+    )
+
     # Assign mocks
     monkeypatch.setattr(answer_correctness, "OpenAI", lambda: None)
     eval_class = answer_correctness.AnswerCorrectnessEvaluator
