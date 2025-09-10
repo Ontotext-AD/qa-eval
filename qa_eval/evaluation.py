@@ -33,8 +33,8 @@ def run_evaluation(
             if "actual_answer" in actual_result:
                 eval_result.update(
                     answer_relevance.get_relevance_dict(
-                        question,
-                        actual_result,
+                        question["question_text"],
+                        actual_result["actual_answer"],
                     )
                 )
             if "reference_answer" in question:

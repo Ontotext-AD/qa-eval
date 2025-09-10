@@ -1,11 +1,12 @@
-import langevals
-import pandas
-from langevals_ragas.response_relevancy import RagasResponseRelevancyEvaluator
+from langevals_ragas.response_relevancy import (
+    RagasResponseRelevancyEvaluator,
+    RagasResponseRelevancyEntry
+)
 
 
 def get_relevance_dict(
-    question_dict, 
-    actual_answer_dict: dict, 
+    question_text: str, 
+    actual_answer: str, 
     model_name : str = 'openai/gpt-4o-mini', 
     max_tokens: int = 65_536
 ) -> dict:
@@ -13,14 +14,12 @@ def get_relevance_dict(
         'model': model_name,
         'max_tokens': max_tokens
     }
-    ds = pandas.DataFrame(
-        {
-            "input": question_dict["question_text"],
-            "output": actual_answer_dict["actual_answer"]
-        }
+    entry = RagasResponseRelevancyEntry(
+        input=question_text,
+        output=actual_answer
     )
     evaluator = RagasResponseRelevancyEvaluator(settings=settings_dict)
-    _result_dict = langevals.evaluate(ds, [evaluator]).to_list()
+    _result_dict = evaluator.evaluate(entry).model_dump()
     if _result_dict["status"] == "processed":
         return {
             "answer_relevance": _result_dict["score"],
