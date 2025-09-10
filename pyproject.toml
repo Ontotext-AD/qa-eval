@@ -14,7 +14,7 @@ requires-python = ">=3.12,<3.13"
 repository = "https://github.com/Ontotext-AD/qa-eval"
 
 [build-system]
-requires = ["poetry-core>=2.0.0"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.answer-eval]
@@ -34,7 +34,12 @@ optional = true
 
 [tool.poetry.group.openai.dependencies]
 openai = "^1.97.0"
-langevals = { version = "^0.1.8", extras = ["all"] }
+langevals = "0.1.*"
+langevals-ragas = "^0.1.12"
+ragas = "*"
+# Compatible versions for langevals
+datasets = ">=4.0.0"
+pyarrow = ">=14.0.0"
 
 [tool.poetry.group.openai]
 optional = true

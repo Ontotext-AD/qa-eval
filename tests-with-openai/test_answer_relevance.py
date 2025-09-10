@@ -1,5 +1,4 @@
 from qa_eval import answer_relevance
-from langevals_ragas.response_relevancy import RagasResponseRelevancyEvaluator
 
 
 def test_get_relevance_dict_eval_success(monkeypatch):
@@ -22,16 +21,9 @@ def test_get_relevance_dict_eval_success(monkeypatch):
             ]
         }
     )
-    question_dict = {
-        "question": "Why is the sky blue?",
-        "reference_answer": "Because of the scattering of sunlight by the atmosphere."
-    }
-    response_dict = {
-        "response": "Because of the oxygen in the air."
-    }
     eval_result_dict = answer_relevance.get_relevance_dict(
-        question_dict, 
-        response_dict
+        "Why is the sky blue?", 
+        "Because of the oxygen in the air"
     )
     assert eval_result_dict == {
         "answer_relevance": 0.9,
@@ -52,16 +44,9 @@ def test_get_relevance_dict_eval_error(monkeypatch):
             ]
         }
     )
-    question_dict = {
-        "question": "Why is the sky blue?",
-        "reference_answer": "Because of the scattering of sunlight by the atmosphere."
-    }
-    response_dict = {
-        "response": "Because of the oxygen in the air."
-    }
     eval_result_dict = answer_relevance.get_relevance_dict(
-        question_dict, 
-        response_dict
+        "Why is the sky blue?", 
+        "Because of the oxygen in the air"
     )
     assert eval_result_dict == {
         "answer_relevance_error": "details"
