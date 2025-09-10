@@ -1,13 +1,4 @@
-from .steps import evaluate_steps
-
-
-def add_steps_evaluation(reference: dict, target: dict, eval_result: dict):
-    act_steps = target["steps"]
-    eval_result["actual_steps"] = act_steps
-    if "reference_steps" in reference:
-        ref_steps = reference["reference_steps"]
-        steps_score = evaluate_steps(ref_steps, act_steps)
-        eval_result["steps_score"] = steps_score
+from .steps import get_steps_evaluation_result_dict
 
 
 def run_evaluation(
@@ -49,7 +40,9 @@ def run_evaluation(
                     )
                 )
             if "steps" in actual_result:
-                add_steps_evaluation(question, actual_result, eval_result)
+                eval_result.update(
+                    get_steps_evaluation_result_dict(question, actual_result)
+                )
             eval_result.update({
                 "actual_answer": actual_result["actual_answer"],
                 "input_tokens": actual_result["input_tokens"],
