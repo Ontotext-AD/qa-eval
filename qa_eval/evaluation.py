@@ -1,31 +1,4 @@
-from collections import defaultdict
-
-from .steps import get_steps_matches
-
-
-def evaluate_steps(
-    reference_steps_groups: list[list[dict]],
-    actual_steps: list[dict]
-) -> float:
-    matches = get_steps_matches(reference_steps_groups, actual_steps)
-    matches_by_group = defaultdict(list)
-    scores_by_group = defaultdict(float)
-    for ref_group_idx, ref_match_idx, actual_idx, score in matches:
-        matches_by_group[ref_group_idx].append(ref_match_idx)
-        scores_by_group[ref_group_idx] += score
-        reference_steps_groups[ref_group_idx][ref_match_idx]["matches"] \
-            = actual_steps[actual_idx]["id"]
-    group_ix = -1  # For now, consider only the last reference group of steps
-    return scores_by_group[group_ix] / len(reference_steps_groups[group_ix])
-
-
-def add_steps_evaluation(reference: dict, target: dict, eval_result: dict):
-    act_steps = target["steps"]
-    eval_result["actual_steps"] = act_steps
-    if "reference_steps" in reference:
-        ref_steps = reference["reference_steps"]
-        steps_score = evaluate_steps(ref_steps, act_steps)
-        eval_result["steps_score"] = steps_score
+from .steps import get_steps_evaluation_result_dict
 
 
 def run_evaluation(
@@ -67,7 +40,9 @@ def run_evaluation(
                     )
                 )
             if "steps" in actual_result:
-                add_steps_evaluation(question, actual_result, eval_result)
+                eval_result.update(
+                    get_steps_evaluation_result_dict(question, actual_result)
+                )
             eval_result.update({
                 "actual_answer": actual_result["actual_answer"],
                 "input_tokens": actual_result["input_tokens"],

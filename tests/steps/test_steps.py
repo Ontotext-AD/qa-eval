@@ -4,7 +4,7 @@ from qa_eval import (
     collect_possible_matches_by_name_and_status,
     get_steps_matches
 )
-from qa_eval.evaluation import evaluate_steps
+from qa_eval.steps import evaluate_steps
 
 
 sparkle_expected_step = {

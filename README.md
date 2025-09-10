@@ -38,7 +38,9 @@ To evaluate the final answers and/or steps:
 1. Install this package: section [Install](#Installation)
 1. Format the corpus of questions and reference answers and/or steps: section [Reference Q&A Corpus](#reference-qa-corpus)
 1. Format the answers and/or steps you want to evaluate: section [Evaluation Target Corpus](#Evaluation-Target-Corpus)
-1. To evaluate answers, set environment variable `OPENAI_API_KEY` appropriately
+1. To evaluate answers:
+    1. Include reference answers in the target corpus
+    1. Set environment variable `OPENAI_API_KEY` appropriately
 1. Call the evaluation function with the reference corpus and target corpus: section [Example Usage Code](#Example-Usage-Code)
 1. Call the aggregation function with the evaluation results
 
@@ -46,22 +48,22 @@ To evaluate the final answers and/or steps:
 
 A reference corpus is a list of templates, each of which contains:
 
-- `template_id` – Unique template identifier
-- `questions` – A list of questions derived from this template, where each includes:
-  - `id` – Unique question identifier
-  - `question_text` – The natural language query passed to the LLM
-  - `reference_steps` – (optional) A list of expected steps grouped by expected order of execution, where all steps in a group can be executed in any order relative to each other, but after all steps in the previous group and before all steps in the next group.
-  - `reference_answer` – (optional) The expected answer to the question
+- `template_id`: Unique template identifier
+- `questions`: A list of questions derived from this template, where each includes:
+  - `id`: Unique question identifier
+  - `question_text`: The natural language query passed to the LLM
+  - `reference_steps`: (optional) A list of expected steps grouped by expected order of execution, where all steps in a group can be executed in any order relative to each other, but after all steps in the previous group and before all steps in the next group.
+  - `reference_answer`: (optional) The expected answer to the question
 The assumption is that the final answer to the question is derived from the outputs of the steps, which are executed last (last level).
 
 Each step includes:
 
-- `name` – The type of step being performed (e.g., `sparql_query`)
-- `args` – Arguments of the step (e.g., arguments to a tool used in the step, such as a SPARQL query)
-- `output` – The expected output from the step
-- `output_media_type` – (optional, missing or one of `application/sparql-results+json`, `application/json`) Indicates how the output of a step must be processed
-- `ordered` – (optional, defaults to `false`) For SPARQL query results, whether results order matters. `true` means that the actual result rows must be ordered as the reference result; `false` means that result rows are matched as a set.
-- `required_columns`– (optional) - required only for SPARQL query results; list of binding names, which are required for SPARQL query results to match
+- `name`: The type of step being performed (e.g., `sparql_query`)
+- `args`: Arguments of the step (e.g., arguments to a tool used in the step, such as a SPARQL query)
+- `output`: The expected output from the step
+- `output_media_type`: (optional, missing or one of `application/sparql-results+json`, `application/json`) Indicates how the output of a step must be processed
+- `ordered`: (optional, defaults to `false`) For SPARQL query results, whether results order matters. `true` means that the actual result rows must be ordered as the reference result; `false` means that result rows are matched as a set.
+- `required_columns`: (optional) - required only for SPARQL query results; list of binding names, which are required for SPARQL query results to match
 
 #### Example Reference Corpus
 
@@ -422,27 +424,27 @@ The output is a list of statistics for each question from the reference Q&A data
 
 ### Output Keys
 
-- `template_id` - the template id
-- `question_id` - the question id
-- `question_text` - the natural language query
-- `reference_steps` - (optional) copy of the expected steps in the Q&A dataset, if specified there
-- `reference_answer` - (optional) copy of the expected answer in the Q&A dataset, if specified there
-- `status` - "success" or "error", indicating whether the evaluation succeeded
-- `actual_answer` - (optional) copy of the response text in the evaluation target, if specified there
-- `answer_reference_claims_count` - (optional) number of claims extracted from the reference answer, if a reference answer and actual answer are available
-- `answer_actual_claims_count` - (optional) number of claims extracted from the answer being evaluated, if a reference answer and actual answer are available
-- `answer_matching_claims_count` - (optional) number of matching claims between the reference answer and the actual answer, if a reference answer and actual answer are available
-- `answer_recall` - (optional) `answer_matching_claims_count / answer_reference_claims_count`
-- `answer_precision` - (optional) `answer_matching_claims_count / answer_actual_claims_count`
-- `answer_eval_reason` - (optional) LLM reasoning in extracting and matching claims from the reference answer and the actual answer
-- `answer_eval_error` - (optional) error message if answer evaluation failed
-- `answer_f1` - (optional) Harmonic mean of `answer_recall` and `answer_precision`
-- `actual_steps` - (optional) copy of the steps in the evaluation target, if specified there
-- `steps_score` - a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
-- `input_tokens` - input tokens usage
-- `output_tokens` - output tokens usage
-- `total_tokens` - total tokens usage
-- `elapsed_sec` - elapsed seconds
+- `template_id`: the template id
+- `question_id`: the question id
+- `question_text`: the natural language query
+- `reference_steps`: (optional) copy of the expected steps in the Q&A dataset, if specified there
+- `reference_answer`: (optional) copy of the expected answer in the Q&A dataset, if specified there
+- `status`: "success" or "error", indicating whether the evaluation succeeded
+- `actual_answer`: (optional) copy of the response text in the evaluation target, if specified there
+- `answer_reference_claims_count`: (optional) number of claims extracted from the reference answer, if a reference answer and actual answer are available
+- `answer_actual_claims_count`: (optional) number of claims extracted from the answer being evaluated, if a reference answer and actual answer are available
+- `answer_matching_claims_count`: (optional) number of matching claims between the reference answer and the actual answer, if a reference answer and actual answer are available
+- `answer_recall`: (optional) `answer_matching_claims_count / answer_reference_claims_count`
+- `answer_precision`: (optional) `answer_matching_claims_count / answer_actual_claims_count`
+- `answer_eval_reason`: (optional) LLM reasoning in extracting and matching claims from the reference answer and the actual answer
+- `answer_eval_error`: (optional) error message if answer evaluation failed
+- `answer_f1`: (optional) Harmonic mean of `answer_recall` and `answer_precision`
+- `actual_steps`: (optional) copy of the steps in the evaluation target, if specified there
+- `steps_score`: a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
+- `input_tokens`: input tokens usage
+- `output_tokens`: output tokens usage
+- `total_tokens`: total tokens usage
+- `elapsed_sec`: elapsed seconds
 
 #### Aggregates Keys
 
@@ -450,42 +452,43 @@ The `aggregates` object provides aggregated evaluation metrics.
 Aggregates are computed both per-template and overall, using micro and macro averaging strategies.
 These aggregates support analysis of agent quality, token efficiency, and execution performance.
 Aggregates include:
-- `per_template` - a dictionary mapping a template identifier to the following statistics:
-  - `number_of_error_samples` - number of questions for this template, which resulted in error response
-  - `number_of_success_samples` - number of questions for this template, which resulted in successful response
-  - `input_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `input_tokens` of all successful questions for this template
-  - `output_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `output_tokens` of all successful questions for this template
-  - `total_tokens` - `sum`, `mean`, `median`, `min` and `max` statistics for `total_tokens` of all successful questions for this template
-  - `elapsed_sec` - `sum`, `mean`, `median`, `min` and `max` statistics for `elapsed_sec` of all successful questions for this template
-  - `answer_recall` - `sum`, `mean`, `median`, `min` and `max` statistics for `answer_recall` of all successful questions for this template
-  - `answer_precision` - `sum`, `mean`, `median`, `min` and `max` statistics for `answer_precision` of all successful questions for this template
-  - `answer_f1` - `sum`, `mean`, `median`, `min` and `max` statistics for `answer_f1` of all successful questions for this template
-  - `steps_score` - `sum`, `mean`, `median`, `min` and `max` statistics for `steps_score` of all successful questions for this template
-  - `steps` - statistics for the steps for of all successful questions for this template. Includes:
-    - `steps` - for each step type how many times it was executed
-    - `once_per_sample` - how many times each step was executed, counted only once per question
-    - `empty_results` - how many times the step was executed and returned empty results
-    - `errors` - how many times the step was executed and resulted in error
-- `micro` - statistics across questions, regardless of template. It includes:
-  - `number_of_error_samples` - total number of questions, which resulted in error response
-  - `number_of_success_samples` - total number of questions, which resulted in successful response
-  - `input_tokens` - `sum`, `mean`, `median`, `min` and `max` for `input_tokens` of all successful questions
-  - `output_tokens` - `sum`, `mean`, `median`, `min` and `max` for `output_tokens` of all successful questions
-  - `total_tokens` - `sum`, `mean`, `median`, `min` and `max` for `total_tokens` of all successful questions
-  - `elapsed_sec` - `sum`, `mean`, `median`, `min` and `max` for `elapsed_sec` of all successful questions
-  - `answer_recall` - `sum`, `mean`, `median`, `min` and `max` for `answer_recall` of all successful questions
-  - `answer_precision` - `sum`, `mean`, `median`, `min` and `max` for `answer_precision` of all successful questions
-  - `answer_f1` - `sum`, `mean`, `median`, `min` and `max` for `answer_f1` of all successful questions
-  - `steps_score` - `sum`, `mean`, `median`, `min` and `max` for `steps_score` of all successful questions
-- `macro` - averages across templates, i.e., the mean of each metric per template, averaged. It includes:
-  - `input_tokens` - `mean` for `input_tokens`
-  - `output_tokens` - `mean` for `output_tokens`
-  - `total_tokens` - `mean` for `total_tokens`
-  - `elapsed_sec` - `mean` for `elapsed_sec`
-  - `answer_recall` - `mean` for `answer_recall`
-  - `answer_precision` - `mean` for `answer_precision`
-  - `answer_f1` - `mean` for `answer_f1`
-  - `steps_score` - `mean` for `steps_score`
+- `per_template`: a dictionary mapping a template identifier to the following statistics:
+  - `number_of_error_samples`: number of questions for this template, which resulted in error response
+  - `number_of_success_samples`: number of questions for this template, which resulted in successful response
+
+  - `input_tokens`: `sum`, `mean`, `median`, `min` and `max` statistics for `input_tokens` of all successful questions for this template
+  - `output_tokens`: `sum`, `mean`, `median`, `min` and `max` statistics for `output_tokens` of all successful questions for this template
+  - `total_tokens`: `sum`, `mean`, `median`, `min` and `max` statistics for `total_tokens` of all successful questions for this template
+  - `elapsed_sec`: `sum`, `mean`, `median`, `min` and `max` statistics for `elapsed_sec` of all successful questions for this template
+  - `answer_recall`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_recall` of all successful questions for this template
+  - `answer_precision`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_precision` of all successful questions for this template
+  - `answer_f1`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_f1` of all successful questions for this template
+  - `steps_score`: `sum`, `mean`, `median`, `min` and `max` statistics for `steps_score` of all successful questions for this template
+  - `steps`: `sum`, `mean`, `median`, `min` and `max` statistics for `steps` of all successful questions for this template. Includes:
+    - `steps`: for each step type how many times it was executed
+    - `once_per_sample`: how many times each step was executed, counted only once per question
+    - `empty_results`: how many times the step was executed and returned empty results
+    - `errors`: how many times the step was executed and resulted in error
+- `micro`: statistics across questions, regardless of template. It includes:
+  - `number_of_error_samples`: total number of questions, which resulted in error response
+  - `number_of_success_samples`: total number of questions, which resulted in successful response
+  - `input_tokens`: `sum`, `mean`, `median`, `min` and `max` for `input_tokens` of all successful questions
+  - `output_tokens`: `sum`, `mean`, `median`, `min` and `max` for `output_tokens` of all successful questions
+  - `total_tokens`: `sum`, `mean`, `median`, `min` and `max` for `total_tokens` of all successful questions
+  - `elapsed_sec`: `sum`, `mean`, `median`, `min` and `max` for `elapsed_sec` of all successful questions
+  - `answer_recall`: `sum`, `mean`, `median`, `min` and `max` for `answer_recall` of all successful questions
+  - `answer_precision`: `sum`, `mean`, `median`, `min` and `max` for `answer_precision` of all successful questions
+  - `answer_f1`: `sum`, `mean`, `median`, `min` and `max` for `answer_f1` of all successful questions
+  - `steps_score`: `sum`, `mean`, `median`, `min` and `max` for `steps_score` of all successful questions
+- `macro`: averages across templates, i.e., the mean of each metric per template, averaged. It includes:
+  - `input_tokens`: `mean` for `input_tokens`
+  - `output_tokens`: `mean` for `output_tokens`
+  - `total_tokens`: `mean` for `total_tokens`
+  - `elapsed_sec`: `mean` for `elapsed_sec`
+  - `answer_recall`: `mean` for `answer_recall`
+  - `answer_precision`: `mean` for `answer_precision`
+  - `answer_f1`: `mean` for `answer_f1`
+  - `steps_score`: `mean` for `steps_score`
 
 #### Example Aggregates
 
