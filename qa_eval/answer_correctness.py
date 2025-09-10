@@ -113,7 +113,7 @@ class AnswerCorrectnessEvaluator:
                 "answer_reference_claims_count": num_ref_claims,
                 "answer_actual_claims_count": num_actual_claims,
                 "answer_matching_claims_count": num_matching_claims,
-                "answer_eval_reason": reason,
+                "answer_correctness_reason": reason,
             })
             recall, precision, f1 = compute_recall_precision_f1(
                 num_ref_claims, num_actual_claims, num_matching_claims

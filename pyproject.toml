@@ -45,4 +45,4 @@ pyarrow = ">=14.0.0"
 optional = true
 
 [project.scripts]
-evaluate-answers = "qa_eval.answer_evaluation:main"
+answer-correctness = "qa_eval.answer_evaluation:main"

@@ -119,7 +119,7 @@
   answer_reference_claims_count: 2
   answer_actual_claims_count: 2
   answer_matching_claims_count: 2
-  answer_eval_reason: reason
+  answer_correctness_reason: reason
   answer_recall: 1.0
   answer_precision: 1.0
   answer_f1: 1.0
