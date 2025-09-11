@@ -21,11 +21,17 @@ per_template:
         median: 1.0
         sum: 1.0
     answer_relevance:
-        min: 0.9
-        max: 0.9
-        mean: 0.9
-        median: 0.9
-        sum: 0.9
+      min: 0.9
+      max: 0.9
+      mean: 0.9
+      median: 0.9
+      sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
     steps:
       total:
         autocomplete_search: 1
@@ -85,11 +91,17 @@ micro:
       min: 1.0
       sum: 1.0
   answer_relevance:
-      min: 0.9
-      max: 0.9
-      mean: 0.9
-      median: 0.9
-      sum: 0.9
+    min: 0.9
+    max: 0.9
+    mean: 0.9
+    median: 0.9
+    sum: 0.9
+  answer_relevance_cost:
+    min: 0.0007
+    max: 0.0007
+    mean: 0.0007
+    median: 0.0007
+    sum: 0.0007
   steps_score:
     sum: 1.0
     mean: 1.0
@@ -129,6 +141,8 @@ macro:
       mean: 1.0           
   answer_relevance:
       mean: 0.9
+  answer_relevance_cost:
+      mean: 0.0007
   steps_score:
     mean: 1.0
   input_tokens:

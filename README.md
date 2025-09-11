@@ -39,7 +39,7 @@ To evaluate answers and/or steps:
 1. Format the corpus of questions and reference answers and/or steps: section [Reference Q&A Corpus](#reference-qa-corpus)
 1. Format the answers and/or steps you want to evaluate: section [Evaluation Target Corpus](#Evaluation-Target-Corpus)
 1. To evaluate answer relevance:
-    1. Include `question_text` in the reference corpus and `actual_answer` in the target data to evaluate
+    1. Include `actual_answer` in the target data to evaluate
     1. Set environment vairabe `OPENAI_API_KEY` appropriately
 1. To evaluate answer correctness:
     1. Include `reference_answer` in the reference corpus and `actual_answer` in the target data to evaluate
@@ -492,6 +492,7 @@ Aggregates are:
   - `answer_precision`: `sum`, `mean`, `median`, `min` and `max` for `answer_precision` of all successful questions
   - `answer_f1`: `sum`, `mean`, `median`, `min` and `max` for `answer_f1` of all successful questions
   - `answer_relevance`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_relevance` of all successful questions
+  - `answer_relevance_cost`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_relevance_cost` of all successful questions
     - `steps_score`: `sum`, `mean`, `median`, `min` and `max` for `steps_score` of all successful questions
 - `macro`: averages across templates, i.e., the mean of each metric per template, averaged. It includes:
   - `input_tokens`: `mean` for `input_tokens`
@@ -502,6 +503,7 @@ Aggregates are:
   - `answer_precision`: `mean` for `answer_precision`
   - `answer_f1`: `mean` for `answer_f1`
   - `answer_relevance`: `mean` for `answer_relevance`
+  - `answer_relevance_cost`: `mean` for `answer_relevance_cost`
   - `steps_score`: `mean` for `steps_score`
 
 #### Example Aggregates
@@ -535,6 +537,12 @@ per_template:
         mean: 0.9
         median: 0.9
         sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
     steps:
       total:
         autocomplete_search: 10
@@ -601,6 +609,12 @@ per_template:
         mean: 0.9
         median: 0.9
         sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
     steps:
       total:
         autocomplete_search: 10
@@ -665,6 +679,12 @@ per_template:
         mean: 0.9
         median: 0.9
         sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
     steps:
       total:
         autocomplete_search: 9
@@ -731,6 +751,12 @@ per_template:
         mean: 0.9
         median: 0.9
         sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
     steps:
       total:
         autocomplete_search: 20
@@ -795,6 +821,12 @@ micro:
     mean: 0.9
     median: 0.9
     sum: 0.9
+  answer_relevance_cost:
+    min: 0.0007
+    max: 0.0007
+    mean: 0.0007
+    median: 0.0007
+    sum: 0.0007
   steps_score:
     sum: 17
     mean: 0.4358974358974359
@@ -834,6 +866,8 @@ macro:
     mean: 1.0
   answer_relevance:
     mean: 0.9
+  answer_relevance_cost:
+    mean: 0.0007
   steps_score:
     mean: 0.45
   input_tokens:
