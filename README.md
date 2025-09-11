@@ -34,7 +34,7 @@ We plan to improve CLI support in future releases.
 
 ## Use as a Library
 
-To evaluate the final answers and/or steps:
+To evaluate answers and/or steps:
 1. Install this package: section [Install](#Installation)
 1. Format the corpus of questions and reference answers and/or steps: section [Reference Q&A Corpus](#reference-qa-corpus)
 1. Format the answers and/or steps you want to evaluate: section [Evaluation Target Corpus](#Evaluation-Target-Corpus)
@@ -48,6 +48,8 @@ To evaluate the final answers and/or steps:
     1. Include `reference_steps` in the reference corpus and `actual_steps` in target data to evaluate
 1. Call the evaluation function with the reference corpus and target corpus: section [Example Usage Code](#Example-Usage-Code)
 1. Call the aggregation function with the evaluation results
+
+Answer evaluation (correctness and relevance) uses the LLM `openai/gpt-4o-mini`.
 
 ### Reference Q&A Corpus
 
@@ -446,7 +448,7 @@ The output is a list of statistics for each question from the reference Q&A data
 - `answer_correctness_reason`: (optional) LLM reasoning in extracting and matching claims from the reference answer and the actual answer
 - `answer_eval_error`: (optional) error message if answer evaluation failed
 - `answer_f1`: (optional) Harmonic mean of `answer_recall` and `answer_precision`
-- `answer_relevance`: (optional) The value representing how relevant is the actual answer to the question, computed using RAGAS answer relevance
+- `answer_relevance`: (optional) The value representing how relevant is the actual answer to the question, computed using [RAGAS answer relevance](https://docs.ragas.io/en/v0.3.3/concepts/metrics/available_metrics/answer_relevance/)
 - `answer_relevance_cost`: The LLM use cost of computing `answer_relevance`, in US dollars
 - `actual_steps`: (optional) copy of the steps in the evaluation target, if specified there
 - `steps_score`: a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
