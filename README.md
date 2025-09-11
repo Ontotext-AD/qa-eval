@@ -493,7 +493,7 @@ Aggregates are:
   - `answer_f1`: `sum`, `mean`, `median`, `min` and `max` for `answer_f1` of all successful questions
   - `answer_relevance`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_relevance` of all successful questions
   - `answer_relevance_cost`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_relevance_cost` of all successful questions
-    - `steps_score`: `sum`, `mean`, `median`, `min` and `max` for `steps_score` of all successful questions
+  - `steps_score`: `sum`, `mean`, `median`, `min` and `max` for `steps_score` of all successful questions
 - `macro`: averages across templates, i.e., the mean of each metric per template, averaged. It includes:
   - `input_tokens`: `mean` for `input_tokens`
   - `output_tokens`: `mean` for `output_tokens`
@@ -604,11 +604,11 @@ per_template:
       min: 1.0
       max: 1.0
     answer_relevance:
-        min: 0.9
-        max: 0.9
-        mean: 0.9
-        median: 0.9
-        sum: 0.9
+      min: 0.9
+      max: 0.9
+      mean: 0.9
+      median: 0.9
+      sum: 0.9
     answer_relevance_cost:
       min: 0.0007
       max: 0.0007
@@ -674,11 +674,11 @@ per_template:
       min: 1.0
       max: 1.0
     answer_relevance:
-        min: 0.9
-        max: 0.9
-        mean: 0.9
-        median: 0.9
-        sum: 0.9
+      min: 0.9
+      max: 0.9
+      mean: 0.9
+      median: 0.9
+      sum: 0.9
     answer_relevance_cost:
       min: 0.0007
       max: 0.0007
@@ -746,11 +746,11 @@ per_template:
       min: 1.0
       max: 1.0
     answer_relevance:
-        min: 0.9
-        max: 0.9
-        mean: 0.9
-        median: 0.9
-        sum: 0.9
+      min: 0.9
+      max: 0.9
+      mean: 0.9
+      median: 0.9
+      sum: 0.9
     answer_relevance_cost:
       min: 0.0007
       max: 0.0007
