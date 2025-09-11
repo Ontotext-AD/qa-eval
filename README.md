@@ -45,7 +45,7 @@ To evaluate the final answers and/or steps:
     1. Include `reference_answer` in the reference corpus and `actual_answer` in the target data to evaluate
     1. Set environment variable `OPENAI_API_KEY` appropriately
 1. To evaluate steps:
-    1. Include `"reference_steps` in the reference corpus and steps` in target data to evaluate
+    1. Include `reference_steps` in the reference corpus and `actual_steps` in target data to evaluate
 1. Call the evaluation function with the reference corpus and target corpus: section [Example Usage Code](#Example-Usage-Code)
 1. Call the aggregation function with the evaluation results
 
