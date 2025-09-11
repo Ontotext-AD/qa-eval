@@ -88,5 +88,5 @@ def test_evaluate_answers(monkeypatch, tmp_path):
 
     # Verify output file content
     written = out_file_path.read_text().splitlines()
-    assert written[0].split('\t') == answer_correctness.OUT_FIELDS
-    assert written[1].split('\t') == ["2", "2", "2", "reason", ""]
+    assert written[0].split("\t") == answer_correctness.OUT_FIELDS
+    assert written[1].split("\t") == ["2", "2", "2", "reason", ""]
