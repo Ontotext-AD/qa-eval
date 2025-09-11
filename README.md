@@ -449,6 +449,7 @@ The output is a list of statistics for each question from the reference Q&A data
 - `answer_eval_error`: (optional) error message if answer evaluation failed
 - `answer_f1`: (optional) Harmonic mean of `answer_recall` and `answer_precision`
 - `answer_relevance`: (optional) The value representing how relevant is the actual answer to the question, computed using [RAGAS answer relevance](https://docs.ragas.io/en/v0.3.3/concepts/metrics/available_metrics/answer_relevance/)
+- `answer_relevance_error`: (optional) error message if answer relevance evaluation failed
 - `answer_relevance_cost`: The LLM use cost of computing `answer_relevance`, in US dollars
 - `actual_steps`: (optional) copy of the steps in the evaluation target, if specified there
 - `steps_score`: a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
