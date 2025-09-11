@@ -501,7 +501,7 @@ Aggregates are:
   - `answer_precision`: `mean` for `answer_precision`
   - `answer_f1`: `mean` for `answer_f1`
   - `answer_relevance`: `mean` for `answer_relevance`
-    - `steps_score`: `mean` for `steps_score`
+  - `steps_score`: `mean` for `steps_score`
 
 #### Example Aggregates
 
