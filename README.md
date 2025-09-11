@@ -471,7 +471,7 @@ Aggregates are:
   - `answer_recall`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_recall` of all successful questions for this template
   - `answer_precision`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_precision` of all successful questions for this template
   - `answer_f1`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_f1` of all successful questions for this template
-  - `answer_relevance`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_f1` of all successful questions for this template
+  - `answer_relevance`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_relevance` of all successful questions for this template
   - `steps_score`: `sum`, `mean`, `median`, `min` and `max` statistics for `steps_score` of all successful questions for this template
   - `steps`: `sum`, `mean`, `median`, `min` and `max` statistics for `steps` of all successful questions for this template. Includes:
     - `steps`: for each step type how many times it was executed
