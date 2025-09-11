@@ -488,7 +488,7 @@ Aggregates are:
   - `answer_recall`: `sum`, `mean`, `median`, `min` and `max` for `answer_recall` of all successful questions
   - `answer_precision`: `sum`, `mean`, `median`, `min` and `max` for `answer_precision` of all successful questions
   - `answer_f1`: `sum`, `mean`, `median`, `min` and `max` for `answer_f1` of all successful questions
-  - `answer_relevance`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_f1` of all successful questions
+  - `answer_relevance`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_relevance` of all successful questions
     - `steps_score`: `sum`, `mean`, `median`, `min` and `max` for `steps_score` of all successful questions
 - `macro`: averages across templates, i.e., the mean of each metric per template, averaged. It includes:
   - `input_tokens`: `mean` for `input_tokens`
