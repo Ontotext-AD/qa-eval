@@ -22,7 +22,7 @@ def test_run_evaluation_and_compute_aggregates(monkeypatch):
     sample_reference_standard = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "reference_standard_corpus_1.yaml").read_text(encoding="utf-8")
     )
-    sample_chat_responses_path = Path(__file__).parent.parent / "tests" / "test_data" / "chat_responses_1.jsonl"
+    sample_chat_responses_path = Path(__file__).parent / "test_data" / "chat_responses_1.jsonl"
 
     # Define mock call_llm()
     mock_call_llm = lambda *_: "2\t2\t2\treason"
