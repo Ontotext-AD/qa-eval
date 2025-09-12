@@ -58,7 +58,7 @@ A reference corpus is a list of templates, each of which contains:
 - `template_id`: Unique template identifier
 - `questions`: A list of questions derived from this template, where each includes:
   - `id`: Unique question identifier
-  - `question_text`: (optional) The natural language query passed to the LLM
+  - `question_text`: The natural language query passed to the LLM
   - `reference_steps`: (optional) A list of expected steps grouped by expected order of execution, where all steps in a group can be executed in any order relative to each other, but after all steps in the previous group and before all steps in the next group.
   - `reference_answer`: (optional) The expected answer to the question
 The assumption is that the final answer to the question is derived from the outputs of the steps, which are executed last (last level).
