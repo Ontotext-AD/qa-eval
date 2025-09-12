@@ -95,9 +95,9 @@ def get_steps_matches(
 
 def evaluate_steps(
     reference_steps_groups: list[list[dict]],
-    actual_steps: list[dict]
+    actual_steps: list[dict],
+    matches: list[tuple[int, int, int, float]]
 ) -> float:
-    matches = get_steps_matches(reference_steps_groups, actual_steps)
     matches_by_group = defaultdict(list)
     scores_by_group = defaultdict(float)
     for ref_group_idx, ref_match_idx, actual_idx, score in matches:
@@ -109,12 +109,50 @@ def evaluate_steps(
     return scores_by_group[group_ix] / len(reference_steps_groups[group_ix])
 
 
+def evaluate_retrieval_using_reference_context(
+    reference_contexts: list[str],
+    actual_contexts: list[str],
+    model_name : str = "openai/gpt-4o-mini",
+    max_tokens : int = 65_536
+) -> dict:
+    from langevals_ragas.response_context_recall import (
+        RagasResponseContextRecallEntry,
+        RagasResponseContextRecallEvaluator,
+    )
+    settings_dict = {
+        'model': model_name,
+        'max_tokens': max_tokens
+    }
+    evaluator = RagasResponseContextRecallEvaluator(settings=settings_dict)
+    entry = RagasResponseContextRecallEntry(
+        expected_contexts=reference_contexts,
+        contexts=actual_context
+    )
+    _result_dict = evaluator.evaluate(entry)
+    if _result_dict["status"] == "processed":
+        return {
+            "answer_relevance": _result_dict["score"],
+            "answer_relevance_cost": _result_dict["cost"]["amount"]
+        }
+    else:
+        return {
+            "answer_relevance_error": _result_dict["details"]
+        }
+
+
 def get_steps_evaluation_result_dict(reference: dict, target: dict) -> dict:
     act_steps = target["steps"]
     eval_result = {}
     eval_result["actual_steps"] = act_steps
     if "reference_steps" in reference:
         ref_steps = reference["reference_steps"]
-        steps_score = evaluate_steps(ref_steps, act_steps)
+        matches = get_steps_matches(ref_steps, act_steps)
+        steps_score = evaluate_steps(ref_steps, act_steps, matches)
         eval_result["steps_score"] = steps_score
+        for ref_group_idx, ref_match_idx, actual_idx, _ in matches:
+            if ref_steps[ref_group_idx][ref_match_idx]["name"] == "retrieval":
+                evaluate_retrieval_using_reference_context(
+                    reference[""]
+                )
+                
     return eval_result
