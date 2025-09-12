@@ -110,19 +110,20 @@ def compare_values(
     results_are_ordered: bool,
 ) -> bool:
     permutation = []
-    mapped_or_skipped_reference_vars, mapped_actual_vars = set(), set()
+    mapped_or_skipped_reference_vars = set()
+    mapped_actual_vars = set()
     for reference_var in reference_vars:
         reference_values = reference_var_to_values[reference_var]
         for actual_var in actual_vars:
             if actual_var in mapped_actual_vars:
                 continue
-            new_mapping, permutation = compare_columns(
+            is_new_mapping, permutation = compare_columns(
                 reference_values,
                 actual_var_to_values[actual_var],
                 results_are_ordered,
                 permutation,
             )
-            if new_mapping:
+            if is_new_mapping:
                 mapped_or_skipped_reference_vars.add(reference_var)
                 mapped_actual_vars.add(actual_var)
                 break
