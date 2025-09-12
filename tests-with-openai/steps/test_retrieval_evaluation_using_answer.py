@@ -43,16 +43,15 @@ def test_get_retrieval_evaluation_dict_using_reference_answer_success(monkeypatc
     eval_result_dict = get_retrieval_evaluation_dict(
         question_text="Why is the sky blue?",
         reference_answer="Because of the oxygen in the air",
-        actual_answer="Because of the oxygen in the air",
         actual_contexts=["Oxygen turns the sky blue"],
     )
     assert approx(eval_result_dict) == {
-        "retrieval_reference_answer_recall": 0.9,
-        "retrieval_reference_answer_recall_cost": 0.0007,
-        "retrieval_reference_answer_precision": 0.6,
-        "retrieval_reference_answer_precision_cost": 0.0003,
-        "retrieval_reference_answer_f1": 0.72,
-        "retrieval_reference_answer_f1_cost": 0.0010,
+        "retrieval_answer_recall": 0.9,
+        "retrieval_answer_recall_cost": 0.0007,
+        "retrieval_answer_precision": 0.6,
+        "retrieval_answer_precision_cost": 0.0003,
+        "retrieval_answer_f1": 0.72,
+        "retrieval_answer_f1_cost": 0.0010,
     }
 
 
@@ -88,9 +87,9 @@ def test_get_retrieval_evaluation_dict_using_reference_answer_recall_success_pre
         actual_contexts=["Oxygen turns the sky blue"],
     )
     assert eval_result_dict == {
-        "retrieval_reference_answer_recall": 0.9,
-        "retrieval_reference_answer_recall_cost": 0.0007,
-        "retrieval_reference_answer_precision_error": "details"
+        "retrieval_answer_recall": 0.9,
+        "retrieval_answer_recall_cost": 0.0007,
+        "retrieval_answer_precision_error": "details"
     }
 
 
@@ -115,8 +114,8 @@ def test_get_retrieval_evaluation_dict_using_reference_answer_both_errors(monkey
         actual_contexts=["Oxygen turns the sky blue"],
     )
     assert eval_result_dict == {
-        "retrieval_reference_answer_recall_error": "details",
-        "retrieval_reference_answer_precision_error": "details",
+        "retrieval_answer_recall_error": "details",
+        "retrieval_answer_precision_error": "details",
     }
 
 
@@ -159,12 +158,12 @@ def test_get_retrieval_evaluation_dict_using_actual_answer_success(monkeypatch):
         actual_contexts=["Oxygen turns the sky blue"],
     )
     assert approx(eval_result_dict) == {
-        "retrieval_actual_answer_recall": 0.9,
-        "retrieval_actual_answer_recall_cost": 0.0007,
-        "retrieval_actual_answer_precision": 0.6,
-        "retrieval_actual_answer_precision_cost": 0.0003,
-        "retrieval_actual_answer_f1": 0.72,
-        "retrieval_actual_answer_f1_cost": 0.0010,
+        "retrieval_answer_recall": 0.9,
+        "retrieval_answer_recall_cost": 0.0007,
+        "retrieval_answer_precision": 0.6,
+        "retrieval_answer_precision_cost": 0.0003,
+        "retrieval_answer_f1": 0.72,
+        "retrieval_answer_f1_cost": 0.0010,
     }
 
 
@@ -200,9 +199,9 @@ def test_get_retrieval_evaluation_dict_using_actual_answer_recall_success_precis
         actual_contexts=["Oxygen turns the sky blue"],
     )
     assert eval_result_dict == {
-        "retrieval_actual_answer_recall": 0.9,
-        "retrieval_actual_answer_recall_cost": 0.0007,
-        "retrieval_actual_answer_precision_error": "details"
+        "retrieval_answer_recall": 0.9,
+        "retrieval_answer_recall_cost": 0.0007,
+        "retrieval_answer_precision_error": "details"
     }
 
 
@@ -227,6 +226,14 @@ def test_get_retrieval_evaluation_dict_using_actual_answer_both_errors(monkeypat
         actual_contexts=["Oxygen turns the sky blue"],
     )
     assert eval_result_dict == {
-        "retrieval_actual_answer_recall_error": "details",
-        "retrieval_actual_answer_precision_error": "details",
+        "retrieval_answer_recall_error": "details",
+        "retrieval_answer_precision_error": "details",
     }
+
+
+def test_get_retrieval_evaluation_dict_using_no_answers():
+    eval_result_dict = get_retrieval_evaluation_dict(
+        question_text="Why is the sky blue?",
+        actual_contexts=["Oxygen turns the sky blue"],
+    )
+    assert eval_result_dict == {}

@@ -10,33 +10,31 @@ from langevals_ragas.response_context_precision import (
 
 def _construct_result_dict(
     langevals_result_dict: dict,
-    answer_type: str,
     metric: str
 ) -> dict:
     if langevals_result_dict["status"] == "processed":
         return {
-            f"retrieval_{answer_type}_{metric}": langevals_result_dict["score"],
-            f"retrieval_{answer_type}_{metric}_cost": langevals_result_dict["cost"]["amount"]
+            f"retrieval_answer_{metric}": langevals_result_dict["score"],
+            f"retrieval_answer_{metric}_cost": langevals_result_dict["cost"]["amount"]
         }
     else:
         return {
-            f"retrieval_{answer_type}_{metric}_error": langevals_result_dict["details"]
+            f"retrieval_answer_{metric}_error": langevals_result_dict["details"]
         }
 
 
 def get_f1_dict(
     input_dict: dict,
-    answer_type: str
 ) -> dict:
-    recall = input_dict.get(f"retrieval_{answer_type}_recall")
-    precision = input_dict.get(f"retrieval_{answer_type}_precision")
+    recall = input_dict.get("retrieval_answer_recall")
+    precision = input_dict.get("retrieval_answer_precision")
     if precision is not None and recall is not None and precision + recall > 0:
         f1 = 2 * precision * recall / (precision + recall)
-        recall_cost = input_dict[f"retrieval_{answer_type}_recall_cost"]
-        precision_cost = input_dict[f"retrieval_{answer_type}_precision_cost"]
+        recall_cost = input_dict["retrieval_answer_recall_cost"]
+        precision_cost = input_dict["retrieval_answer_precision_cost"]
         return {
-            f"retrieval_{answer_type}_f1": f1,
-            f"retrieval_{answer_type}_f1_cost": recall_cost + precision_cost
+            "retrieval_answer_f1": f1,
+            "retrieval_answer_f1_cost": recall_cost + precision_cost
         }
     return {}
 
@@ -49,11 +47,7 @@ def get_retrieval_evaluation_dict(
     model_name : str = "openai/gpt-4o-mini",
     max_tokens : int = 65_536
 ) -> dict:
-    if reference_answer:
-        answer_type = "reference_answer"
-    elif actual_answer:
-        answer_type = "actual_answer"
-    else:
+    if not reference_answer and not actual_answer:
         return {}
     settings_dict = {
         "model": model_name,
@@ -68,9 +62,9 @@ def get_retrieval_evaluation_dict(
     result = {}
     evaluator = RagasResponseContextRecallEvaluator(settings=settings_dict)
     _result = evaluator.evaluate(entry)["response_context_recall"][0]
-    result.update(_construct_result_dict(_result, answer_type, "recall"))
+    result.update(_construct_result_dict(_result, "recall"))
     evaluator = RagasResponseContextPrecisionEvaluator(settings=settings_dict)
     _result = evaluator.evaluate(entry)["response_context_precision"][0]
-    result.update(_construct_result_dict(_result, answer_type, "precision"))
-    result.update(get_f1_dict(result, answer_type))
+    result.update(_construct_result_dict(_result, "precision"))
+    result.update(get_f1_dict(result))
     return result
