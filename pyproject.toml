@@ -34,9 +34,15 @@ optional = true
 
 [tool.poetry.group.openai.dependencies]
 openai = "^1.97.0"
+langevals = "0.1.*"
+langevals-ragas = "^0.1.12"
+ragas = "*"
+# Compatible versions for langevals
+datasets = ">=4.0.0"
+pyarrow = ">=14.0.0"
 
 [tool.poetry.group.openai]
 optional = true
 
 [project.scripts]
-evaluate-answers = "qa_eval.answer_evaluation:main"
+answer-correctness = "qa_eval.answer_evaluation:main"

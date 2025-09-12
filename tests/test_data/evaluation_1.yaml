@@ -29,11 +29,6 @@
         - transformerName
       matches: call_3b3zHJnBXwYYSg04BiFGAAgO
   status: success
-  actual_answer: |-
-    The following transformers are located within the Substation OSLO:
-
-    1. **OSLO T2** (IRI: `urn:uuid:f1769de8-9aeb-11e5-91da-b8763fd99c5f`)
-    2. **OSLO T1** (IRI: `urn:uuid:f1769dd6-9aeb-11e5-91da-b8763fd99c5f`)
   actual_steps:
   - name: autocomplete_search
     args:
@@ -147,11 +142,6 @@
         - transformerName
       matches: call_bU771FWvXCE8lbGdJnIWo8Y3
   status: success
-  actual_answer: |-
-    The following transformer is located within the Substation STAVANGER:
-
-    - **Transformer Name**: STAVANGET1
-      - **IRI**: `urn:uuid:f1769e0c-9aeb-11e5-91da-b8763fd99c5f`
   actual_steps:
   - name: autocomplete_search
     args:
@@ -256,11 +246,6 @@
         - transformerName
       matches: call_BiQmXPFgnucXzieEE2qI7Z2D
   status: success
-  actual_answer: |-
-    The following transformer is located within the Substation HALDEN:
-
-    - **Transformer Name**: HALDEN T1
-      - **IRI**: `urn:uuid:f1769db2-9aeb-11e5-91da-b8763fd99c5f`
   actual_steps:
   - name: autocomplete_search
     args:
@@ -364,10 +349,6 @@
         - transformerName
       matches: call_auWCGCafNRtPefQERtlTnPVL
   status: success
-  actual_answer: |-
-    The following transformer is located within the Substation ASKER:
-
-    - **ASKER T1** (IRI: `urn:uuid:f1769dfa-9aeb-11e5-91da-b8763fd99c5f`)
   actual_steps:
   - name: autocomplete_search
     args:
@@ -470,8 +451,6 @@
         - transformer
         - transformerName
   status: success
-  actual_answer: It seems there is no substation named "Substation MO" in the dataset. Please
-    verify the name or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -525,10 +504,6 @@
         - transformerName
       matches: call_gezD7HT5vzre65JR3tw5eW3e
   status: success
-  actual_answer: |-
-    The transformer within the Substation ARENDAL is:
-
-    - **ARENDAL T1** (IRI: `urn:uuid:f1769e1e-9aeb-11e5-91da-b8763fd99c5f`)
   actual_steps:
   - name: autocomplete_search
     args:
@@ -633,11 +608,6 @@
       ordered: false
       matches: call_WAHVRazRhBCyXubKoWJF4OWw
   status: success
-  actual_answer: |-
-    The following transformer is located within the Substation KVILLDAL:
-
-    - **Transformer Name:** KVILLDALT1
-      - **IRI:** `urn:uuid:f1769e30-9aeb-11e5-91da-b8763fd99c5f`
   actual_steps:
   - name: autocomplete_search
     args:
@@ -742,11 +712,6 @@
       ordered: false
       matches: call_odKEKQ2vrQTV6Dp2E6rgQMX0
   status: success
-  actual_answer: |-
-    The following transformer is located within the Substation SIMA:
-
-    - **Transformer Name:** SIMA T1
-      - **IRI:** `urn:uuid:f1769dc4-9aeb-11e5-91da-b8763fd99c5f`
   actual_steps:
   - name: autocomplete_search
     args:
@@ -850,8 +815,6 @@
         - transformerName
       ordered: false
   status: success
-  actual_answer: It seems that there is no substation named "AJAURE" in the dataset. Please
-    verify the name or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -906,10 +869,6 @@
       ordered: false
       matches: call_z1PCjZWZIOgMZcMlz6HwN9j9
   status: success
-  actual_answer: |-
-    The following transformer is located within the Substation HOGASEN:
-
-    - **HOGASEN T1** (IRI: `urn:uuid:f1769d7c-9aeb-11e5-91da-b8763fd99c5f`)
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1027,8 +986,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: It seems that there is no bidding zone named "NO2 SGR" in the dataset. Could
-    you verify the name or provide additional details?
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1096,8 +1053,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: It seems there is no bidding zone explicitly named "NO1 SGR" in the dataset.
-    Could you clarify or provide additional details?
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1161,8 +1116,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: It seems that there is no bidding zone named "NO5 SGR" in the dataset. Please
-    verify the name or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1227,8 +1180,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: It seems that there is no bidding zone explicitly named "SE3 SGR" in the
-    dataset. Could you clarify or provide additional details about the bidding zone?
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1291,8 +1242,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: I couldn't find a bidding zone named "SE2 SGR" in the dataset. Could you
-    verify the name or provide additional details?
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1353,8 +1302,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: It seems there is no bidding zone named "FI1 SGR" in the dataset. Please
-    verify the name or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1413,8 +1360,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: It seems there is no bidding zone named "SE4 SGR" in the dataset. Could
-    you verify the name or provide additional details?
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1471,8 +1416,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: It seems that there is no bidding zone explicitly named "NO4 SGR" in the
-    dataset. Could you clarify or provide additional details?
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1527,8 +1470,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: It seems there is no bidding zone named "NO3 SGR" in the dataset. Please
-    verify the name or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1583,8 +1524,6 @@
         - substationName
       ordered: false
   status: success
-  actual_answer: It seems there is no bidding zone named "SE1 SGR" in the dataset. Could
-    you verify the name or provide additional details?
   actual_steps:
   - name: autocomplete_search
     args:
@@ -1807,28 +1746,6 @@
       ordered: false
       matches: call_Qm1mzX7g5q9SVPrR2QzEMTp3
   status: success
-  actual_answer: |-
-    The substations connected to the substation "STAVANGER" via AC or DC lines are:
-
-    1. **KRISTIANSAND** via line "LC 300KRISTIAN-STAVANGE"
-    2. **DAGALI** via line "LC 420DAGALI-HAGAFOSS"
-    3. **KVILLDAL** via lines:
-       - "LC 420DAGALI-HAGAFOSS"
-       - "LC 420SYSLE-HAGAFOSS"
-       - "LC 420AURLAND-HAGAFOSS"
-       - "LC 420SYLLING-HAGAFOSS"
-    4. **HAGAFOSS** via lines:
-       - "LC 420DAGALI-HAGAFOSS"
-       - "LC 420SYSLE-HAGAFOSS"
-       - "LC 420AURLAND-HAGAFOSS"
-       - "LC 420SYLLING-HAGAFOSS"
-    5. **OSLO** via lines:
-       - "LC 420SYSLE-HAGAFOSS"
-       - "LC 420SYLLING-HAGAFOSS"
-    6. **SYSLE** via line "LC 420SYSLE-HAGAFOSS"
-    7. **AURLAND** via line "LC 420AURLAND-HAGAFOSS"
-    8. **SIMA** via line "LC 420AURLAND-HAGAFOSS"
-    9. **SYLLING** via line "LC 420SYLLING-HAGAFOSS"
   actual_steps:
   - name: autocomplete_search
     args:
@@ -2305,39 +2222,6 @@
       ordered: false
       matches: call_gGTDCfS6ZCXRYhspRS6npaza
   status: success
-  actual_answer: |-
-    The following substations are connected to the substation "OSLO" via AC or DC lines:
-
-    1. **SYLLING**
-       - Line: LC 420SYLLING-SANDEFJORD
-       - Line: LC 420SYLLING-SKIEN
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    2. **SANDEFJORD**
-       - Line: LC 420SYLLING-SANDEFJORD
-
-    3. **STAVANGER**
-       - Line: LC 420SYSLE-HAGAFOSS
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    4. **SYSLE**
-       - Line: LC 420SYSLE-HAGAFOSS
-
-    5. **KVILLDAL**
-       - Line: LC 420SYSLE-HAGAFOSS
-       - Line: LC 300OSLO-KVILLDAL
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    6. **HAGAFOSS**
-       - Line: LC 420SYSLE-HAGAFOSS
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    7. **ASKER**
-       - Line: LC 300OSLO-ASKER
-       - Line: LC 420SYLLING-SKIEN
-
-    8. **SKIEN**
-       - Line: LC 420SYLLING-SKIEN
   actual_steps:
   - name: autocomplete_search
     args:
@@ -2806,39 +2690,6 @@
       ordered: false
       matches: call_wW19tbCUCosEip8nXzv3bZIY
   status: success
-  actual_answer: |-
-    The following substations are connected to the substation "HAGAFOSS" via AC or DC lines:
-
-    1. **STAVANGER** via:
-       - Line: LC 420DAGALI-HAGAFOSS
-       - Line: LC 420SYSLE-HAGAFOSS
-       - Line: LC 420AURLAND-HAGAFOSS
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    2. **DAGALI** via:
-       - Line: LC 420DAGALI-HAGAFOSS
-
-    3. **KVILLDAL** via:
-       - Line: LC 420DAGALI-HAGAFOSS
-       - Line: LC 420SYSLE-HAGAFOSS
-       - Line: LC 420AURLAND-HAGAFOSS
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    4. **OSLO** via:
-       - Line: LC 420SYSLE-HAGAFOSS
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    5. **SYSLE** via:
-       - Line: LC 420SYSLE-HAGAFOSS
-
-    6. **AURLAND** via:
-       - Line: LC 420AURLAND-HAGAFOSS
-
-    7. **SIMA** via:
-       - Line: LC 420AURLAND-HAGAFOSS
-
-    8. **SYLLING** via:
-       - Line: LC 420SYLLING-HAGAFOSS
   actual_steps:
   - name: autocomplete_search
     args:
@@ -3286,32 +3137,6 @@
       ordered: false
       matches: call_19FFwedhrsq52ukf933jTHaZ
   status: success
-  actual_answer: |-
-    The following substations are connected to the substation "HALDEN" via AC or DC lines:
-
-    1. **TRONDHEIM**
-       - Line: LC 300TRETTEN-TRONDHEIM
-
-    2. **TRETTEN**
-       - Line: LC 300TRETTEN-TRONDHEIM
-       - Line: LC 300TRETTEN-ASKER
-
-    3. **KONGSBERG**
-       - Line: LC 420HALDEN-KONGSBER
-
-    4. **RINGHALS**
-       - Line: LC 420RINGHALS-HALDEN 1
-       - Line: LC 420RINGHALS-HALDEN 2
-
-    5. **ASKER**
-       - Line: LC 300TRETTEN-ASKER
-       - Line: LC 420HALDEN-SKIEN
-
-    6. **DAGALI**
-       - Line: LC 420HALDEN-DAGALI
-
-    7. **SKIEN**
-       - Line: LC 420HALDEN-SKIEN
   actual_steps:
   - name: autocomplete_search
     args:
@@ -3669,31 +3494,6 @@
       ordered: false
       matches: call_23BAjs9gOwFBBVyRVSyiTcOO
   status: success
-  actual_answer: |-
-    The following substations are connected to the substation "SYLLING" via AC or DC lines:
-
-    1. **OSLO**
-       - Line: LC 420SYLLING-SANDEFJORD
-       - Line: LC 420SYLLING-SKIEN
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    2. **SANDEFJORD**
-       - Line: LC 420SYLLING-SANDEFJORD
-
-    3. **ASKER**
-       - Line: LC 420SYLLING-SKIEN
-
-    4. **SKIEN**
-       - Line: LC 420SYLLING-SKIEN
-
-    5. **STAVANGER**
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    6. **KVILLDAL**
-       - Line: LC 420SYLLING-HAGAFOSS
-
-    7. **HAGAFOSS**
-       - Line: LC 420SYLLING-HAGAFOSS
   actual_steps:
   - name: autocomplete_search
     args:
@@ -4031,29 +3831,6 @@
       ordered: false
       matches: call_BznbZ7dKanrpWY7PLN05sDVp
   status: success
-  actual_answer: |-
-    The following substations are connected to the substation "ASKER" via AC or DC lines:
-
-    1. **HALDEN**
-       - Line: LC 300TRETTEN-ASKER
-       - Line: LC 420HALDEN-SKIEN
-
-    2. **TRETTEN**
-       - Line: LC 300TRETTEN-ASKER
-
-    3. **OSLO**
-       - Line: LC 300OSLO-ASKER
-       - Line: LC 420SYLLING-SKIEN
-
-    4. **SKIEN**
-       - Line: LC 420HALDEN-SKIEN
-       - Line: LC 420SYLLING-SKIEN
-
-    5. **SYLLING**
-       - Line: LC 420SYLLING-SKIEN
-
-    6. **ARENDAL**
-       - Line: LC 300ASKER-ARENDAL
   actual_steps:
   - name: autocomplete_search
     args:
@@ -4391,31 +4168,6 @@
       ordered: false
       matches: call_nYqVT45DYeE85lt0kIbDRAXm
   status: success
-  actual_answer: |-
-    The following substations are connected to the substation "SIMA" via AC or DC lines:
-
-    1. **Substation Name:** BLAFALLI
-       - **Line Name:** LC 300SIMA-BLAFALLI
-
-    2. **Substation Name:** EIDFJORD
-       - **Line Name:** LC 420AURLAND-EIDFJORD
-
-    3. **Substation Name:** AURLAND
-       - **Line Name:** LC 420AURLAND-EIDFJORD
-       - **Line Name:** LC 420AURLAND-GEILO
-       - **Line Name:** LC 420AURLAND-HAGAFOSS
-
-    4. **Substation Name:** GEILO
-       - **Line Name:** LC 420AURLAND-GEILO
-
-    5. **Substation Name:** STAVANGER
-       - **Line Name:** LC 420AURLAND-HAGAFOSS
-
-    6. **Substation Name:** KVILLDAL
-       - **Line Name:** LC 420AURLAND-HAGAFOSS
-
-    7. **Substation Name:** HAGAFOSS
-       - **Line Name:** LC 420AURLAND-HAGAFOSS
   actual_steps:
   - name: autocomplete_search
     args:
@@ -4728,18 +4480,6 @@
       ordered: false
       matches: call_WHrJZpd1YR9KuApVYrDEZcVx
   status: success
-  actual_answer: |-
-    The substations connected to the substation "PORJUS" via AC or DC lines are:
-
-    1. **FORSMARK** via line **LC 420FORSMARK-PORJUS**
-    2. **AJAURE** via line **LC 420PORJUS-GRUNDFOR**
-    3. **GRUNDFORS** via line **LC 420PORJUS-GRUNDFOR**
-    4. **OULU** via line **LC 420PORJUS-OULU**
-    5. **HOGASEN** via line **LC 420PORJUS-JARPSTRO**
-    6. **JARPSTROMMEN** via line **LC 420PORJUS-JARPSTRO**
-    7. **HJALTA** via line **LC 420HJALTA-PORJUS**
-    8. **MO** via line **LC 420PORJUS-NARVIK**
-    9. **NARVIK** via line **LC 420PORJUS-NARVIK**
   actual_steps:
   - name: autocomplete_search
     args:
@@ -5060,17 +4800,6 @@
       ordered: false
       matches: call_KNqRxMaFDHFDn5REFvSE1evQ
   status: success
-  actual_answer: |-
-    The substations connected to the substation "AURLAND" via AC or DC lines are:
-
-    1. **EIDFJORD** via line "LC 420AURLAND-EIDFJORD"
-    2. **SIMA** via line "LC 420AURLAND-EIDFJORD"
-    3. **GEILO** via line "LC 420AURLAND-GEILO"
-    4. **SIMA** via line "LC 420AURLAND-GEILO"
-    5. **STAVANGER** via line "LC 420AURLAND-HAGAFOSS"
-    6. **KVILLDAL** via line "LC 420AURLAND-HAGAFOSS"
-    7. **HAGAFOSS** via line "LC 420AURLAND-HAGAFOSS"
-    8. **SIMA** via line "LC 420AURLAND-HAGAFOSS"
   actual_steps:
   - name: autocomplete_search
     args:
@@ -5395,8 +5124,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: I could not find any bidding zones named "NO2 SGR" or "NO5 SGR" in the dataset.
-    Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -5555,8 +5282,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: I could not find any bidding zones named "NO5 SGR" or "NO2 SGR" in the dataset.
-    Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -5697,8 +5422,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: I could not find any bidding zones named "NO2 SGR" or "NO1 SGR" in the dataset.
-    Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -5839,8 +5562,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: It seems that I couldn't find any bidding zones named "NO1 SGR" or "NO2
-    SGR" in the dataset. Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -5965,8 +5686,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: I could not find any bidding zones named "SE2 SGR" or "SE3 SGR" in the dataset.
-    Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -6092,8 +5811,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: I could not find any bidding zones named "SE3 SGR" or "SE2 SGR" in the dataset.
-    Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -6211,8 +5928,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: I could not find any bidding zones named "NO1 SGR" or "NO5 SGR" in the dataset.
-    Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -6331,8 +6046,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: I could not find any bidding zones named "NO5 SGR" or "NO1 SGR" in the dataset.
-    Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -6434,8 +6147,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: I could not find any bidding zones named "SE4 SGR" or "SE3 SGR" in the dataset.
-    Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
@@ -6537,8 +6248,6 @@
         - substation2Name
       ordered: false
   status: success
-  actual_answer: I could not find any bidding zones named "SE1 SGR" or "SE2 SGR" in the dataset.
-    Please verify the names or provide additional details.
   actual_steps:
   - name: autocomplete_search
     args:
