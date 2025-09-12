@@ -1,4 +1,4 @@
-from collections import Counter, defaultdict
+from collections import Counter
 
 
 def get_var_to_values(
@@ -108,13 +108,13 @@ def compare_values(
         for actual_var in actual_vars:
             if actual_var in mapped_actual_vars:
                 continue
-            is_new_mapping, permutation = compare_columns(
+            lists_match, permutation = compare_columns(
                 reference_values,
                 actual_var_to_values[actual_var],
                 results_are_ordered,
                 permutation,
             )
-            if is_new_mapping:
+            if lists_match:
                 mapped_or_skipped_reference_vars.add(reference_var)
                 mapped_actual_vars.add(actual_var)
                 break
