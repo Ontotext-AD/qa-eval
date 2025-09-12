@@ -46,13 +46,13 @@ def compare_unordered_results(
     actual_values: list[str],
     permutation: list[int],
 ) -> tuple[bool, list[int]]:
-    if not permutation:
-        permutation_indices = get_permutation_indices(reference_values, actual_values)
-        if permutation_indices:
-            return True, permutation_indices
     if permutation:
         if is_permutation(actual_values, reference_values, permutation):
             return True, permutation
+    else:
+        permutation_indices = get_permutation_indices(reference_values, actual_values)
+        if permutation_indices:
+            return True, permutation_indices
     return False, permutation
 
 
@@ -86,16 +86,7 @@ def compare_columns(
               `reference_values` to `actual_values`.
     """
     if not results_are_ordered:
-        if not permutation:
-            permutation_indices = get_permutation_indices(
-                reference_values, actual_values
-            )
-            if permutation_indices:
-                return True, permutation_indices
-        if permutation:
-            if is_permutation(actual_values, reference_values, permutation):
-                return True, permutation
-        return False, permutation
+        return compare_unordered_results(reference_values, actual_values, permutation)
     if reference_values == actual_values:
         return True, permutation
     return False, permutation
