@@ -11,7 +11,7 @@ def test_get_relevance_dict_eval_success(monkeypatch):
         lambda *_: RagasResult(
             status="processed",
             score=0.9,
-            details="reason",
+            details="relevance reason",
             cost=Money(
                 currency="USD",
                 amount=0.0007,
@@ -25,7 +25,7 @@ def test_get_relevance_dict_eval_success(monkeypatch):
     assert eval_result_dict == {
         "answer_relevance": 0.9,
         "answer_relevance_cost": 0.0007,
-        "answer_relevance_reason": "reason",
+        "answer_relevance_reason": "relevance reason",
     }
 
 

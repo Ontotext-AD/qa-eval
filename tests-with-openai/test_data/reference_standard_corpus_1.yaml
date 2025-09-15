@@ -5,9 +5,6 @@
     reference_answer: OSLO T1, OSLO T2
     reference_steps:
     - - name: retrieval
-        args:
-          query: transformers Substation OSLO
-          k: 2
       - name: sparql_query
         args:
           query: |2
