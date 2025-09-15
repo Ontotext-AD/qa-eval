@@ -89,7 +89,15 @@ retrieval_expected_step = {
         "question": "Why is the sky blue?",
         "k": 5
     },
-    "output": [1, 3, 5, 7, 9],
+    "output": (
+        "[\n"
+        "  {\"id\": \"1\"},\n"
+        "  {\"id\": \"3\"},\n"
+        "  {\"id\": \"5\"},\n"
+        "  {\"id\": \"7\"},\n"
+        "  {\"id\": \"9\"}\n"
+        "]"
+    ),
 }
 retrieval_actual_step = {
     "name": "retrieval",
@@ -99,7 +107,20 @@ retrieval_actual_step = {
     },
     "id": "call_4",
     "status": "success",
-    "output": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "output": (
+        "[\n"
+        "  {\"id\": \"1\"},\n"
+        "  {\"id\": \"2\"},\n"
+        "  {\"id\": \"3\"},\n"
+        "  {\"id\": \"4\"},\n"
+        "  {\"id\": \"5\"},\n"
+        "  {\"id\": \"6\"},\n"
+        "  {\"id\": \"7\"},\n"
+        "  {\"id\": \"8\"},\n"
+        "  {\"id\": \"9\"},\n"
+        "  {\"id\": \"10\"}\n"
+        "]"
+    ),
 }
 retrieval_error_step = {
     "name": "retrieval",

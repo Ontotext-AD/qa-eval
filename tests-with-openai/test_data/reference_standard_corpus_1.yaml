@@ -12,8 +12,14 @@
           status: success
         output: |-
           [
-            "Transformer OSLO T1 is in Substation Oslo.",
-            "Transformer OSLO T2 is in Substation Oslo."
+            {
+              "id": 1,
+              "text": "Transformer OSLO T1 is in Substation Oslo."
+            },
+            {
+              "id": 2,
+              "text": "Transformer OSLO T2 is in Substation Oslo."
+            }
           ]
       - name: sparql_query
         args:

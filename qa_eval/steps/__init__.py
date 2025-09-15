@@ -1,12 +1,12 @@
 import json
 from collections import defaultdict
 
-from .retrieval import recall_at_k
+from .retrieval_evaluation_using_context_ids import recall_at_k
 from .sparql import compare_sparql_results
 
 
 def compare_steps_outputs(reference: dict, actual: dict) -> float:
-    ref_output = reference["output"]
+    ref_output = reference.get("output", "null")
     act_output = actual["output"]
     if reference.get("output_media_type") == "application/sparql-results+json":
         return compare_sparql_results(
@@ -17,9 +17,18 @@ def compare_steps_outputs(reference: dict, actual: dict) -> float:
         )
     if reference.get("output_media_type") == "application/json":
         return float(json.loads(ref_output) == json.loads(act_output))
-    if reference["name"] == "retrieval":
-        k = reference["args"]["k"]
-        return recall_at_k(ref_output, act_output, k)
+    if reference["name"] == "retrieval" == actual["name"]:
+        if ref_output == "null":
+            # We do not know how to compare actual to reference. For matching,
+            # assume it is the only retrieval step in both.
+            return 1.0
+        else:
+            ref_output = json.loads(ref_output)
+            act_output = json.loads(act_output)
+            ref_contexts_ids = [c["id"] for c in ref_output]
+            act_contexts_ids = [c["id"] for c in act_output]
+            k = reference["args"]["k"]
+            return recall_at_k(ref_contexts_ids, act_contexts_ids, k)
     return float(ref_output == act_output)
 
 
