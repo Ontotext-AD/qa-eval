@@ -41,7 +41,7 @@ def get_f1_dict(
 
 def get_retrieval_evaluation_dict(
     question_text: str,
-    actual_contexts: list[str],
+    actual_contexts: list[dict[str, str]],
     reference_answer: str | None = None,
     actual_answer: str | None = None,
     model_name : str = "openai/gpt-4o-mini",
@@ -57,7 +57,7 @@ def get_retrieval_evaluation_dict(
         input=question_text,
         expected_output=reference_answer,
         output=actual_answer,
-        contexts=actual_contexts
+        contexts=[a["text"] for a in actual_contexts]
     )
     result = {}
     evaluator = RagasResponseContextRecallEvaluator(settings=settings_dict)
