@@ -8,18 +8,26 @@ from langevals_ragas.response_context_precision import (
 )
 
 
-def _construct_result_dict(
-    langevals_result_dict: dict,
+def _evaluate(
+    evaluator: RagasResponseContextRecallEvaluator | RagasResponseContextPrecisionEvaluator,
+    entry: RagasResponseContextRecallEntry | RagasResponseContextPrecisionEntry,
     metric: str
-) -> dict:
-    if langevals_result_dict["status"] == "processed":
+) -> dict[str, float | str]:
+    try:
+        result = evaluator.evaluate(entry)
+        if result.status == "processed":
+            return {
+                f"retrieval_answer_{metric}": result.score,
+                f"retrieval_answer_{metric}_cost": result.cost.amount,
+                f"retrieval_answer_{metric}_reason": result.details
+            }
+        else:
+            return {
+                f"retrieval_answer_{metric}_error": result.details
+            }
+    except Exception as e:
         return {
-            f"retrieval_answer_{metric}": langevals_result_dict["score"],
-            f"retrieval_answer_{metric}_cost": langevals_result_dict["cost"]["amount"]
-        }
-    else:
-        return {
-            f"retrieval_answer_{metric}_error": langevals_result_dict["details"]
+            f"retrieval_answer_{metric}_error": str(e)
         }
 
 
@@ -61,10 +69,8 @@ def get_retrieval_evaluation_dict(
     )
     result = {}
     evaluator = RagasResponseContextRecallEvaluator(settings=settings_dict)
-    _result = evaluator.evaluate(entry)["response_context_recall"][0]
-    result.update(_construct_result_dict(_result, "recall"))
+    result.update(_evaluate(evaluator, entry, "recall"))
     evaluator = RagasResponseContextPrecisionEvaluator(settings=settings_dict)
-    _result = evaluator.evaluate(entry)["response_context_precision"][0]
-    result.update(_construct_result_dict(_result, "precision"))
+    result.update(_evaluate(evaluator, entry, "precision"))
     result.update(get_f1_dict(result))
     return result

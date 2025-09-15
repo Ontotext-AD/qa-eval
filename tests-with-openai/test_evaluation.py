@@ -10,6 +10,7 @@ from graphrag_eval import (
     compute_aggregates,
     run_evaluation,
 )
+from qa_eval.steps import retrieval_evaluation_using_answer
 
 
 def test_run_evaluation_and_compute_aggregates(monkeypatch):
@@ -24,24 +25,46 @@ def test_run_evaluation_and_compute_aggregates(monkeypatch):
         (Path(__file__).parent / "test_data" / "reference_standard_corpus_1.yaml").read_text(encoding="utf-8")
     )
     sample_chat_responses_path = Path(__file__).parent / "test_data" / "chat_responses_1.jsonl"
-
-    # Define mock call_llm()
-    mock_call_llm = lambda *_: "2\t2\t2\treason"
     monkeypatch.setattr(
         answer_relevance.RagasResponseRelevancyEvaluator,
         'evaluate',
         lambda *_: RagasResult(
             status="processed",
             score=0.9,
-            details="reason",
+            details="relevance reason",
             cost=Money(currency="USD", amount=0.0007)
         )
     )
-
-    # Assign mocks
-    monkeypatch.setattr(answer_correctness, "OpenAI", lambda: None)
-    eval_class = answer_correctness.AnswerCorrectnessEvaluator
-    monkeypatch.setattr(eval_class, "call_llm", mock_call_llm)
+    monkeypatch.setattr(
+        retrieval_evaluation_using_answer.RagasResponseContextRecallEvaluator,
+        "evaluate",
+        lambda *_: RagasResult(
+            status="processed",
+            score=0.9,
+            details="recall reason",
+            cost=Money(currency="USD", amount=0.0007)
+        )
+    )
+    monkeypatch.setattr(
+        retrieval_evaluation_using_answer.RagasResponseContextPrecisionEvaluator,
+        "evaluate",
+        lambda *_: RagasResult(
+            status="processed",
+            score=0.9,
+            details="precision reason",
+            cost=Money(currency="USD", amount=0.0007)
+        )
+    )
+    monkeypatch.setattr(
+        answer_correctness,
+        "OpenAI",
+        lambda: None
+    )
+    monkeypatch.setattr(
+        answer_correctness.AnswerCorrectnessEvaluator,
+        "call_llm",
+        lambda *_: "2\t2\t2\treason"
+    )
 
     # Run
     evaluation_results = run_evaluation(sample_reference_standard, get_chat_responses(sample_chat_responses_path))
@@ -69,8 +92,6 @@ def test_run_evaluation_and_compute_aggregates_no_actual_steps(monkeypatch):
     )
     sample_chat_responses_path = Path(__file__).parent / "test_data" / "chat_responses_3.jsonl"
 
-    # Define mock call_llm()
-    mock_call_llm = lambda *_: "2\t2\t2\treason"
     monkeypatch.setattr(
         answer_relevance.RagasResponseRelevancyEvaluator,
         'evaluate',
@@ -81,11 +102,16 @@ def test_run_evaluation_and_compute_aggregates_no_actual_steps(monkeypatch):
             cost=Money(currency="USD", amount=0.0007)
         )
     )
-
-    # Assign mocks
-    monkeypatch.setattr(answer_correctness, "OpenAI", lambda: None)
-    eval_class = answer_correctness.AnswerCorrectnessEvaluator
-    monkeypatch.setattr(eval_class, "call_llm", mock_call_llm)
+    monkeypatch.setattr(
+        answer_correctness,
+        "OpenAI",
+        lambda: None
+    )
+    monkeypatch.setattr(
+        answer_correctness.AnswerCorrectnessEvaluator,
+        "call_llm",
+        lambda *_: "2\t2\t2\treason"
+    )
 
     # Run
     evaluation_results = run_evaluation(sample_reference_standard, get_chat_responses(sample_chat_responses_path))
