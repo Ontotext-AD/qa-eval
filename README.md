@@ -906,18 +906,18 @@ macro:
     mean: 25.911653497483996
 ```
 
-### Retrieval Evaluation
+### Retrieval Metrics
 
-The following metrics are based on the ids of retrieved documents.
+The following metrics are based on the content of retrieved documents.
 
-#### Recall@k Metric
+#### Context Recall@k
 
 The fraction of relevant items among the top *k* recommendations. It answers the question: "Of all items the user cares about, how many did we inclide in the first k spots?"
 * **Formula**:
     $`
     \frac{\text{Number of relevant items in top k}}{\text{Number of relevant items}}
     `$
-* **Calculation**: Count the number of relevant items in the top `k` retrieved results; divide that by the *total* number of relevant items.
+* **Calculation**: Count the number of relevant items in the top `k` retrieved results; divide that by the first 'k' relevant items.
 * **Example**: Suppose there are 4 relevant documents for a given query. Suppose our system retrieves 3 of them in the top 5 results (`k=5`). Recall@5 is `3 / 4 = 0.75`.
 
 ```python
@@ -928,7 +928,7 @@ recall_at_k(
 )  # => 0.75
 ```
 
-#### Average Precision (AP) Metric
+#### Context Precision@k
 
 Evaluates a ranked list of recommendations by looking at the precision at the position of each correctly retrieved item. It rewards systems for placing relevant items higher up in the list. It's more sophisticated than just looking at precision at a single cutoff because it considers the entire ranking.
 * **Formula**:
