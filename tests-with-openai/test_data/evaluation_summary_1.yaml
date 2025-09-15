@@ -33,6 +33,42 @@ per_template:
       median: 0.0007
       sum: 0.0007
     steps:
+      retrieval_answer_f1:
+        max: 0.9
+        mean: 0.9
+        median: 0.9
+        min: 0.9
+        sum: 0.9
+      retrieval_answer_f1_cost:
+        max: 0.0014
+        mean: 0.0014
+        median: 0.0014
+        min: 0.0014
+        sum: 0.0014
+      retrieval_answer_precision:
+        max: 0.9
+        mean: 0.9
+        median: 0.9
+        min: 0.9
+        sum: 0.9
+      retrieval_answer_precision_cost:
+        max: 0.0007
+        mean: 0.0007
+        median: 0.0007
+        min: 0.0007
+        sum: 0.0007
+      retrieval_answer_recall:
+        max: 0.9
+        mean: 0.9
+        median: 0.9
+        min: 0.9
+        sum: 0.9
+      retrieval_answer_recall_cost:
+        max: 0.0007
+        mean: 0.0007
+        median: 0.0007
+        min: 0.0007
+        sum: 0.0007
       total:
         autocomplete_search: 1
         retrieval: 1
@@ -104,6 +140,42 @@ micro:
     mean: 0.0007
     median: 0.0007
     sum: 0.0007
+  retrieval_answer_f1:
+    max: 0.9
+    mean: 0.9
+    median: 0.9
+    min: 0.9
+    sum: 0.9
+  retrieval_answer_f1_cost:
+    max: 0.0014
+    mean: 0.0014
+    median: 0.0014
+    min: 0.0014
+    sum: 0.0014
+  retrieval_answer_precision:
+    max: 0.9
+    mean: 0.9
+    median: 0.9
+    min: 0.9
+    sum: 0.9
+  retrieval_answer_precision_cost:
+    max: 0.0007
+    mean: 0.0007
+    median: 0.0007
+    min: 0.0007
+    sum: 0.0007
+  retrieval_answer_recall:
+    max: 0.9
+    mean: 0.9
+    median: 0.9
+    min: 0.9
+    sum: 0.9
+  retrieval_answer_recall_cost:
+    max: 0.0007
+    mean: 0.0007
+    median: 0.0007
+    min: 0.0007
+    sum: 0.0007
   steps_score:
     sum: 1.0
     mean: 1.0
@@ -145,6 +217,18 @@ macro:
       mean: 0.9
   answer_relevance_cost:
       mean: 0.0007
+  retrieval_answer_f1:
+    mean: 0.9
+  retrieval_answer_f1_cost:
+    mean: 0.0014
+  retrieval_answer_precision:
+    mean: 0.9
+  retrieval_answer_precision_cost:
+    mean: 0.0007
+  retrieval_answer_recall:
+    mean: 0.9
+  retrieval_answer_recall_cost:
+    mean: 0.0007
   steps_score:
     mean: 1.0
   input_tokens:

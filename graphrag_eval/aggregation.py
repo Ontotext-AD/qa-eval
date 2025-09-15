@@ -16,7 +16,16 @@ METRICS = [
     "total_tokens",
     "elapsed_sec"
 ]
-
+STEPS_METRICS = {
+    "retrieval": [
+        "retrieval_answer_precision",
+        "retrieval_answer_precision_cost",
+        "retrieval_answer_recall",
+        "retrieval_answer_recall_cost",
+        "retrieval_answer_f1",
+        "retrieval_answer_f1_cost"
+    ]
+}
 PROTECTED_METRICS = [
     "input_tokens",
     "output_tokens",
@@ -33,6 +42,19 @@ def stats_for_series(values: Iterable[int | float]) -> dict[str, float]:
         "min": min(values) if values else 0,
         "max": max(values) if values else 0,
     }
+
+
+def update_step_metrics_per_template(
+    sample: dict,
+    step_metrics_per_template: dict,
+    template_id: str
+):
+    for step in sample.get("actual_steps", []):
+        if step["name"] in STEPS_METRICS:
+            for metric in STEPS_METRICS[step["name"]]:
+                value = step.get(metric)
+                if value is not None:
+                    step_metrics_per_template[template_id][metric].append(value)
 
 
 def update_stats_per_template(
@@ -76,6 +98,7 @@ def compute_aggregates(samples: list[dict]) -> dict:
     number_of_samples_per_template_by_status = defaultdict(lambda: defaultdict(int))
     stats_per_template = defaultdict(lambda: defaultdict(list))
     steps_summary_per_template = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    step_metrics_per_template = defaultdict(lambda: defaultdict(list))
 
     # Compute per-template stats
     templates_ids = set()
@@ -92,6 +115,11 @@ def compute_aggregates(samples: list[dict]) -> dict:
         update_steps_summary_per_template(
             sample,
             steps_summary_per_template,
+            template_id
+        )
+        update_step_metrics_per_template(
+            sample,
+            step_metrics_per_template,
             template_id
         )
 
@@ -115,6 +143,13 @@ def compute_aggregates(samples: list[dict]) -> dict:
             if series or metric in PROTECTED_METRICS:
                 template_summary[metric] = stats_for_series(series)
 
+        # Add step metrics for the template
+        template_step_metrics = {}
+        for metric, values in step_metrics_per_template[template_id].items():
+            template_step_metrics[metric] = stats_for_series(values)
+        if template_step_metrics:
+            template_summary["steps"].update(template_step_metrics)
+
         summary["per_template"][template_id] = template_summary
 
     # Add micro stats
@@ -137,6 +172,17 @@ def compute_aggregates(samples: list[dict]) -> dict:
         if series or metric in PROTECTED_METRICS:
             summary["micro"][metric] = stats_for_series(series)
 
+    # Add micro step metrics
+    micro_step_metrics = defaultdict(list)
+    for template_metrics in step_metrics_per_template.values():
+        for metric, values in template_metrics.items():
+            micro_step_metrics[metric].extend(values)
+    step_metrics = {
+        metric: stats_for_series(values)
+        for metric, values in micro_step_metrics.items()
+    }
+    summary["micro"].update(step_metrics)
+
     # Add macro stats
     summary["macro"] = {}
     for metric in METRICS:
@@ -147,5 +193,18 @@ def compute_aggregates(samples: list[dict]) -> dict:
         ]
         if means or metric in PROTECTED_METRICS:
             summary["macro"][metric] = {"mean": mean(means) if means else 0}
+
+    # Add macro step metrics
+    macro_step_metrics = defaultdict(list)
+    for template_id, template_summary in summary["per_template"].items():
+        if "steps" in template_summary:
+            for metric, stats in template_summary["steps"].items():
+                if "mean" in stats:
+                    macro_step_metrics[metric].append(stats["mean"])
+    step_metrics = {
+        metric: {"mean": mean(values) if values else 0}
+        for metric, values in macro_step_metrics.items()
+    }
+    summary["macro"].update(step_metrics)
 
     return summary
