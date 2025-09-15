@@ -10,7 +10,7 @@ from qa_eval import (
     compute_aggregates,
     run_evaluation,
 )
-from qa_eval.steps import retrieval_evaluation_using_answer
+from qa_eval.steps import retrieval_evaluation_using_context_texts
 
 
 def test_run_evaluation_and_compute_aggregates(monkeypatch):
@@ -36,7 +36,7 @@ def test_run_evaluation_and_compute_aggregates(monkeypatch):
         )
     )
     monkeypatch.setattr(
-        retrieval_evaluation_using_answer.RagasResponseContextRecallEvaluator,
+        retrieval_evaluation_using_context_texts.RagasContextRecallEvaluator,
         "evaluate",
         lambda *_: RagasResult(
             status="processed",
@@ -46,7 +46,7 @@ def test_run_evaluation_and_compute_aggregates(monkeypatch):
         )
     )
     monkeypatch.setattr(
-        retrieval_evaluation_using_answer.RagasResponseContextPrecisionEvaluator,
+        retrieval_evaluation_using_context_texts.RagasContextPrecisionEvaluator,
         "evaluate",
         lambda *_: RagasResult(
             status="processed",

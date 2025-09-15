@@ -4,6 +4,20 @@
   reference_answer: OSLO T1, OSLO T2
   reference_steps:
   - - name: retrieval
+      args:
+        query: transformers Substation OSLO
+        k: 2
+      output: |-
+        [
+          {
+            "id": "http://example.com/resource/doc/1",
+            "text": "Transformer OSLO T1 is in Substation Oslo."
+          },
+          {
+            "id": "http://example.com/resource/doc/2",
+            "text": "Transformer OSLO T2 is in Substation Oslo."
+          }
+        ]
       matches: call_3
     - name: sparql_query
       args:
@@ -47,22 +61,22 @@
     output: |-
       [
         {
-          "id": 1,
+          "id": "http://example.com/resource/doc/1",
           "text": "Transformer OSLO T1 is in Substation Oslo."
         },
         {
-          "id": 2,
+          "id": "http://example.com/resource/doc/2",
           "text": "Transformer OSLO T2 is in Substation Oslo."
         }
       ]
-    retrieval_answer_recall: 0.9
-    retrieval_answer_recall_reason: recall reason
-    retrieval_answer_recall_cost: 0.0007
-    retrieval_answer_precision: 0.9
-    retrieval_answer_precision_reason: precision reason
-    retrieval_answer_precision_cost: 0.0007
-    retrieval_answer_f1: 0.9
-    retrieval_answer_f1_cost: 0.0014
+    retrieval_recall: 0.9
+    retrieval_recall_reason: recall reason
+    retrieval_recall_cost: 0.0007
+    retrieval_precision: 0.9
+    retrieval_precision_reason: precision reason
+    retrieval_precision_cost: 0.0007
+    retrieval_f1: 0.9
+    retrieval_f1_cost: 0.0014
   - name: autocomplete_search
     args:
       query: OSLO
