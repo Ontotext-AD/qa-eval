@@ -1,7 +1,7 @@
 from typing import Iterable
 
 
-def recall_at_k(relevant_docs: Iterable, retrieved_docs: list, k: int = 10) -> float:
+def recall_at_k(relevant_docs: list, retrieved_docs: list, k: int = 10) -> float:
     """
     Calculates Recall@k.
 
@@ -14,7 +14,7 @@ def recall_at_k(relevant_docs: Iterable, retrieved_docs: list, k: int = 10) -> f
         float: The Recall@k score.
     """
     retrieved_at_k = retrieved_docs[:k]
-
+    relevant_docs = relevant_docs[:k]
     relevant_set = set(relevant_docs)
     retrieved_set = set(retrieved_at_k)
     true_positives = len(relevant_set.intersection(retrieved_set))
