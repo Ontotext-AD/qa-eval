@@ -83,7 +83,7 @@ Each step includes:
 
 - `name`: The type of step being performed (e.g., `sparql_query`)
 - `args`: Arguments of the step (e.g., arguments to a tool used in the step, such as a SPARQL query)
-- `output`: The expected output from the step
+- `output`: (optional) The expected output from the step. Optional for steps whose `name` is `"retrieval"`
 - `output_media_type`: (optional, missing or one of `application/sparql-results+json`, `application/json`) Indicates how the output of a step must be processed
 - `ordered`: (optional, defaults to `false`) For SPARQL query results, whether results order matters. `true` means that the actual result rows must be ordered as the reference result; `false` means that result rows are matched as a set.
 - `required_columns`: (optional) - required only for SPARQL query results; list of binding names, which are required for SPARQL query results to match
@@ -99,7 +99,11 @@ The example corpus below illustrates a minimal but realistic Q&A dataset, showin
     question_text: List all transformers within Substation OSLO
     reference_answer: OSLO T1, OSLO T2
     reference_steps:
-    - - name: sparql_query
+    - - name: retrieval
+        args:
+          query: transformers Substation OSLO
+          k: 2
+      - name: sparql_query
         args:
           query: |2
 
@@ -254,6 +258,16 @@ Below is an example response from the question-answering system for a single que
     "elapsed_sec": 46.48961806297302,
     "actual_steps": [
         {
+          "name": "retrieval",
+          "args": {
+            "query": "transformers Substation OSLO",
+            "k": 2
+          },
+          "id": "call_3",
+          "status": "success",
+          "output": "[\n  {\n    \"id\": 1,\n    \"text\": \"Transformer OSLO T1 is in Substation Oslo.\"\n  },\n  {\n    \"id\": 2,\n    \"text\": \"Transformer OSLO T2 is in Substation Oslo.\"\n  }\n]"
+        },
+        {
             "name": "autocomplete_search",
             "args": {
                 "query": "STAVANGER",
@@ -323,7 +337,11 @@ The output is a list of statistics for each question from the reference Q&A data
   question_text: List all transformers within Substation OSLO
   reference_answer: OSLO T1, OSLO T2
   reference_steps:
-  - - name: sparql_query
+  - - name: retrieval
+      args:
+        query: transformers Substation OSLO
+        k: 2
+    - name: sparql_query
       args:
         query: |2
 
@@ -364,6 +382,23 @@ The output is a list of statistics for each question from the reference Q&A data
   answer_relevance: 0.9
   answer_relevance_cost: 0.0007
   actual_steps:
+  - name: retrieval
+    id: call_3
+    args:
+      query: transformers Substation OSLO
+      k: 2
+    status: success
+    output: |-
+      [
+        {
+          "id": 1,
+          "text": "Transformer OSLO T1 is in Substation Oslo."
+        },
+        {
+          "id": 2,
+          "text": "Transformer OSLO T2 is in Substation Oslo."
+        }
+      ]
   - name: autocomplete_search
     args:
       query: OSLO
