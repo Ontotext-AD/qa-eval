@@ -3,7 +3,19 @@
   question_text: List all transformers within Substation OSLO
   reference_answer: OSLO T1, OSLO T2
   reference_steps:
-  - - name: sparql_query
+  - - name: retrieval
+      id: call_3
+      args:
+        query: transformers Substation OSLO
+        k: 2
+        status: success
+      output: |-
+        [
+          "Transformer OSLO T1 is in Substation Oslo.",
+          "Transformer OSLO T2 is in Substation Oslo."
+        ]
+      matches: call_3
+    - name: sparql_query
       args:
         query: |2
 
