@@ -17,7 +17,7 @@ def compare_steps_outputs(reference: dict, actual: dict) -> float:
         )
     if reference.get("output_media_type") == "application/json":
         return float(json.loads(ref_output) == json.loads(act_output))
-    if reference["name"] == "retrieval" == actual["name"]:
+    if reference["name"] == actual["name"] == "retrieval":
         if ref_output == "null":
             # We do not know how to compare actual to reference. For matching,
             # assume it is the only retrieval step in both.
@@ -27,7 +27,7 @@ def compare_steps_outputs(reference: dict, actual: dict) -> float:
             act_output = json.loads(act_output)
             ref_contexts_ids = [c["id"] for c in ref_output]
             act_contexts_ids = [c["id"] for c in act_output]
-            k = reference["args"]["k"]
+            k = actual["args"]["k"]
             return recall_at_k(ref_contexts_ids, act_contexts_ids, k)
     return float(ref_output == act_output)
 
