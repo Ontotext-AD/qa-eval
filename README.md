@@ -24,25 +24,32 @@ For issues or feature requests, please open [a GitHub issue](https://github.com/
 
 ## Command Line Use
 
-To evaluate only final answers (system responses), you can clone this repository and run the code on the command line:
+To evaluate only correctness of final answers (system responses), you can clone this repository and run the code on the command line:
 
 1. Prepare an input TSV file with columns `Question`, `Reference answer` and `Actual answer`
 1. Execute `poetry install --with answer-eval`
-1. Execute `OPENAI_API_KEY=<your_api_key> poetry run evaluate-answers -i <input_file.tsv> -o <output_file.tsv>`
+1. Execute `OPENAI_API_KEY=<your_api_key> poetry run answer-correctness -i <input_file.tsv> -o <output_file.tsv>`
 
 We plan to improve CLI support in future releases.
 
 ## Use as a Library
 
-To evaluate the final answers and/or steps:
+To evaluate answers and/or steps:
 1. Install this package: section [Install](#Installation)
 1. Format the corpus of questions and reference answers and/or steps: section [Reference Q&A Corpus](#reference-qa-corpus)
 1. Format the answers and/or steps you want to evaluate: section [Evaluation Target Corpus](#Evaluation-Target-Corpus)
-1. To evaluate answers:
-    1. Include reference answers in the target corpus
+1. To evaluate answer relevance:
+    1. Include `actual_answer` in the target data to evaluate
+    1. Set environment vairabe `OPENAI_API_KEY` appropriately
+1. To evaluate answer correctness:
+    1. Include `reference_answer` in the reference corpus and `actual_answer` in the target data to evaluate
     1. Set environment variable `OPENAI_API_KEY` appropriately
+1. To evaluate steps:
+    1. Include `reference_steps` in the reference corpus and `actual_steps` in target data to evaluate
 1. Call the evaluation function with the reference corpus and target corpus: section [Example Usage Code](#Example-Usage-Code)
 1. Call the aggregation function with the evaluation results
+
+Answer evaluation (correctness and relevance) uses the LLM `openai/gpt-4o-mini`.
 
 ### Reference Q&A Corpus
 
@@ -332,10 +339,12 @@ The output is a list of statistics for each question from the reference Q&A data
   answer_reference_claims_count: 2
   answer_actual_claims_count: 2
   answer_matching_claims_count: 2
-  answer_eval_reason: The candidate answer contains exactly the transformers listed in the reference answer, asked in the question
+  answer_correctness_reason: The candidate answer contains exactly the transformers listed in the reference answer, asked in the question
   answer_recall: 1.0
   answer_precision: 1.0
   answer_f1: 1.0
+  answer_relevance: 0.9
+  answer_relevance_cost: 0.0007
   actual_steps:
   - name: autocomplete_search
     args:
@@ -436,9 +445,12 @@ The output is a list of statistics for each question from the reference Q&A data
 - `answer_matching_claims_count`: (optional) number of matching claims between the reference answer and the actual answer, if a reference answer and actual answer are available
 - `answer_recall`: (optional) `answer_matching_claims_count / answer_reference_claims_count`
 - `answer_precision`: (optional) `answer_matching_claims_count / answer_actual_claims_count`
-- `answer_eval_reason`: (optional) LLM reasoning in extracting and matching claims from the reference answer and the actual answer
+- `answer_correctness_reason`: (optional) LLM reasoning in extracting and matching claims from the reference answer and the actual answer
 - `answer_eval_error`: (optional) error message if answer evaluation failed
 - `answer_f1`: (optional) Harmonic mean of `answer_recall` and `answer_precision`
+- `answer_relevance`: (optional) The value representing how relevant is the actual answer to the question, computed using [RAGAS answer relevance](https://docs.ragas.io/en/v0.3.3/concepts/metrics/available_metrics/answer_relevance/)
+- `answer_relevance_error`: (optional) error message if answer relevance evaluation failed
+- `answer_relevance_cost`: The LLM use cost of computing `answer_relevance`, in US dollars
 - `actual_steps`: (optional) copy of the steps in the evaluation target, if specified there
 - `steps_score`: a real number between 0 and 1, computed by comparing the results of the last steps that were executed to the reference's last group of steps. If there is no match in the actual steps, then the score is `0`. Otherwise, it is calculated as the number of the matched steps on the last group divided by the total number of steps in the last group.
 - `input_tokens`: input tokens usage
@@ -451,11 +463,10 @@ The output is a list of statistics for each question from the reference Q&A data
 The `aggregates` object provides aggregated evaluation metrics.
 Aggregates are computed both per-template and overall, using micro and macro averaging strategies.
 These aggregates support analysis of agent quality, token efficiency, and execution performance.
-Aggregates include:
+Aggregates are:
 - `per_template`: a dictionary mapping a template identifier to the following statistics:
   - `number_of_error_samples`: number of questions for this template, which resulted in error response
   - `number_of_success_samples`: number of questions for this template, which resulted in successful response
-
   - `input_tokens`: `sum`, `mean`, `median`, `min` and `max` statistics for `input_tokens` of all successful questions for this template
   - `output_tokens`: `sum`, `mean`, `median`, `min` and `max` statistics for `output_tokens` of all successful questions for this template
   - `total_tokens`: `sum`, `mean`, `median`, `min` and `max` statistics for `total_tokens` of all successful questions for this template
@@ -463,6 +474,7 @@ Aggregates include:
   - `answer_recall`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_recall` of all successful questions for this template
   - `answer_precision`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_precision` of all successful questions for this template
   - `answer_f1`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_f1` of all successful questions for this template
+  - `answer_relevance`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_relevance` of all successful questions for this template
   - `steps_score`: `sum`, `mean`, `median`, `min` and `max` statistics for `steps_score` of all successful questions for this template
   - `steps`: `sum`, `mean`, `median`, `min` and `max` statistics for `steps` of all successful questions for this template. Includes:
     - `steps`: for each step type how many times it was executed
@@ -479,6 +491,8 @@ Aggregates include:
   - `answer_recall`: `sum`, `mean`, `median`, `min` and `max` for `answer_recall` of all successful questions
   - `answer_precision`: `sum`, `mean`, `median`, `min` and `max` for `answer_precision` of all successful questions
   - `answer_f1`: `sum`, `mean`, `median`, `min` and `max` for `answer_f1` of all successful questions
+  - `answer_relevance`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_relevance` of all successful questions
+  - `answer_relevance_cost`: `sum`, `mean`, `median`, `min` and `max` statistics for `answer_relevance_cost` of all successful questions
   - `steps_score`: `sum`, `mean`, `median`, `min` and `max` for `steps_score` of all successful questions
 - `macro`: averages across templates, i.e., the mean of each metric per template, averaged. It includes:
   - `input_tokens`: `mean` for `input_tokens`
@@ -488,6 +502,8 @@ Aggregates include:
   - `answer_recall`: `mean` for `answer_recall`
   - `answer_precision`: `mean` for `answer_precision`
   - `answer_f1`: `mean` for `answer_f1`
+  - `answer_relevance`: `mean` for `answer_relevance`
+  - `answer_relevance_cost`: `mean` for `answer_relevance_cost`
   - `steps_score`: `mean` for `steps_score`
 
 #### Example Aggregates
@@ -515,6 +531,18 @@ per_template:
       median: 1.0
       min: 1.0
       max: 1.0
+    answer_relevance:
+        min: 0.9
+        max: 0.9
+        mean: 0.9
+        median: 0.9
+        sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
     steps:
       total:
         autocomplete_search: 10
@@ -575,6 +603,18 @@ per_template:
       median: 1.0
       min: 1.0
       max: 1.0
+    answer_relevance:
+      min: 0.9
+      max: 0.9
+      mean: 0.9
+      median: 0.9
+      sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
     steps:
       total:
         autocomplete_search: 10
@@ -633,6 +673,18 @@ per_template:
       median: 1.0
       min: 1.0
       max: 1.0
+    answer_relevance:
+      min: 0.9
+      max: 0.9
+      mean: 0.9
+      median: 0.9
+      sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
     steps:
       total:
         autocomplete_search: 9
@@ -693,6 +745,18 @@ per_template:
       median: 1.0
       min: 1.0
       max: 1.0
+    answer_relevance:
+      min: 0.9
+      max: 0.9
+      mean: 0.9
+      median: 0.9
+      sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
     steps:
       total:
         autocomplete_search: 20
@@ -751,6 +815,18 @@ micro:
     median: 1.0
     min: 1.0
     max: 1.0
+  answer_relevance:
+    min: 0.9
+    max: 0.9
+    mean: 0.9
+    median: 0.9
+    sum: 0.9
+  answer_relevance_cost:
+    min: 0.0007
+    max: 0.0007
+    mean: 0.0007
+    median: 0.0007
+    sum: 0.0007
   steps_score:
     sum: 17
     mean: 0.4358974358974359
@@ -788,6 +864,10 @@ macro:
     mean: 1.0
   answer_f1:
     mean: 1.0
+  answer_relevance:
+    mean: 0.9
+  answer_relevance_cost:
+    mean: 0.0007
   steps_score:
     mean: 0.45
   input_tokens:

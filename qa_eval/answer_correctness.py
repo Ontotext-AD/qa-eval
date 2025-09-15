@@ -57,7 +57,7 @@ def extract_response_values(
     return n_ref, n_target, n_matching, vals[3], ""
 
 
-class OpenAIAnswerEvaluator:
+class AnswerCorrectnessEvaluator:
     def __init__(
         self,
         prompt_file_path: str | Path = PROMPT_FILE_PATH,
@@ -93,7 +93,7 @@ class OpenAIAnswerEvaluator:
         response_str = self.call_llm(prompt)
         return extract_response_values(response_str)
 
-    def get_evaluation_result_dict(
+    def get_correctness_dict(
         self,
         reference: dict,
         target: dict,
@@ -113,7 +113,7 @@ class OpenAIAnswerEvaluator:
                 "answer_reference_claims_count": num_ref_claims,
                 "answer_actual_claims_count": num_actual_claims,
                 "answer_matching_claims_count": num_matching_claims,
-                "answer_eval_reason": reason,
+                "answer_correctness_reason": reason,
             })
             recall, precision, f1 = compute_recall_precision_f1(
                 num_ref_claims, num_actual_claims, num_matching_claims
@@ -131,7 +131,7 @@ def evaluate_and_write(
     in_file_path: str | Path,
     out_file_path: str | Path,
 ) -> None:
-    evaluator = OpenAIAnswerEvaluator(PROMPT_FILE_PATH)
+    evaluator = AnswerCorrectnessEvaluator(PROMPT_FILE_PATH)
     with open(in_file_path, encoding="utf-8") as f:
         reader = csv.DictReader(f, delimiter="\t")
         rows = [row for row in reader]

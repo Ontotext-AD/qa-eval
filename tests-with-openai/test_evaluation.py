@@ -4,13 +4,14 @@ import jsonlines
 import yaml
 
 from qa_eval import (
-    answer_evaluation,
+    answer_correctness,
+    answer_relevance,
     compute_aggregates,
     run_evaluation,
 )
 
 
-def test_run_evaluation_and_compute_aggregates(monkeypatch, tmp_path):
+def test_run_evaluation_and_compute_aggregates(monkeypatch):
     def get_chat_responses(path: Path) -> dict:
         responses = dict()
         with jsonlines.open(path, "r") as reader:
@@ -21,14 +22,34 @@ def test_run_evaluation_and_compute_aggregates(monkeypatch, tmp_path):
     sample_reference_standard = yaml.safe_load(
         (Path(__file__).parent / "test_data" / "reference_standard_corpus_1.yaml").read_text(encoding="utf-8")
     )
-    sample_chat_responses_path = Path(__file__).parent.parent / "tests" / "test_data" / "chat_responses_1.jsonl"
+    sample_chat_responses_path = Path(__file__).parent / "test_data" / "chat_responses_1.jsonl"
 
     # Define mock call_llm()
     mock_call_llm = lambda *_: "2\t2\t2\treason"
-    
+    monkeypatch.setattr(
+        answer_relevance.RagasResponseRelevancyEvaluator, 
+        'evaluate', 
+        lambda *_: {
+            "ragas_answer_relevancy": [
+                {
+                    "status": "processed",
+                    "score": 0.9,
+                    "passed": None,
+                    "label": None,
+                    "details": "details",
+                    "cost": {
+                        "currency": "USD",
+                        "amount": 0.0007,
+                    }                            
+                }
+            ]
+        }
+    )
+
     # Assign mocks
-    monkeypatch.setattr(answer_evaluation, "OpenAI", lambda: None)
-    monkeypatch.setattr(answer_evaluation.OpenAIAnswerEvaluator, "call_llm", mock_call_llm)
+    monkeypatch.setattr(answer_correctness, "OpenAI", lambda: None)
+    eval_class = answer_correctness.AnswerCorrectnessEvaluator
+    monkeypatch.setattr(eval_class, "call_llm", mock_call_llm)
     
     # Run
     evaluation_results = run_evaluation(sample_reference_standard, get_chat_responses(sample_chat_responses_path))
