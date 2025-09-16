@@ -2,6 +2,7 @@ from pathlib import Path
 
 import jsonlines
 import yaml
+from langevals_ragas.lib.common import RagasResult, Money
 
 from qa_eval import (
     answer_correctness,
@@ -27,30 +28,21 @@ def test_run_evaluation_and_compute_aggregates(monkeypatch):
     # Define mock call_llm()
     mock_call_llm = lambda *_: "2\t2\t2\treason"
     monkeypatch.setattr(
-        answer_relevance.RagasResponseRelevancyEvaluator, 
-        'evaluate', 
-        lambda *_: {
-            "ragas_answer_relevancy": [
-                {
-                    "status": "processed",
-                    "score": 0.9,
-                    "passed": None,
-                    "label": None,
-                    "details": "details",
-                    "cost": {
-                        "currency": "USD",
-                        "amount": 0.0007,
-                    }                            
-                }
-            ]
-        }
+        answer_relevance.RagasResponseRelevancyEvaluator,
+        'evaluate',
+        lambda *_: RagasResult(
+            status="processed",
+            score=0.9,
+            details="reason",
+            cost=Money(currency="USD", amount=0.0007)
+        )
     )
 
     # Assign mocks
     monkeypatch.setattr(answer_correctness, "OpenAI", lambda: None)
     eval_class = answer_correctness.AnswerCorrectnessEvaluator
     monkeypatch.setattr(eval_class, "call_llm", mock_call_llm)
-    
+
     # Run
     evaluation_results = run_evaluation(sample_reference_standard, get_chat_responses(sample_chat_responses_path))
     aggregates = compute_aggregates(evaluation_results)

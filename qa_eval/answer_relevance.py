@@ -19,13 +19,19 @@ def get_relevance_dict(
         output=actual_answer
     )
     evaluator = RagasResponseRelevancyEvaluator(settings=settings_dict)
-    result = evaluator.evaluate(entry)
-    if result.status == "processed":
+    try:
+        result = evaluator.evaluate(entry)
+        if result.status == "processed":
+            return {
+                "answer_relevance": result.score,
+                "answer_relevance_cost": result.cost.amount,
+                "answer_relevance_reason": result.details,
+            }
+        else:
+            return {
+                "answer_relevance_error": result.details
+            }
+    except Exception as e:
         return {
-            "answer_relevance": result.score,
-            "answer_relevance_cost": result.cost.amount
-        }
-    else:
-        return {
-            "answer_relevance_error": result.details
+            "answer_relevance_error": str(e),
         }
