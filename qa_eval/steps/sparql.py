@@ -1,4 +1,22 @@
 from collections import Counter
+from typing import Union
+import itertools
+import math
+
+
+def truncate(number, decimals=0):
+    """
+    Truncates a float to a certain number of decimal places.
+    """
+    if not isinstance(decimals, int):
+        raise TypeError("decimal places must be an integer.")
+    elif decimals < 0:
+        raise ValueError("decimal places must be zero or a positive integer.")
+    elif decimals == 0:
+        return math.trunc(number)
+
+    factor = 10.0**decimals
+    return math.trunc(number * factor) / factor
 
 
 def get_var_to_values(
@@ -16,116 +34,59 @@ def get_var_to_values(
     return dict(var_to_values)
 
 
-def get_permutation_indices(list1: list, list2: list) -> list:
-    if len(list1) != len(list2) or Counter(list1) != Counter(list2):
-        return []
-
-    indices = []
-    used = [False] * len(list1)
-
-    for item2 in list2:
-        for i in range(len(list1)):
-            if not used[i] and list1[i] == item2:
-                indices.append(i)
-                used[i] = True
-                break
-
-    return indices
-
-
-def is_permutation(list1: list, list2: list, permutation: list[int]) -> bool:
-    for i, j in enumerate(permutation):
-        if list1[i] != list2[j]:
-            return False
-
-    return True
-
-
-def compare_unordered_results(
-    reference_values: list[str],
-    actual_values: list[str],
-    permutation: list[int],
-) -> tuple[bool, list[int]]:
-    if permutation:
-        if is_permutation(actual_values, reference_values, permutation):
-            return True, permutation
-    else:
-        permutation_indices = get_permutation_indices(reference_values, actual_values)
-        if permutation_indices:
-            return True, permutation_indices
-    return False, permutation
-
-
-def compare_columns(
-    reference_values: list[str],
-    actual_values: list,
-    results_are_ordered: bool,
-    permutation: list[int],
-) -> tuple[bool, list[int]]:
-    """Compares a list of actual values against a reference list.
-
-    This function supports both order-sensitive and order-insensitive
-    comparisons. For an unordered comparison, it can either find a new
-    permutation or verify a pre-existing one.
-
-    Args:
-        reference_values: The list of expected values.
-        actual_values: The list of values to be checked.
-        results_are_ordered: If True, performs a direct element-wise
-            comparison. If False, checks if `actual_values` is a
-            permutation of `reference_values`.
-        permutation: An optional list of indices. For unordered checks,
-            if provided, it's used to verify a specific permutation.
-
-    Returns:
-        A tuple containing:
-            - bool: True if the lists match (either directly or as a
-              permutation)
-            - list[int]: The list of permutation indices. If an unordered
-              match is found, ordering is not required, this list maps the indices of
-              `reference_values` to `actual_values`.
-    """
-    if not results_are_ordered:
-        return compare_unordered_results(reference_values, actual_values, permutation)
-    if reference_values == actual_values:
-        return True, permutation
-    return False, permutation
+def parse_dict2table(
+    reference_vars: Union[list[str], tuple[str, ...]],
+    reference_var_to_values: dict[str, list],
+) -> list[str]:
+    result = []
+    num_rows = len(reference_var_to_values[reference_vars[0]])
+    for row_idx in range(num_rows):
+        row = []
+        for reference_var in reference_vars:
+            val = reference_var_to_values[reference_var][row_idx]
+            if isinstance(val, float):
+                val = truncate(val, 5)
+            if isinstance(val, int):
+                print(val)
+                val = float(val)
+                print(str(val))
+            val = str(val)
+            row.append(val)
+        result.append("".join(row))
+    return result
 
 
 def compare_values(
     reference_vars: list[str],
     reference_var_to_values: dict[str, list],
-    actual_vars: list[str],
+    actual_vars: Union[list[str], tuple[str, ...]],
     actual_var_to_values: dict[str, list],
-    required_vars: list[str],
     results_are_ordered: bool,
 ) -> bool:
-    permutation = []
-    mapped_or_skipped_reference_vars = set()
-    mapped_actual_vars = set()
-    for reference_var in reference_vars:
-        reference_values = reference_var_to_values[reference_var]
-        for actual_var in actual_vars:
-            if actual_var in mapped_actual_vars:
-                continue
-            lists_match, permutation = compare_columns(
-                reference_values,
-                actual_var_to_values[actual_var],
+
+    if len(reference_vars) > len(actual_vars):
+        return False
+    if len(reference_vars) < len(actual_vars):
+        for combination in itertools.combinations(actual_vars, len(reference_vars)):
+            if compare_values(
+                reference_vars,
+                reference_var_to_values,
+                combination,
+                actual_var_to_values,
                 results_are_ordered,
-                permutation,
-            )
-            if lists_match:
-                mapped_or_skipped_reference_vars.add(reference_var)
-                mapped_actual_vars.add(actual_var)
-                break
+            ):
+                return True
+        return False
 
-        if reference_var not in mapped_or_skipped_reference_vars:
-            if reference_var in required_vars:
-                return False
-            # optional, we can skip it
-            mapped_or_skipped_reference_vars.add(reference_var)
+    table = parse_dict2table(reference_vars, reference_var_to_values)
+    for permutation in itertools.permutations(actual_vars):
+        actual_table = parse_dict2table(permutation, actual_var_to_values)
+        if (results_are_ordered and table == actual_table) or (
+            not results_are_ordered and Counter(table) == Counter(actual_table)
+        ):
+            return True
 
-    return len(mapped_or_skipped_reference_vars) == len(reference_vars)
+    return False
 
 
 def compare_sparql_results(
@@ -149,31 +110,30 @@ def compare_sparql_results(
     actual_bindings: list[dict] = actual_sparql_result.get("results", dict()).get(
         "bindings", []
     )
-    reference_vars: list[str] = reference_sparql_result["head"]["vars"]
     actual_vars: list[str] = actual_sparql_result["head"].get("vars", [])
 
     if (not actual_bindings) and (not reference_bindings):
         return float(len(actual_vars) >= len(required_vars))
     elif (not actual_bindings) or (not reference_bindings):
         return 0.0
-
-    # re-order the vars, so that required come first
-    reference_vars = required_vars + [
-        var for var in reference_vars if var not in required_vars
-    ]
+    if len(required_vars) > len(actual_vars):
+        return 0.0
+    if len(required_vars) == 0:
+        return 1.0
 
     reference_var_to_values: dict[str, list] = get_var_to_values(
-        reference_vars, reference_bindings
+        required_vars, reference_bindings
     )
     actual_var_to_values: dict[str, list] = get_var_to_values(
         actual_vars, actual_bindings
     )
 
-    return compare_values(
-        reference_vars,
-        reference_var_to_values,
-        actual_vars,
-        actual_var_to_values,
-        required_vars,
-        results_are_ordered,
+    return float(
+        compare_values(
+            required_vars,
+            reference_var_to_values,
+            actual_vars,
+            actual_var_to_values,
+            results_are_ordered,
+        )
     )
