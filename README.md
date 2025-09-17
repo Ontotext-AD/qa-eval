@@ -311,6 +311,8 @@ aggregates = compute_aggregates(evaluation_results)
 
 `evaluation_results` is a list of statistics for each question, as in section [Example Evaluation Results](#example-evaluation-results). The format is explained in section [Output Keys](#output-keys)
 
+If your chat responses contain actual answers, set your environment variable `OPENAI_API_KEY` before running the code above.
+
 ### Example Evaluation Results
 
 The output is a list of statistics for each question from the reference Q&A dataset. Here is an example of statistics for one question:
