@@ -1,0 +1,134 @@
+per_template:
+  list_all_transformers_within_Substation_SUBSTATION:
+    number_of_error_samples: 0
+    number_of_success_samples: 1
+    answer_f1:
+        min: 1.0
+        max: 1.0
+        mean: 1.0
+        median: 1.0
+        sum: 1.0
+    answer_precision: 
+        min: 1.0
+        max: 1.0
+        mean: 1.0
+        median: 1.0
+        sum: 1.0    
+    answer_recall: 
+        min: 1.0
+        max: 1.0
+        mean: 1.0
+        median: 1.0
+        sum: 1.0
+    answer_relevance:
+      min: 0.9
+      max: 0.9
+      mean: 0.9
+      median: 0.9
+      sum: 0.9
+    answer_relevance_cost:
+      min: 0.0007
+      max: 0.0007
+      mean: 0.0007
+      median: 0.0007
+      sum: 0.0007
+    input_tokens:
+      sum: 221339
+      mean: 221339
+      median: 221339
+      min: 221339
+      max: 221339
+    output_tokens:
+      sum: 212
+      mean: 212
+      median: 212
+      min: 212
+      max: 212
+    total_tokens:
+      sum: 221551
+      mean: 221551
+      median: 221551
+      min: 221551
+      max: 221551
+    elapsed_sec:
+      sum: 6.601679801940918
+      mean: 6.601679801940918
+      median: 6.601679801940918
+      min: 6.601679801940918
+      max: 6.601679801940918
+micro:
+  number_of_error_samples: 0
+  number_of_success_samples: 1
+  answer_f1: 
+      max: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      sum: 1.0
+  answer_precision: 
+      max: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      sum: 1.0
+  answer_recall: 
+      max: 1.0
+      mean: 1.0
+      median: 1.0
+      min: 1.0
+      sum: 1.0
+  answer_relevance:
+    min: 0.9
+    max: 0.9
+    mean: 0.9
+    median: 0.9
+    sum: 0.9
+  answer_relevance_cost:
+    min: 0.0007
+    max: 0.0007
+    mean: 0.0007
+    median: 0.0007
+    sum: 0.0007
+  input_tokens:
+    sum: 221339
+    mean: 221339
+    median: 221339
+    min: 221339
+    max: 221339
+  output_tokens:
+    sum: 212
+    mean: 212
+    median: 212
+    min: 212
+    max: 212
+  total_tokens:
+    sum: 221551
+    mean: 221551
+    median: 221551
+    min: 221551
+    max: 221551
+  elapsed_sec:
+    max: 6.601679801940918
+    mean: 6.601679801940918
+    median: 6.601679801940918
+    min: 6.601679801940918
+    sum: 6.601679801940918
+macro:
+  answer_f1: 
+      mean: 1.0
+  answer_precision: 
+      mean: 1.0
+  answer_recall: 
+      mean: 1.0           
+  answer_relevance:
+      mean: 0.9
+  answer_relevance_cost:
+      mean: 0.0007
+  input_tokens:
+    mean: 221339
+  output_tokens:
+    mean: 212
+  total_tokens:
+    mean: 221551
+  elapsed_sec:
+    mean: 6.601679801940918

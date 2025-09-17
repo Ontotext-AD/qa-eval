@@ -52,7 +52,7 @@ def update_steps_summary_per_template(
     template_id: str
 ):
     seen = set()
-    for step in sample["actual_steps"]:
+    for step in sample.get("actual_steps", []):
         name = step["name"]
         template_steps_summary = steps_summary_per_template[template_id]
         template_steps_summary["total"][name] += 1
@@ -102,11 +102,13 @@ def compute_aggregates(samples: list[dict]) -> dict:
         template_summary: dict[str, Any] = {
             "number_of_error_samples": number_of_samples_per_template_by_status[template_id]["error"],
             "number_of_success_samples": number_of_samples_per_template_by_status[template_id]["success"],
-            "steps": {
-                k1: {k2: v2 for k2, v2 in v1.items()}
-                for k1, v1 in steps_summary_per_template[template_id].items()
-            },
         }
+        steps_summary = {
+            k1: {k2: v2 for k2, v2 in v1.items()}
+            for k1, v1 in steps_summary_per_template[template_id].items()
+        }
+        if steps_summary:
+            template_summary.update({"steps": steps_summary})
         for metric in METRICS:
             results_for_template = stats_per_template[template_id]
             series = results_for_template.get(metric, [])
