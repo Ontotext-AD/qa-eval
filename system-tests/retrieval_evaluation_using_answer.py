@@ -10,12 +10,12 @@ result_dict = get_retrieval_evaluation_dict(
     reference_answer="Because of Rayleigh scattering.",
     actual_contexts=[
         {
-            "id": "1",
+            "id": "http://example.com/resource/doc/1",
             "text": "Rayleigh discovered that shorter wavelengths are scattered more than long wavelengths."
         },
         {
-            "id": "2",
-            "text": "Gases scatter sunligh light"
+            "id": "http://example.com/resource/doc/2",
+            "text": "Gases scatter sunlight"
         }
     ]
 )
