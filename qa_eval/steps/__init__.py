@@ -14,10 +14,8 @@ def compare_steps_outputs(reference: dict, actual: dict) -> float:
             # assume it is the only retrieval step in both.
             return 1.0
         else:
-            ref_output = json.loads(ref_output)
-            act_output = json.loads(act_output)
-            ref_contexts_ids = [c["id"] for c in ref_output]
-            act_contexts_ids = [c["id"] for c in act_output]
+            ref_contexts_ids = [c["id"] for c in json.loads(ref_output)]
+            act_contexts_ids = [c["id"] for c in json.loads(act_output)]
             k = actual["args"]["k"]
             return recall_at_k(ref_contexts_ids, act_contexts_ids, k)
     assert ref_output, \
