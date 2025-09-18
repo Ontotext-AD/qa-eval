@@ -509,7 +509,7 @@ The output is a list of statistics for each question from the reference Q&A data
 - `steps_score`: a real number between 0 and 1, computed by comparing the results of the last executed steps to the output of the reference's last group of steps.
     - If there is no match in the actual steps, then the score is `0.0`
     - For executed steps whose name is "retrieval":
-        - If the last reference group contains a retrieval step and its output (the reference context) is specified, the score is the [recall at k](#Context-Recall@k) of the retrieved document ids with respect to the reference.
+        - If the last reference group contains a retrieval step and its output (the reference context) is specified, the score is the [recall at k](#context-recallk) of the retrieved document ids with respect to the reference.
         - If it does not specify the output (there is no reference context), the score is `1.0`
     - Otherwise, the score is the number of the matched steps on the last group divided by the total number of steps in the last group.
 - `input_tokens`: input tokens usage
