@@ -3,8 +3,8 @@ from langevals_ragas.response_context_recall import (
     RagasResponseContextRecallEvaluator,
 )
 from langevals_ragas.response_context_precision import (
+    RagasResponseContextPrecisionEntry,
     RagasResponseContextPrecisionEvaluator,
-    RagasResponseContextPrecisionEntry
 )
 
 
