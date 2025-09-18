@@ -91,3 +91,30 @@ def get_steps_matches(
     last_group = reference_steps[-1]
     candidates = collect_possible_matches_by_name_and_status(last_group, actual_steps, len(actual_steps))
     return match_group_by_output(reference_steps, -1, actual_steps, candidates)
+
+
+def evaluate_steps(
+    reference_steps_groups: list[list[dict]],
+    actual_steps: list[dict]
+) -> float:
+    matches = get_steps_matches(reference_steps_groups, actual_steps)
+    matches_by_group = defaultdict(list)
+    scores_by_group = defaultdict(float)
+    for ref_group_idx, ref_match_idx, actual_idx, score in matches:
+        matches_by_group[ref_group_idx].append(ref_match_idx)
+        scores_by_group[ref_group_idx] += score
+        reference_steps_groups[ref_group_idx][ref_match_idx]["matches"] \
+            = actual_steps[actual_idx]["id"]
+    group_ix = -1  # For now, consider only the last reference group of steps
+    return scores_by_group[group_ix] / len(reference_steps_groups[group_ix])
+
+
+def get_steps_evaluation_result_dict(reference: dict, target: dict) -> dict:
+    act_steps = target["steps"]
+    eval_result = {}
+    eval_result["actual_steps"] = act_steps
+    if "reference_steps" in reference:
+        ref_steps = reference["reference_steps"]
+        steps_score = evaluate_steps(ref_steps, act_steps)
+        eval_result["steps_score"] = steps_score
+    return eval_result

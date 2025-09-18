@@ -4,7 +4,7 @@ import jsonlines
 import yaml
 
 from qa_eval import (
-    compute_aggregations,
+    compute_aggregates,
     evaluate_steps,
     run_evaluation,
     stats_for_series,
@@ -49,7 +49,7 @@ def test_stats_for_series():
     }
 
 
-def test_run_evaluation_and_compute_aggregations():
+def test_run_evaluation_and_compute_aggregates():
     def get_chat_responses(path: Path) -> dict:
         responses = dict()
         with jsonlines.open(path, "r") as reader:
@@ -59,36 +59,32 @@ def test_run_evaluation_and_compute_aggregations():
 
     sample_reference_standard = yaml.safe_load(
         (
-            Path(__file__).parent
-            / "test_data"
-            / "sample_reference_standard_corpus_1.yaml"
+            Path(__file__).parent / "test_data" / "reference_standard_corpus_1.yaml"
         ).read_text(encoding="utf-8")
     )
     sample_chat_responses_path = (
-        Path(__file__).parent / "test_data" / "sample_chat_responses_1.jsonl"
+        Path(__file__).parent / "test_data" / "chat_responses_1.jsonl"
     )
 
     evaluation_results = run_evaluation(
         sample_reference_standard, get_chat_responses(sample_chat_responses_path)
     )
-    aggregates = compute_aggregations(evaluation_results)
+    aggregates = compute_aggregates(evaluation_results)
     expected_evaluation_results = yaml.safe_load(
-        (
-            Path(__file__).parent
-            / "test_data"
-            / "sample_evaluation_per_question_1.yaml"
-        ).read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "evaluation_1.yaml").read_text(
+            encoding="utf-8"
+        )
     )
     assert expected_evaluation_results == evaluation_results
     expected_aggregates = yaml.safe_load(
-        (
-            Path(__file__).parent / "test_data" / "sample_evaluation_summary_1.yaml"
-        ).read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "evaluation_summary_1.yaml").read_text(
+            encoding="utf-8"
+        )
     )
     assert expected_aggregates == aggregates
 
 
-def test_run_evaluation_and_compute_aggregations_all_errors():
+def test_run_evaluation_and_compute_aggregates_all_errors():
     def get_chat_responses(path: Path) -> dict:
         responses = dict()
         with jsonlines.open(path, "r") as reader:
@@ -98,31 +94,27 @@ def test_run_evaluation_and_compute_aggregations_all_errors():
 
     sample_reference_standard = yaml.safe_load(
         (
-            Path(__file__).parent
-            / "test_data"
-            / "sample_reference_standard_corpus_1.yaml"
+            Path(__file__).parent / "test_data" / "reference_standard_corpus_1.yaml"
         ).read_text(encoding="utf-8")
     )
     sample_chat_responses_path = (
-        Path(__file__).parent / "test_data" / "sample_chat_responses_2.jsonl"
+        Path(__file__).parent / "test_data" / "chat_responses_2.jsonl"
     )
 
     evaluation_results = run_evaluation(
         sample_reference_standard, get_chat_responses(sample_chat_responses_path)
     )
-    aggregates = compute_aggregations(evaluation_results)
+    aggregates = compute_aggregates(evaluation_results)
     expected_evaluation_results = yaml.safe_load(
-        (
-            Path(__file__).parent
-            / "test_data"
-            / "sample_evaluation_per_question_2.yaml"
-        ).read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "evaluation_2.yaml").read_text(
+            encoding="utf-8"
+        )
     )
     assert expected_evaluation_results == evaluation_results
     expected_aggregates = yaml.safe_load(
-        (
-            Path(__file__).parent / "test_data" / "sample_evaluation_summary_2.yaml"
-        ).read_text(encoding="utf-8")
+        (Path(__file__).parent / "test_data" / "evaluation_summary_2.yaml").read_text(
+            encoding="utf-8"
+        )
     )
     assert expected_aggregates == aggregates
 

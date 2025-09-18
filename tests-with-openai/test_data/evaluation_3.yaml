@@ -1,0 +1,50 @@
+- template_id: list_all_transformers_within_Substation_SUBSTATION
+  question_id: c10bbc8dce98a4b8832d125134a16153
+  question_text: List all transformers within Substation OSLO
+  reference_answer: OSLO T1, OSLO T2
+  reference_steps:
+  - - name: sparql_query
+      args:
+        query: |2
+
+          PREFIX cimex: <https://rawgit2.com/statnett/Talk2PowerSystem/main/demo1/cimex/>
+          PREFIX cim: <https://cim.ucaiug.io/ns#>
+          PREFIX rank: <http://www.ontotext.com/owlim/RDFRank#>
+          PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+          select distinct ?transformer ?transformerName
+          where {
+              bind(<urn:uuid:f176963c-9aeb-11e5-91da-b8763fd99c5f> as ?substation)
+
+              ?transformer a cim:PowerTransformer ;
+                cim:Equipment.EquipmentContainer ?substation ;
+                cim:IdentifiedObject.name ?transformerName .
+          }
+      output: '{"head": {"vars": ["transformer", "transformerName"]}, "results": {"bindings":
+        [{"transformer": {"type": "uri", "value": "urn:uuid:f1769de8-9aeb-11e5-91da-b8763fd99c5f"},
+        "transformerName": {"type": "literal", "value": "OSLO    T2"}}, {"transformer":
+        {"type": "uri", "value": "urn:uuid:f1769dd6-9aeb-11e5-91da-b8763fd99c5f"},
+        "transformerName": {"type": "literal", "value": "OSLO    T1"}}]}}'
+      output_media_type: application/sparql-results+json
+      required_columns:
+        - transformer
+        - transformerName
+  status: success
+  actual_answer: |-
+    The following transformers are located within the Substation OSLO:
+
+    1. **OSLO T2** (IRI: `urn:uuid:f1769de8-9aeb-11e5-91da-b8763fd99c5f`)
+    2. **OSLO T1** (IRI: `urn:uuid:f1769dd6-9aeb-11e5-91da-b8763fd99c5f`)
+  answer_relevance: 0.9
+  answer_relevance_cost: 0.0007
+  answer_relevance_reason: reason
+  answer_reference_claims_count: 2
+  answer_actual_claims_count: 2
+  answer_matching_claims_count: 2
+  answer_correctness_reason: reason
+  answer_recall: 1.0
+  answer_precision: 1.0
+  answer_f1: 1.0
+  input_tokens: 221339
+  output_tokens: 212
+  total_tokens: 221551
+  elapsed_sec: 6.601679801940918
