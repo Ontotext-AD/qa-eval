@@ -107,7 +107,7 @@ def get_steps_matches(
 def evaluate_steps(
     reference_steps_groups: list[list[dict]],
     actual_steps: list[dict],
-    matches : list[tuple[int, int, int, float]] | None = None
+    matches: list[tuple[int, int, int, float]] | None = None
 ) -> float:
     if matches is None:
         matches = get_steps_matches(reference_steps_groups, actual_steps)
