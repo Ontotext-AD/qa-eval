@@ -36,8 +36,11 @@ def get_f1_dict(
 ) -> dict:
     recall = input_dict.get("retrieval_answer_recall")
     precision = input_dict.get("retrieval_answer_precision")
-    if precision is not None and recall is not None and precision + recall > 0:
-        f1 = 2 * precision * recall / (precision + recall)
+    if recall is not None and precision is not None:
+        if recall == 0.0 and precision == 0.0:
+            f1 = 0.0
+        else:
+            f1 = 2 * precision * recall / (precision + recall)
         recall_cost = input_dict["retrieval_answer_recall_cost"]
         precision_cost = input_dict["retrieval_answer_precision_cost"]
         return {
