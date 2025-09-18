@@ -116,6 +116,7 @@
       }
   answer_relevance: 0.9
   answer_relevance_cost: 0.0007
+  answer_relevance_reason: reason
   answer_reference_claims_count: 2
   answer_actual_claims_count: 2
   answer_matching_claims_count: 2

@@ -44,3 +44,11 @@ jobs:
         run: |
           conda activate qa-eval
           poetry run pytest --cov=qa_eval --cov-report=term-missing tests-with-openai/
+
+      - name: Run system tests that call OpenAI
+        shell: bash -l {0}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          conda activate qa-eval
+          poetry run python system-tests/*.py

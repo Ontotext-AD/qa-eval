@@ -13,8 +13,24 @@ Apache-2.0 License. See [LICENSE](LICENSE) file for details.
 
 ## Installation
 
+To evaluate only steps:
 ```bash
 pip install qa-eval
+```
+or add the following dependency in your `pyproject.toml` file:
+```toml
+qa-eval = "*"
+```
+
+To evaluate answer relevance and answer correctness:
+
+```bash
+pip install 'qa-eval[openai]'
+```
+
+or add the following dependency in your `pyproject.toml` file:
+```toml
+qa-eval = {version = "*", extras = ["openai"]}
 ```
 
 ## Maintainers
@@ -27,7 +43,7 @@ For issues or feature requests, please open [a GitHub issue](https://github.com/
 To evaluate only correctness of final answers (system responses), you can clone this repository and run the code on the command line:
 
 1. Prepare an input TSV file with columns `Question`, `Reference answer` and `Actual answer`
-1. Execute `poetry install --with answer-eval`
+1. Execute `poetry install --with openai`
 1. Execute `OPENAI_API_KEY=<your_api_key> poetry run answer-correctness -i <input_file.tsv> -o <output_file.tsv>`
 
 We plan to improve CLI support in future releases.
@@ -294,6 +310,8 @@ aggregates = compute_aggregates(evaluation_results)
 ```
 
 `evaluation_results` is a list of statistics for each question, as in section [Example Evaluation Results](#example-evaluation-results). The format is explained in section [Output Keys](#output-keys)
+
+If your chat responses contain actual answers, set your environment variable `OPENAI_API_KEY` before running the code above.
 
 ### Example Evaluation Results
 
