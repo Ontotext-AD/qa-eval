@@ -6,19 +6,10 @@ from .sparql import compare_sparql_results
 
 
 def compare_steps_outputs(reference: dict, actual: dict) -> float:
-    ref_output = reference.get("output", "null")
+    ref_output = reference.get("output")
     act_output = actual["output"]
-    if reference.get("output_media_type") == "application/sparql-results+json":
-        return compare_sparql_results(
-            json.loads(ref_output),
-            json.loads(act_output),
-            reference["required_columns"],
-            reference.get("ordered", False),
-        )
-    if reference.get("output_media_type") == "application/json":
-        return float(json.loads(ref_output) == json.loads(act_output))
     if reference["name"] == actual["name"] == "retrieval":
-        if ref_output == "null":
+        if ref_output is None:
             # We do not know how to compare actual to reference. For matching,
             # assume it is the only retrieval step in both.
             return 1.0
@@ -29,6 +20,17 @@ def compare_steps_outputs(reference: dict, actual: dict) -> float:
             act_contexts_ids = [c["id"] for c in act_output]
             k = actual["args"]["k"]
             return recall_at_k(ref_contexts_ids, act_contexts_ids, k)
+    assert ref_output, \
+        "Reference step output is mandatory except for retrieval steps"
+    if reference.get("output_media_type") == "application/sparql-results+json":
+        return compare_sparql_results(
+            json.loads(ref_output),
+            json.loads(act_output),
+            reference["required_columns"],
+            reference.get("ordered", False),
+        )
+    if reference.get("output_media_type") == "application/json":
+        return float(json.loads(ref_output) == json.loads(act_output))
     return float(ref_output == act_output)
 
 
