@@ -519,8 +519,10 @@ The output is a list of statistics for each question from the reference Q&A data
 
 All `actual_steps` with `name` "retrieval" contain:
 - `retrieval_answer_recall`: recall of the actually retrieved context when evaluated using the reference answer
+- `retrieval_answer_recall_error`: error of evaluating `retrieval_answer_recall`
 - `retrieval_answer_recall_cost`: cost of evaluating `retrieval_answer_recall`, in US dollars
 - `retrieval_answer_precision`: precision of the actually retrieved context when evaluated using the reference answer
+- `retrieval_answer_precision_error`: error of evaluating `retrieval_answer_precision`
 - `retrieval_answer_precision_cost`: cost of evaluating `retrieval_answer_precision`, in US dollars
 - `retrieval_answer_f1`: F1 score of the actually retrieved context when evaluated using the reference answer
 - `retrieval_answer_f1_cost`: cost of evaluating `retrieval_answer_f1`, in US dollars
