@@ -3,7 +3,7 @@ from pathlib import Path
 import jsonlines
 import yaml
 
-from qa_eval import (
+from graphrag_eval import (
     compute_aggregates,
     evaluate_steps,
     run_evaluation,

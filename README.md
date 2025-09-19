@@ -301,7 +301,7 @@ If an error occurs during generating a response to a question, the expected targ
 ### Example Usage Code
 
 ```python
-from qa_eval import run_evaluation, compute_aggregates
+from graphrag_eval import run_evaluation, compute_aggregates
 
 reference_qas: list[dict] = [] # read your corpus
 chat_responses: dict = {} # call your implementation to get the response

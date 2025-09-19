@@ -4,7 +4,7 @@ import jsonlines
 import yaml
 from langevals_ragas.lib.common import RagasResult, Money
 
-from qa_eval import (
+from graphrag_eval import (
     answer_correctness,
     answer_relevance,
     compute_aggregates,

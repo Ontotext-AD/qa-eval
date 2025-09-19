@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from qa_eval import answer_relevance
+from graphrag_eval import answer_relevance
 from langevals_ragas.lib.common import RagasResult, Money
 
 

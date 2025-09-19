@@ -31,7 +31,7 @@ def run_evaluation(
             eval_result["status"] = "success"
             if "actual_answer" in actual_result:
                 eval_result["actual_answer"] = actual_result["actual_answer"]
-                from qa_eval import answer_relevance
+                from graphrag_eval import answer_relevance
                 eval_result.update(
                     answer_relevance.get_relevance_dict(
                         question["question_text"],
@@ -39,7 +39,7 @@ def run_evaluation(
                     )
                 )
             if "reference_answer" in question and "actual_answer" in actual_result:
-                from qa_eval.answer_correctness import AnswerCorrectnessEvaluator
+                from graphrag_eval.answer_correctness import AnswerCorrectnessEvaluator
                 if not answer_correctess_evaluator:
                     answer_correctess_evaluator = AnswerCorrectnessEvaluator()
                 eval_result.update(

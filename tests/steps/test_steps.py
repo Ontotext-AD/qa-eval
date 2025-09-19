@@ -1,10 +1,10 @@
-from qa_eval import (
+from graphrag_eval import (
     compare_steps_outputs,
     match_group_by_output,
     collect_possible_matches_by_name_and_status,
     get_steps_matches
 )
-from qa_eval.steps import evaluate_steps
+from graphrag_eval.steps import evaluate_steps
 
 
 sparkle_expected_step = {

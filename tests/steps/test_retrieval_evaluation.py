@@ -1,6 +1,6 @@
 import math
 
-from qa_eval.steps.retrieval import recall_at_k, average_precision
+from graphrag_eval.steps.retrieval import recall_at_k, average_precision
 
 
 def test_recall_at_k() -> None:

@@ -1,8 +1,8 @@
 import builtins
 import io
 
-from qa_eval import answer_correctness
-from qa_eval.answer_correctness import extract_response_values
+from graphrag_eval import answer_correctness
+from graphrag_eval.answer_correctness import extract_response_values
 
 
 def test_extract_response_values_expected_case():
