@@ -36,7 +36,7 @@ graphrag-eval = {version = "*", extras = ["openai"]}
 ## Maintainers
 
 Developed and maintained by [Graphwise](https://graphwise.ai/).
-For issues or feature requests, please open [a GitHub issue](https://github.com/Ontotext-AD/qa-eval/issues).
+For issues or feature requests, please open [a GitHub issue](https://github.com/Ontotext-AD/graphrag-eval/issues).
 
 ## Command Line Use
 

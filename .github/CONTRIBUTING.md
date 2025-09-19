@@ -15,11 +15,11 @@ To create conda environment and install dependencies:
 
 ```bash
 conda env create -f environment.yml
-conda activate qa-eval
+conda activate graphrag-eval
 conda-lock -k explicit --conda mamba
 poetry lock
 conda deactivate
-conda remove --name qa-eval --all
+conda remove --name graphrag-eval --all
 git add environment.yml conda-*.lock
 git add pyproject.toml poetry.lock
 git commit
@@ -28,15 +28,15 @@ git commit
 ### Create the environment
 
 ```bash
-conda create --name qa-eval --file conda-linux-64.lock
-conda activate qa-eval
+conda create --name graphrag-eval --file conda-linux-64.lock
+conda activate graphrag-eval
 poetry install
 ```
 
 ## Run tests
 
 ```sh
-conda activate qa-eval
+conda activate graphrag-eval
 poetry install --with test
-poetry run pytest --cov=qa_eval --cov-report=term-missing tests/
+poetry run pytest --cov=graphrag_eval --cov-report=term-missing tests/
 ```
