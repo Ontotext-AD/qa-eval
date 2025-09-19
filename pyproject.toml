@@ -11,7 +11,7 @@ license = "Apache-2.0"
 requires-python = ">=3.12,<3.13"
 
 [project.urls]
-repository = "https://github.com/Ontotext-AD/qa-eval"
+repository = "https://github.com/Ontotext-AD/graphrag-eval"
 
 [build-system]
 requires = ["poetry-core>=2.0.0"]
@@ -35,4 +35,4 @@ langevals-ragas = "^0.1.12"
 optional = true
 
 [project.scripts]
-answer-correctness = "qa_eval.answer_evaluation:main"
+answer-correctness = "graphrag_eval.answer_correctness:main"

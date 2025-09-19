@@ -17,38 +17,38 @@ jobs:
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: qa-eval
+          activate-environment: graphrag-eval
           environment-file: environment.yml
           auto-activate-base: false
 
       - name: Install dependencies, including test dependencies, using Poetry
         shell: bash -l {0}
         run: |
-          conda activate qa-eval
+          conda activate graphrag-eval
           poetry install --no-interaction --with test
 
       - name: Run tests that do not depend on OpenAI
         shell: bash -l {0}
         run: |
-          conda activate qa-eval
-          poetry run pytest --cov=qa_eval --cov-report=term-missing tests/
+          conda activate graphrag-eval
+          poetry run pytest --cov=graphrag_eval --cov-report=term-missing tests/
 
       - name: Install dependencies, including openai dependencies, using Poetry
         shell: bash -l {0}
         run: |
-          conda activate qa-eval
+          conda activate graphrag-eval
           poetry install --no-interaction --with=openai
 
       - name: Run tests that depend on OpenAI
         shell: bash -l {0}
         run: |
-          conda activate qa-eval
-          poetry run pytest --cov=qa_eval --cov-report=term-missing tests-with-openai/
+          conda activate graphrag-eval
+          poetry run pytest --cov=graphrag_eval --cov-report=term-missing tests-with-openai/
 
       - name: Run system tests that call OpenAI
         shell: bash -l {0}
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          conda activate qa-eval
+          conda activate graphrag-eval
           poetry run python system-tests/*.py
