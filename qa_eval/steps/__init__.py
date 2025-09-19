@@ -1,13 +1,25 @@
 import json
 from collections import defaultdict
 
-from .retrieval import recall_at_k
+from .retrieval_evaluation_using_context_ids import recall_at_k
 from .sparql import compare_sparql_results
 
 
 def compare_steps_outputs(reference: dict, actual: dict) -> float:
-    ref_output = reference["output"]
+    ref_output = reference.get("output")
     act_output = actual["output"]
+    if reference["name"] == actual["name"] == "retrieval":
+        if ref_output is None:
+            # We do not know how to compare actual to reference. For matching,
+            # assume it is the only retrieval step in both.
+            return 1.0
+        else:
+            ref_contexts_ids = [c["id"] for c in json.loads(ref_output)]
+            act_contexts_ids = [c["id"] for c in json.loads(act_output)]
+            k = actual["args"]["k"]
+            return recall_at_k(ref_contexts_ids, act_contexts_ids, k)
+    assert ref_output, \
+        "Reference step output is mandatory except for retrieval steps"
     if reference.get("output_media_type") == "application/sparql-results+json":
         return compare_sparql_results(
             json.loads(ref_output),
@@ -17,9 +29,6 @@ def compare_steps_outputs(reference: dict, actual: dict) -> float:
         )
     if reference.get("output_media_type") == "application/json":
         return float(json.loads(ref_output) == json.loads(act_output))
-    if reference["name"] == "retrieval":
-        k = reference["args"]["k"]
-        return recall_at_k(ref_output, act_output, k)
     return float(ref_output == act_output)
 
 
@@ -95,9 +104,11 @@ def get_steps_matches(
 
 def evaluate_steps(
     reference_steps_groups: list[list[dict]],
-    actual_steps: list[dict]
+    actual_steps: list[dict],
+    matches: list[tuple[int, int, int, float]] | None = None
 ) -> float:
-    matches = get_steps_matches(reference_steps_groups, actual_steps)
+    if matches is None:
+        matches = get_steps_matches(reference_steps_groups, actual_steps)
     matches_by_group = defaultdict(list)
     scores_by_group = defaultdict(float)
     for ref_group_idx, ref_match_idx, actual_idx, score in matches:
@@ -115,6 +126,19 @@ def get_steps_evaluation_result_dict(reference: dict, target: dict) -> dict:
     eval_result["actual_steps"] = act_steps
     if "reference_steps" in reference:
         ref_steps = reference["reference_steps"]
-        steps_score = evaluate_steps(ref_steps, act_steps)
+        matches = get_steps_matches(ref_steps, act_steps)
+        steps_score = evaluate_steps(ref_steps, act_steps, matches)
         eval_result["steps_score"] = steps_score
+        for ref_group_idx, ref_match_idx, act_idx, _ in matches:
+            ref_step = ref_steps[ref_group_idx][ref_match_idx]
+            act_step = act_steps[act_idx]
+            if ref_step["name"] == "retrieval":
+                if "output" in ref_step:
+                    from .retrieval_evaluation_using_context_texts import \
+                        get_retrieval_evaluation_dict
+                    res = get_retrieval_evaluation_dict(
+                        reference_contexts=json.loads(ref_step["output"]),
+                        actual_contexts=json.loads(act_step["output"])
+                    )
+                    act_step.update(res)
     return eval_result
