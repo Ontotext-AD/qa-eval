@@ -8,13 +8,13 @@ per_template:
         mean: 1.0
         median: 1.0
         sum: 1.0
-    answer_precision: 
+    answer_precision:
         min: 1.0
         max: 1.0
         mean: 1.0
         median: 1.0
-        sum: 1.0    
-    answer_recall: 
+        sum: 1.0
+    answer_recall:
         min: 1.0
         max: 1.0
         mean: 1.0
@@ -33,11 +33,49 @@ per_template:
       median: 0.0007
       sum: 0.0007
     steps:
+      retrieval_answer_recall:
+        max: 0.9
+        mean: 0.9
+        median: 0.9
+        min: 0.9
+        sum: 0.9
+      retrieval_answer_recall_cost:
+        max: 0.0007
+        mean: 0.0007
+        median: 0.0007
+        min: 0.0007
+        sum: 0.0007
+      retrieval_answer_precision:
+        max: 0.9
+        mean: 0.9
+        median: 0.9
+        min: 0.9
+        sum: 0.9
+      retrieval_answer_precision_cost:
+        max: 0.0007
+        mean: 0.0007
+        median: 0.0007
+        min: 0.0007
+        sum: 0.0007
+      retrieval_answer_f1:
+        max: 0.9
+        mean: 0.9
+        median: 0.9
+        min: 0.9
+        sum: 0.9
+      retrieval_answer_f1_cost:
+        max: 0.0014
+        mean: 0.0014
+        median: 0.0014
+        min: 0.0014
+        sum: 0.0014
       total:
         autocomplete_search: 1
+        retrieval: 1
         sparql_query: 1
       once_per_sample:
         autocomplete_search: 1
+        retrieval: 1
         sparql_query: 1
     steps_score:
       sum: 1.0
@@ -72,19 +110,19 @@ per_template:
 micro:
   number_of_error_samples: 0
   number_of_success_samples: 1
-  answer_f1: 
+  answer_f1:
       max: 1.0
       mean: 1.0
       median: 1.0
       min: 1.0
       sum: 1.0
-  answer_precision: 
+  answer_precision:
       max: 1.0
       mean: 1.0
       median: 1.0
       min: 1.0
       sum: 1.0
-  answer_recall: 
+  answer_recall:
       max: 1.0
       mean: 1.0
       median: 1.0
@@ -102,6 +140,42 @@ micro:
     mean: 0.0007
     median: 0.0007
     sum: 0.0007
+  retrieval_answer_recall:
+    max: 0.9
+    mean: 0.9
+    median: 0.9
+    min: 0.9
+    sum: 0.9
+  retrieval_answer_recall_cost:
+    max: 0.0007
+    mean: 0.0007
+    median: 0.0007
+    min: 0.0007
+    sum: 0.0007
+  retrieval_answer_precision:
+    max: 0.9
+    mean: 0.9
+    median: 0.9
+    min: 0.9
+    sum: 0.9
+  retrieval_answer_precision_cost:
+    max: 0.0007
+    mean: 0.0007
+    median: 0.0007
+    min: 0.0007
+    sum: 0.0007
+  retrieval_answer_f1:
+    max: 0.9
+    mean: 0.9
+    median: 0.9
+    min: 0.9
+    sum: 0.9
+  retrieval_answer_f1_cost:
+    max: 0.0014
+    mean: 0.0014
+    median: 0.0014
+    min: 0.0014
+    sum: 0.0014
   steps_score:
     sum: 1.0
     mean: 1.0
@@ -133,16 +207,28 @@ micro:
     min: 6.601679801940918
     sum: 6.601679801940918
 macro:
-  answer_f1: 
+  answer_f1:
       mean: 1.0
-  answer_precision: 
+  answer_precision:
       mean: 1.0
-  answer_recall: 
-      mean: 1.0           
+  answer_recall:
+      mean: 1.0
   answer_relevance:
       mean: 0.9
   answer_relevance_cost:
       mean: 0.0007
+  retrieval_answer_recall:
+    mean: 0.9
+  retrieval_answer_recall_cost:
+    mean: 0.0007
+  retrieval_answer_precision:
+    mean: 0.9
+  retrieval_answer_precision_cost:
+    mean: 0.0007
+  retrieval_answer_f1:
+    mean: 0.9
+  retrieval_answer_f1_cost:
+    mean: 0.0014
   steps_score:
     mean: 1.0
   input_tokens:

@@ -3,7 +3,9 @@
   question_text: List all transformers within Substation OSLO
   reference_answer: OSLO T1, OSLO T2
   reference_steps:
-  - - name: sparql_query
+  - - name: retrieval
+      matches: call_3
+    - name: sparql_query
       args:
         query: |2
 
@@ -36,6 +38,31 @@
     1. **OSLO T2** (IRI: `urn:uuid:f1769de8-9aeb-11e5-91da-b8763fd99c5f`)
     2. **OSLO T1** (IRI: `urn:uuid:f1769dd6-9aeb-11e5-91da-b8763fd99c5f`)
   actual_steps:
+  - name: retrieval
+    id: call_3
+    args:
+      query: transformers Substation OSLO
+      k: 2
+    status: success
+    output: |-
+      [
+        {
+          "id": "http://example.com/resource/doc/1",
+          "text": "Transformer OSLO T1 is in Substation Oslo."
+        },
+        {
+          "id": "http://example.com/resource/doc/2",
+          "text": "Transformer OSLO T2 is in Substation Oslo."
+        }
+      ]
+    retrieval_answer_recall: 0.9
+    retrieval_answer_recall_reason: recall reason
+    retrieval_answer_recall_cost: 0.0007
+    retrieval_answer_precision: 0.9
+    retrieval_answer_precision_reason: precision reason
+    retrieval_answer_precision_cost: 0.0007
+    retrieval_answer_f1: 0.9
+    retrieval_answer_f1_cost: 0.0014
   - name: autocomplete_search
     args:
       query: OSLO
@@ -116,7 +143,7 @@
       }
   answer_relevance: 0.9
   answer_relevance_cost: 0.0007
-  answer_relevance_reason: reason
+  answer_relevance_reason: relevance reason
   answer_reference_claims_count: 2
   answer_actual_claims_count: 2
   answer_matching_claims_count: 2
