@@ -15,22 +15,22 @@ Apache-2.0 License. See [LICENSE](LICENSE) file for details.
 
 To evaluate only steps:
 ```bash
-pip install qa-eval
+pip install graphrag-eval
 ```
 or add the following dependency in your `pyproject.toml` file:
 ```toml
-qa-eval = "*"
+graphrag-eval = "*"
 ```
 
 To evaluate answer relevance and answer correctness:
 
 ```bash
-pip install 'qa-eval[openai]'
+pip install 'graphrag-eval[openai]'
 ```
 
 or add the following dependency in your `pyproject.toml` file:
 ```toml
-qa-eval = {version = "*", extras = ["openai"]}
+graphrag-eval = {version = "*", extras = ["openai"]}
 ```
 
 ## Maintainers
