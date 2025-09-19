@@ -16,11 +16,14 @@ def _evaluate(
     try:
         result = evauator.evaluate(entry)
         if result.status == "processed":
-            return {
-                f"retrieval_{metric}": result.score,
-                f"retrieval_{metric}_reason": result.details,
-                f"retrieval_{metric}_cost": result.cost.amount
+            result_dict = {
+                f"retrieval_{metric}": result.score,                
             }
+            if result.details:
+                result_dict[f"retrieval_{metric}_reason"] = result.details
+            if result.cost is not None:
+                result_dict[f"retrieval_{metric}_cost"] = result.cost.amount
+            return result_dict
         else:
             return {
                 f"retrieval_{metric}_error": result.details,
@@ -31,19 +34,26 @@ def _evaluate(
         }
 
 def get_f1_dict(
-    input_dict: dict,
-) -> dict:
+    input_dict: dict[str, float | str],
+) -> dict[str, float | str]:
     recall = input_dict.get("retrieval_recall")
     precision = input_dict.get("retrieval_precision")
-    if precision is not None and recall is not None and precision + recall > 0:
-        f1 = 2 * precision * recall / (precision + recall)
-        recall_cost = input_dict["retrieval_recall_cost"]
-        precision_cost = input_dict["retrieval_precision_cost"]
-        return {
-            "retrieval_f1": f1,
+    result = {}
+    if recall is not None and precision is not None:
+        if precision == 0 or recall == 0:
+            f1 = 0.0
+        else:
+            f1 = 2 * precision * recall / (precision + recall)
+        result.update({
+            "retrieval_f1": f1
+        })
+    recall_cost = input_dict.get("retrieval_recall_cost")
+    precision_cost = input_dict.get("retrieval_precision_cost")
+    if recall_cost is not None and precision_cost is not None:
+        result.update({
             "retrieval_f1_cost": recall_cost + precision_cost
-        }
-    return {}
+        })
+    return result
 
 
 def get_retrieval_evaluation_dict(
