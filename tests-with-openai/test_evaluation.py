@@ -10,7 +10,7 @@ from graphrag_eval import (
     compute_aggregates,
     run_evaluation,
 )
-from qa_eval.steps import retrieval_evaluation_using_answer
+from graphrag_eval.steps import retrieval_evaluation_using_answer
 
 
 def test_run_evaluation_and_compute_aggregates(monkeypatch):

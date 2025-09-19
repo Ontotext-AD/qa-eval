@@ -3,7 +3,7 @@ from collections import namedtuple
 from langevals_ragas.lib.common import RagasResult, Money
 from pytest import approx
 
-from qa_eval.steps.retrieval_evaluation_using_answer import (
+from graphrag_eval.steps.retrieval_evaluation_using_answer import (
     RagasResponseContextPrecisionEvaluator,
     RagasResponseContextRecallEvaluator,
     get_retrieval_evaluation_dict,
