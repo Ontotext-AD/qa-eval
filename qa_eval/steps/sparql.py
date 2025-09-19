@@ -47,9 +47,7 @@ def parse_dict2table(
             if isinstance(val, float):
                 val = truncate(val, 5)
             if isinstance(val, int):
-                print(val)
                 val = float(val)
-                print(str(val))
             val = str(val)
             row.append(val)
         result.append("".join(row))
