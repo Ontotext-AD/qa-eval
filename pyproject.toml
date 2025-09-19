@@ -1,6 +1,6 @@
 [project]
 name = "graphrag-eval"
-version = "1.0.0"
+version = "4.0.0"
 description = "For assessing question answering systems' final answers and intermediate steps, against a given set of questions, reference answers and steps."
 authors = [
     {name = "Neli Hateva", email = "neli.hateva@graphwise.ai"},
