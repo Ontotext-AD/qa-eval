@@ -785,7 +785,7 @@ def test_compare_sparql_results_equal_binding_values() -> None:
 
 def test_compare_sparql_results_equal_binding_values_numerical_values() -> None:
     expected_sparql_results = {
-        "head": {"vars": ["person", "personName", "Age"]},
+        "head": {"vars": ["weight", "personName", "Age"]},
         "results": {
             "bindings": [
                 {
