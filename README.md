@@ -392,11 +392,11 @@ The output is a list of statistics for each question from the reference Q&A data
     output: |-
       [
         {
-          "id": "1",
+          "id": "http://example.com/resource/doc/1",
           "text": "Transformer OSLO T1 is in Substation Oslo."
         },
         {
-          "id": "2",
+          "id": "http://example.com/resource/doc/2",
           "text": "Transformer OSLO T2 is in Substation Oslo."
         }
       ]
